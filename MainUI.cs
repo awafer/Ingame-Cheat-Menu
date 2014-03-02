@@ -78,7 +78,7 @@ namespace TAPI.PoroCYon.ICM
     /// </summary>
     public sealed class MainUI : CustomUI
     {
-        // MethodImplOptions.AggressiveInlining is supported as of .NET 4.5
+        // MethodImplOptions.AggressiveInlining is introduced in .NET 4.5
         /// <summary>
         /// The Reason property for all TargetPatchingOptOut attributes
         /// </summary>

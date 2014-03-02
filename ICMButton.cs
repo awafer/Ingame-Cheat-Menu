@@ -7,6 +7,7 @@ using PoroCYon.XnaExtensions;
 using TAPI.SDK.GUI;
 using TAPI.SDK.GUI.Controls;
 using TAPI.SDK.GUI.Controls.Primitives;
+using TAPI.SDK.Input;
 using TAPI.PoroCYon.ICM.Menus;
 
 namespace TAPI.PoroCYon.ICM
@@ -44,7 +45,7 @@ namespace TAPI.PoroCYon.ICM
         public ICMButton(InterfaceType to)
             : this()
         {
-            ChangeTo = to;
+            Tooltip = (ChangeTo = to).ToString();
         }
 
         /// <summary>
@@ -53,7 +54,8 @@ namespace TAPI.PoroCYon.ICM
         /// <param name="sb">The SpriteBatch used to draw the Control</param>
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(SdkUI.WhitePixel, Position, null, MainUI.GrayColour(Hitbox, SettingsUI.ColourAccent), 0f, Vector2.Zero, 24f, SpriteEffects.None, 0f);
+            sb.Draw(SdkUI.WhitePixel, Position, null, Color.Lerp(Colour, Color.Black, Hitbox.Intersects(GInput.Mouse.Rectangle)
+                || MainUI.UIType == ChangeTo ? 0f : 0.5f), 0f, Vector2.Zero, 24f, SpriteEffects.None, 0f);
 
             base.Draw(sb);
         }
