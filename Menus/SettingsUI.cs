@@ -10,7 +10,7 @@ using TAPI.SDK.GUI.Controls;
 namespace TAPI.PoroCYon.ICM.Menus
 {
     /// <summary>
-    /// All possible accent colours
+    /// All possible accent (foreground) colours
     /// </summary>
     public enum AccentColour : byte
     {
@@ -28,7 +28,7 @@ namespace TAPI.PoroCYon.ICM.Menus
         Cobalt = 2
     }
     /// <summary>
-    /// All possible theme colours
+    /// All possible theme (background) colours
     /// </summary>
     public enum ThemeColour : byte
     {
@@ -57,16 +57,16 @@ namespace TAPI.PoroCYon.ICM.Menus
         public static SettingsUI Interface;
 
         /// <summary>
-        /// The current accent colour
+        /// The current accent (foreground) colour
         /// </summary>
         public static AccentColour AccentColour = AccentColour.Lime;
         /// <summary>
-        /// The current theme colour
+        /// The current theme (background) colour
         /// </summary>
         public static ThemeColour ThemeColour = ThemeColour.Black;
 
         /// <summary>
-        /// The current accent colour as a Color
+        /// The current accent (foreground) colour as a Color
         /// </summary>
         public static Color ColourAccent
         {
@@ -86,7 +86,7 @@ namespace TAPI.PoroCYon.ICM.Menus
             }
         }
         /// <summary>
-        /// The current theme colour as a Color
+        /// The current theme (background) colour as a Color
         /// </summary>
         public static Color ColourTheme
         {

@@ -4,5 +4,22 @@
     "version": "1.0.0.0",
     "info": "A cheat menu. Isn't it obvious?",
 
-    "internalName": "ICM"
+    "internalName": "ICM",
+
+    "dllReferences":
+    [
+		/* I have no idea why it doesn't find the WPF assemblies */
+		/* If you have problems compiling this mod and says it can't find those assemblies, change the 'C:\\WINDOWS' to your Windows directory. */
+        "C:\\WINDOWS\\Microsoft.NET\\assembly\\GAC_32\\PresentationCore\\v4.0_4.0.0.0__31bf3856ad364e35\\PresentationCore.dll",
+        "C:\\WINDOWS\\Microsoft.NET\\assembly\\GAC_MSIL\\PresentationFramework\\v4.0_4.0.0.0__31bf3856ad364e35\\PresentationFramework.dll",
+        "C:\\WINDOWS\\Microsoft.NET\\assembly\\GAC_MSIL\\WindowsBase\\v4.0_4.0.0.0__31bf3856ad364e35\\WindowsBase.dll",
+        "C:\\WINDOWS\\Microsoft.NET\\assembly\\GAC_MSIL\\WindowsFormsIntegration\\v4.0_4.0.0.0__31bf3856ad364e35\\WindowsFormsIntegration.dll",
+        "C:\\WINDOWS\\Microsoft.NET\\assembly\\GAC_MSIL\\System.Xaml\\v4.0_4.0.0.0__b77a5c561934e089\\System.Xaml.dll",
+		
+        "PoroCYon.XnaExtensions.dll",
+        "TAPI.SDK.dll"
+    ],
+	
+	"MSBuild": true,
+	"msBuildFile": "Ingame Cheat Menu.csproj"
 }

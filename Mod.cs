@@ -23,12 +23,17 @@ namespace TAPI.PoroCYon.ICM
         public readonly static string ICMDataFile = Main.SavePath + "\\ICM_Data.sav";
 
         /// <summary>
+        /// The Mod singleton instance
+        /// </summary>
+        public static Mod ModInstance;
+
+        /// <summary>
         /// Creates a new instance of the Mod class. Called through reflection.
         /// </summary>
         public Mod()
             : base()
         {
-
+            ModInstance = this;
         }
 
         /// <summary>
@@ -93,6 +98,8 @@ namespace TAPI.PoroCYon.ICM
             FileStream fs = new FileStream(Main.SavePath + "\\ICM_Data.sav", FileMode.Create);
             WriteSettings(fs);
             fs.Close();
+
+            ModInstance = null;
         }
 
         /// <summary>

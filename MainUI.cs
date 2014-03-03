@@ -18,7 +18,7 @@ namespace TAPI.PoroCYon.ICM
     /// <summary>
     /// All interface types
     /// </summary>
-    public enum InterfaceType : int
+    public enum InterfaceType : sbyte
     {
         /// <summary>
         /// Editing an NPC instance
@@ -293,7 +293,7 @@ namespace TAPI.PoroCYon.ICM
         /// <param name="hitbox"></param>
         /// <param name="colour"></param>
         /// <returns></returns>
-        [TargetedPatchingOptOut(TPOOReason)] // small+simple enough to be inlined
+        [TargetedPatchingOptOut(TPOOReason)]
         public static Color GrayColour(Rectangle hitbox, Color colour)
         {
             return Color.Lerp(colour, Color.Black, hitbox.Intersects(GInput.Mouse.Rectangle) ? 0.5f : 0f);
@@ -304,10 +304,22 @@ namespace TAPI.PoroCYon.ICM
         /// </summary>
         /// <param name="button">The interface button</param>
         /// <returns>The position of the interface button</returns>
-        [TargetedPatchingOptOut(TPOOReason)] // small+simple enough to be inlined
+        [TargetedPatchingOptOut(TPOOReason)]
         public static Vector2 PositionOf(InterfaceType button)
         {
             return new Vector2(100f + 24f * (int)button, Main.screenHeight - 100f);
+        }
+
+        /// <summary>
+        /// Sets the alpha channel of a Color and returns it
+        /// </summary>
+        /// <param name="colour">The colour to change</param>
+        /// <param name="alpha">The new alpha channel value</param>
+        /// <returns>The colour with a new alpha value</returns>
+        [TargetedPatchingOptOut(TPOOReason)]
+        public static Color WithAlpha(Color colour, byte alpha)
+        {
+            return new Color(colour.R, colour.G, colour.B, alpha);
         }
     }
 }
