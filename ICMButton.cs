@@ -54,8 +54,8 @@ namespace TAPI.PoroCYon.ICM
         /// <param name="sb">The SpriteBatch used to draw the Control</param>
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(SdkUI.WhitePixel, Position, null, Color.Lerp(Colour, Color.Black, Hitbox.Intersects(GInput.Mouse.Rectangle)
-                || MainUI.UIType == ChangeTo ? 0f : 0.5f), 0f, Vector2.Zero, 24f, SpriteEffects.None, 0f);
+            sb.Draw(SdkUI.WhitePixel, Position, null, MainUI.FlipAlpha(Color.Lerp(Colour, Color.Black, Hitbox.Intersects(GInput.Mouse.Rectangle)
+                || MainUI.UIType == ChangeTo ? 0f : 0.5f)), 0f, Vector2.Zero, 24f, SpriteEffects.None, 0f);
 
             base.Draw(sb);
         }

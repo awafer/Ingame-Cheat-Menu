@@ -6,9 +6,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
 using TAPI.SDK;
-using TAPI.SDK.GUI;
-using TAPI.PoroCYon.ICM.Menus;
-using TAPI.PoroCYon.ICM.Menus.Sub;
+//using TAPI.SDK.GUI;
+//using TAPI.PoroCYon.ICM.Menus;
+//using TAPI.PoroCYon.ICM.Menus.Sub;
 
 namespace TAPI.PoroCYon.ICM
 {
@@ -41,8 +41,10 @@ namespace TAPI.PoroCYon.ICM
         /// </summary>
         public override void OnLoad()
         {
-            Sdk.Init();
+            //Sdk.Init();
             base.OnLoad();
+
+            UI.Init();
 
             FileStream fs = null;
             try
@@ -69,21 +71,21 @@ namespace TAPI.PoroCYon.ICM
         {
             // easy as 4 * Math.Atan(1)
 
-            SdkUI.AddUI(MainUI.Interface = new MainUI());
+            //SdkUI.AddUI(MainUI.Interface = new MainUI());
 
-            SdkUI.AddUI(ItemUI.Interface = new ItemUI());
-            SdkUI.AddUI(BuffUI.Interface = new BuffUI());
-            SdkUI.AddUI(PrefixUI.Interface = new PrefixUI());
-            SdkUI.AddUI(NPCUI.Interface = new NPCUI());
-            SdkUI.AddUI(PlayerUI.Interface = new PlayerUI());
-            SdkUI.AddUI(WorldUI.Interface = new WorldUI());
+            //SdkUI.AddUI(ItemUI.Interface = new ItemUI());
+            //SdkUI.AddUI(BuffUI.Interface = new BuffUI());
+            //SdkUI.AddUI(PrefixUI.Interface = new PrefixUI());
+            //SdkUI.AddUI(NPCUI.Interface = new NPCUI());
+            //SdkUI.AddUI(PlayerUI.Interface = new PlayerUI());
+            //SdkUI.AddUI(WorldUI.Interface = new WorldUI());
 
-            SdkUI.AddUI(SettingsUI.Interface = new SettingsUI());
+            //SdkUI.AddUI(SettingsUI.Interface = new SettingsUI());
 
-            SdkUI.AddUI(EditPlayerUI.Interface = new EditPlayerUI());
-            SdkUI.AddUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
-            SdkUI.AddUI(EditItemUI.Interface = new EditItemUI());
-            SdkUI.AddUI(EditNPCUI.Interface = new EditNPCUI());
+            //SdkUI.AddUI(EditPlayerUI.Interface = new EditPlayerUI());
+            //SdkUI.AddUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
+            //SdkUI.AddUI(EditItemUI.Interface = new EditItemUI());
+            //SdkUI.AddUI(EditNPCUI.Interface = new EditNPCUI());
 
             base.OnAllModsLoaded();
         }
@@ -108,8 +110,10 @@ namespace TAPI.PoroCYon.ICM
         /// <param name="s">The Stream to write the data to</param>
         public static void ReadSettings(Stream s)
         {
-            SettingsUI.AccentColour = (AccentColour)s.ReadByte();
-            SettingsUI.ThemeColour  = (ThemeColour)s.ReadByte();
+            UI.MenuThemes.Accent = (UI.MenuThemes.ForeColor)s.ReadByte();
+            UI.MenuThemes.Theme = (UI.MenuThemes.BGColor)s.ReadByte();
+            //SettingsUI.AccentColour = (AccentColour)s.ReadByte();
+            //SettingsUI.ThemeColour  = (ThemeColour)s.ReadByte();
         }
         /// <summary>
         /// Reads the ICM settings from a Stream
@@ -117,8 +121,17 @@ namespace TAPI.PoroCYon.ICM
         /// <param name="s">The Stream to read the data from</param>
         public static void WriteSettings(Stream s)
         {
-            s.WriteByte((byte)SettingsUI.AccentColour);
-            s.WriteByte((byte)SettingsUI.ThemeColour );
+            s.WriteByte((byte)UI.MenuThemes.Accent);
+            s.WriteByte((byte)UI.MenuThemes.Theme);
+            //s.WriteByte((byte)SettingsUI.AccentColour);
+            //s.WriteByte((byte)SettingsUI.ThemeColour );
+        }
+
+        public override void PostGameDraw(SpriteBatch sb)
+        {
+            UI.Update();
+
+            base.PostGameDraw(sb);
         }
     }
 }

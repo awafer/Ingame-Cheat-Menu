@@ -68,29 +68,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menus\AutoRefillingItemContainer.cs" />
-    <Compile Include="Menus\BuffUI.cs" />
-    <Compile Include="Menus\CheatUI.cs" />
-    <Compile Include="ICMButton.cs" />
-    <Compile Include="MainUI.cs" />
-    <Compile Include="Menus\ItemUI.cs" />
-    <Compile Include="Menus\NPCUI.cs" />
-    <Compile Include="Menus\PlayerUI.cs" />
-    <Compile Include="Menus\PrefixUI.cs" />
-    <Compile Include="Menus\Sub\EditItemUI.cs" />
-    <Compile Include="Menus\Sub\EditNPCUI.cs" />
-    <Compile Include="Menus\Sub\EditPlayerUI.cs" />
-    <Compile Include="Menus\Sub\EditGlobalNPCUI.cs" />
-    <Compile Include="Menus\WorldUI.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Menus\SettingsUI.cs" />
+    <Compile Include="UI.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ModInfo.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ICMClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -156,6 +156,9 @@ $RECYCLE.BIN/
 .DS_Store
 
 _ICMButton.cs
-/README.html
-/ICMClassDiagram.png
-/_ICMButton.csx
+_ICMButton.csx
+README.html
+ICMClassDiagram.png
+
+RunDebugMode/
+RunDebugMode.csproj
