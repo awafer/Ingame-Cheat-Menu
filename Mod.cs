@@ -97,7 +97,7 @@ namespace PoroCYon.ICM
             };
 
             Menu.menuPages["Options"].anchors.Add(aOptions);
-            Menu.menuPages["Options"].buttons.Add(new MenuButton(0, "ICM Settings", "ICM:Settings").With(mb => mb.SetAutomaticPosition(aOptions, 0)));
+            //Menu.menuPages["Options"].buttons.Add(new MenuButton(0, "ICM Settings", "ICM:Settings").With(mb => mb.SetAutomaticPosition(aOptions, 0)));
 
             base.OnAllModsLoaded();
         }

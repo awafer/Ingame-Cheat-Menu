@@ -51,7 +51,7 @@ namespace PoroCYon.ICM
     public sealed class SettingsPage : Page
     {
         readonly static Color
-            Black = new Color(50, 50, 50),
+            Black = new Color(20, 20, 20),
             Cobalt = new Color(32, 160, 224);
 
         /// <summary>

@@ -68,10 +68,11 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoRefillingItemContainer.cs" />
+    <Compile Include="Controls\CheatItemContainer.cs" />
+    <Compile Include="Controls\ItemCategoryButton.cs" />
     <Compile Include="Menus\BuffUI.cs" />
     <Compile Include="CheatUI.cs" />
-    <Compile Include="ICMButton.cs" />
+    <Compile Include="Controls\ICMButton.cs" />
     <Compile Include="MainUI.cs" />
     <Compile Include="Menus\ItemUI.cs" />
     <Compile Include="Menus\NPCUI.cs" />

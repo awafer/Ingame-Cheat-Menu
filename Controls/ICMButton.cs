@@ -12,7 +12,7 @@ using TAPI.SDK.UI.Interface.Controls.Primitives;
 using TAPI.SDK.Input;
 using PoroCYon.ICM.Menus;
 
-namespace PoroCYon.ICM
+namespace PoroCYon.ICM.Controls
 {
     /// <summary>
     /// A button that changes the current interface type
@@ -31,7 +31,7 @@ namespace PoroCYon.ICM
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, 24, 24);
+                return new Rectangle((int)Position.X + 12, (int)Position.Y + 12, 24, 24);
             }
         }
 
@@ -39,17 +39,18 @@ namespace PoroCYon.ICM
         /// Creates a new instance of the ICMButton class
         /// </summary>
         public ICMButton()
-            : base()
+            : this(InterfaceType.None)
         {
-            StayFocused = false;
+
         }
         /// <summary>
         /// Creates a new instance of the ICMButton class with the specified InterfaceType value
         /// </summary>
         /// <param name="to">The InterfaceType the interface will change to when the button is clicked</param>
         public ICMButton(InterfaceType to)
-            : this()
+            : base()
         {
+            StayFocused = false;
             Tooltip = (ChangeTo = to).ToString();
         }
 
@@ -59,8 +60,8 @@ namespace PoroCYon.ICM
         /// <param name="sb">The SpriteBatch used to draw the Control</param>
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(SdkUI.WhitePixel, Position, null, Color.Lerp(Colour, Color.Black, Hitbox.Intersects(GInput.Mouse.Rectangle)
-                || MainUI.UIType == ChangeTo ? 0f : 0.5f), 0f, Vector2.Zero, 24f, SpriteEffects.None, 0f);
+            sb.Draw(SdkUI.WhitePixel, Position, null, Color.Lerp(Colour, Color.Black, IsHovered
+                || MainUI.UIType == ChangeTo ? 0f : 0.5f), Rotation, Origin, Scale * 24f, SpriteEffects, LayerDepth);
 
             base.Draw(sb);
         }

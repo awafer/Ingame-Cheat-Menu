@@ -12,6 +12,7 @@ using TAPI.SDK.UI;
 using TAPI.SDK.UI.Interface;
 using TAPI.SDK.UI.Interface.Controls;
 using TAPI.SDK.Input;
+using PoroCYon.ICM.Controls;
 using PoroCYon.ICM.Menus;
 using PoroCYon.ICM.Menus.Sub;
 
@@ -151,6 +152,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "Items",
                 Position = PositionOf(InterfaceType.Item),
+                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {
@@ -163,6 +165,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "Buffs",
                 Position = PositionOf(InterfaceType.Buff),
+                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {
@@ -175,6 +178,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "Reforge",
                 Position = PositionOf(InterfaceType.Prefix),
+                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {
@@ -187,6 +191,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "NPCs",
                 Position = PositionOf(InterfaceType.NPC),
+                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {
@@ -201,6 +206,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "Player",
                 Position = PositionOf(InterfaceType.Player),
+                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {
@@ -225,6 +231,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "World",
                 Position = PositionOf(InterfaceType.World),
+                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {
