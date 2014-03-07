@@ -133,7 +133,7 @@ namespace TAPI.PoroCYon.ICM
                         {
                             //Main.mouseItem = (Item)Defs.items[Defs.itemNames[i]].Clone();
                             //Main.mouseItem.stack = Defs.items[Defs.itemNames[i]].maxStack;
-                            Main.mouseItem.SetDefaults(i);
+                            Main.mouseItem.netDefaults(i);
                             Main.mouseItem.stack = Main.mouseItem.maxStack;
                             Main.PlaySound(7);
                         }
