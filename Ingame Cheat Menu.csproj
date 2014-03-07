@@ -7,7 +7,7 @@
     <ProjectGuid>{00E85DFA-FF3F-4AC5-9BA3-D3FA8E55FB40}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TAPI.PoroCYon.ICM</RootNamespace>
+    <RootNamespace>PoroCYon.ICM</RootNamespace>
     <AssemblyName>Ingame Cheat Menu</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -68,15 +68,16 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menus\AutoRefillingItemContainer.cs" />
+    <Compile Include="AutoRefillingItemContainer.cs" />
     <Compile Include="Menus\BuffUI.cs" />
-    <Compile Include="Menus\CheatUI.cs" />
+    <Compile Include="CheatUI.cs" />
     <Compile Include="ICMButton.cs" />
     <Compile Include="MainUI.cs" />
     <Compile Include="Menus\ItemUI.cs" />
     <Compile Include="Menus\NPCUI.cs" />
     <Compile Include="Menus\PlayerUI.cs" />
     <Compile Include="Menus\PrefixUI.cs" />
+    <Compile Include="SettingsPage.cs" />
     <Compile Include="Menus\Sub\EditItemUI.cs" />
     <Compile Include="Menus\Sub\EditNPCUI.cs" />
     <Compile Include="Menus\Sub\EditPlayerUI.cs" />
@@ -84,7 +85,6 @@
     <Compile Include="Menus\WorldUI.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Menus\SettingsUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ModInfo.json" />

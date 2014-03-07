@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TAPI.SDK.GUI;
-using TAPI.SDK.GUI.Controls;
+using TAPI;
+using TAPI.SDK.UI;
+using TAPI.SDK.UI.Interface;
+using TAPI.SDK.UI.Interface.Controls;
 
-namespace TAPI.PoroCYon.ICM.Menus
+namespace PoroCYon.ICM
 {
     /// <summary>
     /// An ItemContainer that automatically refills itself and has the maximum stack for the contained Item

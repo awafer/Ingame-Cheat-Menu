@@ -4,13 +4,15 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
-using TAPI.SDK.GUI;
-using TAPI.SDK.GUI.Controls;
-using TAPI.SDK.GUI.Controls.Primitives;
+using TAPI;
+using TAPI.SDK.UI;
+using TAPI.SDK.UI.Interface;
+using TAPI.SDK.UI.Interface.Controls;
+using TAPI.SDK.UI.Interface.Controls.Primitives;
 using TAPI.SDK.Input;
-using TAPI.PoroCYon.ICM.Menus;
+using PoroCYon.ICM.Menus;
 
-namespace TAPI.PoroCYon.ICM
+namespace PoroCYon.ICM
 {
     /// <summary>
     /// A button that changes the current interface type
@@ -22,6 +24,9 @@ namespace TAPI.PoroCYon.ICM
         /// </summary>
         public InterfaceType ChangeTo = InterfaceType.None;
 
+        /// <summary>
+        /// The hitbox of the Control
+        /// </summary>
         public override Rectangle Hitbox
         {
             get
@@ -36,7 +41,7 @@ namespace TAPI.PoroCYon.ICM
         public ICMButton()
             : base()
         {
-            StayFocused = StaysPressed = false;
+            StayFocused = false;
         }
         /// <summary>
         /// Creates a new instance of the ICMButton class with the specified InterfaceType value
@@ -61,13 +66,13 @@ namespace TAPI.PoroCYon.ICM
         }
 
         /// <summary>
-        /// Called when the Button is clicked
+        /// Clicks the Button
         /// </summary>
-        protected override void Clicked()
+        protected override void Click()
         {
-            MainUI.ChangeToUI(ChangeTo);
+            base.Click();
 
-            base.Clicked();
+            MainUI.ChangeToUI(ChangeTo);
         }
     }
 }

@@ -6,11 +6,13 @@ using System.Runtime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
+using TAPI;
 using TAPI.SDK.Content;
-using TAPI.SDK.GUI;
-using TAPI.SDK.GUI.Controls;
+using TAPI.SDK.UI;
+using TAPI.SDK.UI.Interface;
+using TAPI.SDK.UI.Interface.Controls;
 
-namespace TAPI.PoroCYon.ICM.Menus
+namespace PoroCYon.ICM.Menus
 {
     /// <summary>
     /// All Item categories. Enumeration is marked as Flags.
@@ -145,7 +147,7 @@ namespace TAPI.PoroCYon.ICM.Menus
         /// </summary>
         public override void Close()
         {
-            items.Controls.Clear();
+            items.ClearControls();
         }
 
         /// <summary>
@@ -164,17 +166,17 @@ namespace TAPI.PoroCYon.ICM.Menus
             AddControl(new ImageButton(left) 
             {
                 Position = new Vector2(160f, Main.screenHeight - 208),
-                Click = (b) =>
+                OnClicked = (b) =>
                 {
                     Position -= 4;
-                    if (Position < -45) // lowest netID
-                        Position = -45;
+                    if (Position < -48) // lowest netID
+                        Position = -48;
                 }
             });
             AddControl(new ImageButton(right)
             {
                 Position = new Vector2(380f, Main.screenHeight - 208),
-                Click = (b) =>
+                OnClicked = (b) =>
                 {
                     Position += 4;
                     if (Position >= Defs.items.Count)
@@ -188,7 +190,7 @@ namespace TAPI.PoroCYon.ICM.Menus
         /// </summary>
         public void RefillItemSlots()
         {
-            items.Controls.Clear();
+            items.ClearControls();
 
             int row = 0, col = 0, added = 0;
 
@@ -216,7 +218,7 @@ namespace TAPI.PoroCYon.ICM.Menus
                 {
                     InventoryBackTextureNum = 7,
                     Position = new Vector2(160f + row * Main.inventoryBack7Texture.Width, (Main.screenHeight - 350f) + col * Main.inventoryBack7Texture.Height),
-                    Colour = MainUI.WithAlpha(SettingsUI.ColourTheme, 150)
+                    Colour = MainUI.WithAlpha(SettingsPage.ColourTheme, 150)
                 });
             }
 

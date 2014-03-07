@@ -6,14 +6,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
 using PoroCYon.XnaExtensions.Graphics;
+using TAPI;
 using TAPI.SDK;
-using TAPI.SDK.GUI;
-using TAPI.SDK.GUI.Controls;
+using TAPI.SDK.UI;
+using TAPI.SDK.UI.Interface;
+using TAPI.SDK.UI.Interface.Controls;
 using TAPI.SDK.Input;
-using TAPI.PoroCYon.ICM.Menus;
-using TAPI.PoroCYon.ICM.Menus.Sub;
+using PoroCYon.ICM.Menus;
+using PoroCYon.ICM.Menus.Sub;
 
-namespace TAPI.PoroCYon.ICM
+namespace PoroCYon.ICM
 {
     /// <summary>
     /// All interface types
@@ -65,12 +67,7 @@ namespace TAPI.PoroCYon.ICM
         /// <summary>
         /// The World menu
         /// </summary>
-        World = 6,
-
-        /// <summary>
-        /// UI display settings
-        /// </summary>
-        Settings = 7
+        World = 6
     }
 
     /// <summary>
@@ -119,9 +116,6 @@ namespace TAPI.PoroCYon.ICM
                     case InterfaceType.World:
                         return WorldUI.Interface;
 
-                    case InterfaceType.Settings:
-                        return SettingsUI.Interface;
-
                     case InterfaceType.EditPlayer:
                         return EditPlayerUI.Interface;
                     case InterfaceType.EditGlobalNPC:
@@ -142,8 +136,7 @@ namespace TAPI.PoroCYon.ICM
         public MainUI()
             : base()
         {
-            Visibility = Visibility.IngameInv;
-            IsDrawnAfter = true;
+            Visibility = Visibility.Inventory;
         }
 
         /// <summary>
@@ -242,32 +235,19 @@ namespace TAPI.PoroCYon.ICM
                 }
             });
             #endregion
-            #region Settings
-            AddControl(new ICMButton(InterfaceType.Settings)
-            {
-                Tooltip = "Settings",
-                Position = PositionOf(InterfaceType.Settings),
-
-                OnDraw = (c, sb) =>
-                {
-                    sb.Draw(Main.itemTexture[1344], c.Position + new Vector2(1f), null, GrayColour(c.Hitbox, Color.White), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                }
-            });
-            #endregion
         }
 
         /// <summary>
         /// Draws the CustomUI
         /// </summary>
         /// <param name="sb">The SpriteBatch used to draw things</param>
-        /// <param name="after">Wether it is called in Pre- or PostDrawInterface</param>
-        public override void Draw(SpriteBatch sb, bool after)
+        public override void Draw(SpriteBatch sb)
         {
             // change sb mode
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
 
-            base.Draw(sb, after);
+            base.Draw(sb);
 
             sb.End();
             sb.Begin();

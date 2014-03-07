@@ -4,10 +4,12 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
-using TAPI.SDK.GUI;
-using TAPI.SDK.GUI.Controls;
+using TAPI;
+using TAPI.SDK.UI;
+using TAPI.SDK.UI.Interface;
+using TAPI.SDK.UI.Interface.Controls;
 
-namespace TAPI.PoroCYon.ICM.Menus
+namespace PoroCYon.ICM.Menus
 {
     public sealed class PrefixUI : CheatUI
     {

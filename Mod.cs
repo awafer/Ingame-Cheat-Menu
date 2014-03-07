@@ -5,12 +5,15 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
+using TAPI;
 using TAPI.SDK;
-using TAPI.SDK.GUI;
-using TAPI.PoroCYon.ICM.Menus;
-using TAPI.PoroCYon.ICM.Menus.Sub;
+using TAPI.SDK.UI;
+using TAPI.SDK.UI.Interface;
+using TAPI.SDK.UI.MenuItems;
+using PoroCYon.ICM.Menus;
+using PoroCYon.ICM.Menus.Sub;
 
-namespace TAPI.PoroCYon.ICM
+namespace PoroCYon.ICM
 {
     /// <summary>
     /// The mod entry point
@@ -69,21 +72,32 @@ namespace TAPI.PoroCYon.ICM
         {
             // easy as 4 * Math.Atan(1)
 
-            SdkUI.AddUI(MainUI.Interface = new MainUI());
+            SdkUI.AddCustomUI(MainUI.Interface = new MainUI());
 
-            SdkUI.AddUI(ItemUI.Interface = new ItemUI());
-            SdkUI.AddUI(BuffUI.Interface = new BuffUI());
-            SdkUI.AddUI(PrefixUI.Interface = new PrefixUI());
-            SdkUI.AddUI(NPCUI.Interface = new NPCUI());
-            SdkUI.AddUI(PlayerUI.Interface = new PlayerUI());
-            SdkUI.AddUI(WorldUI.Interface = new WorldUI());
+            SdkUI.AddCustomUI(ItemUI.Interface = new ItemUI());
+            SdkUI.AddCustomUI(BuffUI.Interface = new BuffUI());
+            SdkUI.AddCustomUI(PrefixUI.Interface = new PrefixUI());
+            SdkUI.AddCustomUI(NPCUI.Interface = new NPCUI());
+            SdkUI.AddCustomUI(PlayerUI.Interface = new PlayerUI());
+            SdkUI.AddCustomUI(WorldUI.Interface = new WorldUI());
 
-            SdkUI.AddUI(SettingsUI.Interface = new SettingsUI());
+            SdkUI.AddCustomUI(EditPlayerUI.Interface = new EditPlayerUI());
+            SdkUI.AddCustomUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
+            SdkUI.AddCustomUI(EditItemUI.Interface = new EditItemUI());
+            SdkUI.AddCustomUI(EditNPCUI.Interface = new EditNPCUI());
 
-            SdkUI.AddUI(EditPlayerUI.Interface = new EditPlayerUI());
-            SdkUI.AddUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
-            SdkUI.AddUI(EditItemUI.Interface = new EditItemUI());
-            SdkUI.AddUI(EditNPCUI.Interface = new EditNPCUI());
+            // a bit less easier...
+            Menu.menuPages.Add("ICM:Settings", new SettingsPage());
+
+            MenuAnchor aOptions = new MenuAnchor()
+            {
+                anchor = new Vector2(0.5f, 0f),
+                offset = new Vector2(315f, 200f),
+                offset_button = new Vector2(0f, 50f)
+            };
+
+            Menu.menuPages["Options"].anchors.Add(aOptions);
+            Menu.menuPages["Options"].buttons.Add(new MenuButton(0, "ICM Settings", "ICM:Settings").With(mb => mb.SetAutomaticPosition(aOptions, 0)));
 
             base.OnAllModsLoaded();
         }
@@ -108,8 +122,8 @@ namespace TAPI.PoroCYon.ICM
         /// <param name="s">The Stream to write the data to</param>
         public static void ReadSettings(Stream s)
         {
-            SettingsUI.AccentColour = (AccentColour)s.ReadByte();
-            SettingsUI.ThemeColour  = (ThemeColour)s.ReadByte();
+            SettingsPage.AccentColour = (AccentColour)s.ReadByte();
+            SettingsPage.ThemeColour  = (ThemeColour) s.ReadByte();
         }
         /// <summary>
         /// Reads the ICM settings from a Stream
@@ -117,8 +131,8 @@ namespace TAPI.PoroCYon.ICM
         /// <param name="s">The Stream to read the data from</param>
         public static void WriteSettings(Stream s)
         {
-            s.WriteByte((byte)SettingsUI.AccentColour);
-            s.WriteByte((byte)SettingsUI.ThemeColour );
+            s.WriteByte((byte)SettingsPage.AccentColour);
+            s.WriteByte((byte)SettingsPage.ThemeColour );
         }
     }
 }
