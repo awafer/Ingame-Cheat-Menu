@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
@@ -102,9 +103,9 @@ namespace PoroCYon.ICM.Menus
         /// </summary>
         Material = 0x2000,
         /// <summary>
-        /// Consumables (stack decreases when used)
+        /// The Item heals life or mana
         /// </summary>
-        Consumable = 0x4000,
+        Potion = 0x4000,
 
         /// <summary>
         /// Tiles (Item places a tile when used)
@@ -140,7 +141,7 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// All categories
         /// </summary>
-        All = Weapon | Armour | Vanity | Accessory | Ammunition | Material | Consumable | Tile | Wall | Dye | Paint | Pet | Summon | Tools | Others
+        All = Weapon | Armour | Vanity | Accessory | Ammunition | Material | Potion | Tile | Wall | Dye | Paint | Pet | Summon | Tools | Others
 
         // Count = 22
     }
@@ -365,7 +366,7 @@ namespace PoroCYon.ICM.Menus
                 HasBackground = true,
                 KeepFiring = true,
 
-                Position = new Vector2(120f, Main.screenHeight - 208),
+                Position = new Vector2(130f, Main.screenHeight - 208),
 
                 OnClicked = (b) =>
                 {
@@ -379,7 +380,7 @@ namespace PoroCYon.ICM.Menus
                 HasBackground = true,
                 KeepFiring = true,
 
-                Position = new Vector2(420f, Main.screenHeight - 208),
+                Position = new Vector2(430f, Main.screenHeight - 208),
 
                 OnClicked = (b) =>
                 {
@@ -417,17 +418,20 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// Clears the Item list and fills it, with the current filters
         /// </summary>
-        public void ResetItemList()
+        public static void ResetItemList()
         {
-            Items.Clear();
-            Items.AddRange(from i in Defs.items.Values where IncludeInList(i) select CopyItem(i));
+            new Thread(() =>
+            {
+                Items.Clear();
+                Items.AddRange(from i in Defs.items.Values where IncludeInList(i) select CopyItem(i));
 
-            ResetContainers();
+                ResetContainers();
+            }).Start();
         }
         /// <summary>
         /// Resets the ItemContainer content
         /// </summary>
-        public void ResetContainers()
+        public static void ResetContainers()
         {
             for (int i = Position; i < Position + 20; i++)
             {
@@ -526,8 +530,8 @@ namespace PoroCYon.ICM.Menus
                 ret &= i.ammo > 0 && !i.notAmmo;
             if ((cat & Category.Material) != 0)
                 ret &= i.material && !i.notMaterial;
-            if ((cat & Category.Consumable) != 0)
-                ret &= i.consumable;
+            if ((cat & Category.Potion) != 0)
+                ret &= i.healLife > 0 || i.healMana > 0;
 
             if ((cat & Category.Buff) != 0)
                 ret &= i.buffType > 0;
@@ -548,9 +552,9 @@ namespace PoroCYon.ICM.Menus
 
             if ((cat & Category.Others) != 0)
                 return !i.melee && !i.ranged && !i.magic && i.headSlot < 0 && i.bodySlot < 0 && i.legSlot < 0 && !i.vanity && !i.accessory &&
-                    i.pick <= 0 && i.hammer <= 0 && i.axe <= 0 && (i.ammo <= 0 || i.notAmmo) && (!i.material || i.notMaterial) && !i.consumable
-                    && i.buffType <= 0 && i.createTile <= 0 && i.createWall <= 0 && i.paint < 0 && i.dye <= 0 && !Main.vanityPet[i.buffType]
-                    && !Main.lightPet[i.buffType] && !i.summon;
+                    i.pick <= 0 && i.hammer <= 0 && i.axe <= 0 && (i.ammo <= 0 || i.notAmmo) && (!i.material || i.notMaterial)
+                    && !(i.healLife > 0 || i.healMana > 0) && i.buffType <= 0 && i.createTile <= 0 && i.createWall <= 0 && i.paint < 0 && i.dye <= 0
+                    && !Main.vanityPet[i.buffType] && !Main.lightPet[i.buffType] && !i.summon;
 
             return ret;
         }
@@ -601,7 +605,7 @@ namespace PoroCYon.ICM.Menus
                 ret |= i.ammo > 0 && !i.notAmmo;
             if ((cat & Category.Material) != 0)
                 ret |= i.material && !i.notMaterial;
-            if ((cat & Category.Consumable) != 0)
+            if ((cat & Category.Potion) != 0)
                 ret |= i.consumable;
 
             if ((cat & Category.Buff) != 0)

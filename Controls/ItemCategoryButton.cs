@@ -79,7 +79,7 @@ namespace PoroCYon.ICM.Controls
                 case Category.Buff:
                     id = 298; // shine potion
                     break;
-                case Category.Consumable:
+                case Category.Potion:
                     id = 28; // leser healing potion
                     break;
                 case Category.Dye:
@@ -161,7 +161,7 @@ namespace PoroCYon.ICM.Controls
                 ItemUI.Position = 0;
             }
 
-            ItemUI.Interface.ResetItemList();
+            ItemUI.ResetItemList();
         }
 
         /// <summary>
