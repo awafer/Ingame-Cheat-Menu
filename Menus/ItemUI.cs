@@ -214,7 +214,7 @@ namespace PoroCYon.ICM.Menus
                     col = 0;
                 }
 
-                items.AddControl(new AutoRefillingItemContainer(Defs.items[Defs.itemNames[i]])
+                items.AddControl(new /*AutoRefilling*/ItemContainer(Defs.items[Defs.itemNames[i]])
                 {
                     InventoryBackTextureNum = 7,
                     Position = new Vector2(160f + row * Main.inventoryBack7Texture.Width, (Main.screenHeight - 350f) + col * Main.inventoryBack7Texture.Height),

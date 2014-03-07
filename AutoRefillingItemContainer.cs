@@ -13,6 +13,8 @@ namespace PoroCYon.ICM
     /// </summary>
     public sealed class AutoRefillingItemContainer : ItemContainer
     {
+        bool preventSO = false;
+
         /// <summary>
         /// Creates a new instance of the AutoRefillingItemContainer class
         /// </summary>
@@ -38,12 +40,19 @@ namespace PoroCYon.ICM
         /// <param name="new">The new item</param>
         protected override void ItemChanged(Item old, Item @new)
         {
+            if (preventSO)
+                return;
+
             base.ItemChanged(old, @new);
+
+            preventSO = true;
 
             if (@new == null)
                 ContainedItem = old;
 
             ContainedItem.stack = ContainedItem.maxStack;
+
+            preventSO = false;
         }
         /// <summary>
         /// When ContainedItem.stack is changed
@@ -52,9 +61,16 @@ namespace PoroCYon.ICM
         /// <param name="new">The new stack</param>
         protected override void StackChanged(int old, int @new)
         {
+            if (preventSO)
+                return;
+
             base.StackChanged(old, @new);
 
+            preventSO = true;
+
             ContainedItem.stack = ContainedItem.maxStack;
+
+            preventSO = false;
         }
     }
 }

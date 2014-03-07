@@ -190,6 +190,7 @@ namespace PoroCYon.ICM
 
                 OnDraw = (c, sb) =>
                 {
+                    Main.LoadNPC(1);
                     sb.Draw(Main.npcTexture[1], c.Position, new Rectangle(0, 0, Main.npcTexture[1].Width, 24),
                         GrayColour(c.Hitbox, new Color(0, 80, 255, 200)), 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
                 }
@@ -260,11 +261,13 @@ namespace PoroCYon.ICM
         /// <param name="type">The new interface type</param>
         public static void ChangeToUI(InterfaceType type)
         {
-            Current.Close();
+            if (Current != null)
+                Current.Close();
 
             UIType = UIType == type ? InterfaceType.None : type;
 
-            Current.Open();
+            if (Current != null)
+                Current.Open();
         }
 
         /// <summary>
