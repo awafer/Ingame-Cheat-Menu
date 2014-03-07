@@ -4342,6 +4342,8 @@ namespace TAPI.PoroCYon.ICM
                     if (mouseState.LeftButton == ButtonState.Pressed && pressCD >= 10)
                     {
                         Main.dayRate += 1;
+                        if (Main.dayRate == 0)
+                            Main.dayRate++;
                         pressCD = 0;
                         Main.PlaySound(12);
                     }
@@ -4392,6 +4394,8 @@ namespace TAPI.PoroCYon.ICM
                     if (mouseState.LeftButton == ButtonState.Pressed && pressCD >= 10)
                     {
                         Main.dayRate -= 1;
+                        if (Main.dayRate == 0)
+                            Main.dayRate--;
                         pressCD = 0;
                         Main.PlaySound(12);
                     }
