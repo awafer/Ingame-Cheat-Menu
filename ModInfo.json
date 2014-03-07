@@ -21,5 +21,7 @@
     ],
 	
 	"MSBuild": true,
-	"msBuildFile": "Ingame Cheat Menu.csproj"
+	"msBuildFile": "Ingame Cheat Menu.csproj",
+
+    "includePDB": true
 }

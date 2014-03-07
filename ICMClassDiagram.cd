@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TAPI.PoroCYon.ICM.Mod" Collapsed="true">
+    <Position X="5.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAACAAAAAAAAAAAAAgACAAAAAAAAAAAEAAAQAAA=</HashCode>
+      <FileName>Mod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.MainUI" Collapsed="true">
+    <Position X="3.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAgAAAADAAAAAMAAoAAAAAAACAABAAAA=</HashCode>
+      <FileName>MainUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.ICMButton" Collapsed="true">
+    <Position X="0.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAEAgAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>ICMButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.SDK.GUI.CustomUI" Collapsed="true">
+    <Position X="3.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TAPI.SDK.GUI.Controls.Primitives.Button" Collapsed="true">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TAPI.ModBase" Collapsed="true">
+    <Position X="5.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TAPI.SDK.GUI.Controls.Primitives.Focusable" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TAPI.SDK.GUI.Controls.Control" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TAPI.SDK.ModableObject" Collapsed="true">
+    <Position X="2.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="System.Object" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.WorldUI" Collapsed="true">
+    <Position X="2.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Menus\WorldUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.CheatUI" Collapsed="true">
+    <Position X="5.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAQAAAACAAAA=</HashCode>
+      <FileName>Menus\CheatUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.SettingsUI" Collapsed="true">
+    <Position X="4" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAEAgAAAAAAIAACAABAAAAAAAAAABAAAABCAACAAAA=</HashCode>
+      <FileName>Menus\SettingsUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.PrefixUI" Collapsed="true">
+    <Position X="5.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Menus\PrefixUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.PlayerUI" Collapsed="true">
+    <Position X="7.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Menus\PlayerUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.NPCUI" Collapsed="true">
+    <Position X="9.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Menus\NPCUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.ItemUI" Collapsed="true">
+    <Position X="10.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIIAAgAAhAAAAAAIAAAAAABCACACCACYA=</HashCode>
+      <FileName>Menus\ItemUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.BuffUI" Collapsed="true">
+    <Position X="11" Y="4.75" Width="1.5" />
+    <InheritanceLine Type="TAPI.PoroCYon.ICM.Menus.CheatUI" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="5.75" />
+        <Point X="7.125" Y="5.75" />
+        <Point X="7.125" Y="5.312" />
+        <Point X="11" Y="5.312" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Menus\BuffUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.Sub.EditGlobalNPCUI" Collapsed="true">
+    <Position X="2.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Menus\Sub\EditGlobalNPCUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.Sub.EditItemUI" Collapsed="true">
+    <Position X="4" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Menus\Sub\EditItemUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.Sub.EditNPCUI" Collapsed="true">
+    <Position X="5.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Menus\Sub\EditNPCUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.Sub.EditPlayerUI" Collapsed="true">
+    <Position X="7.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Menus\Sub\EditPlayerUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.PoroCYon.ICM.Menus.AutoRefillingItemContainer" Collapsed="true">
+    <Position X="0.5" Y="8.75" Width="2.75" />
+    <InheritanceLine Type="TAPI.SDK.GUI.Controls.ItemContainer" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="8.441" />
+        <Point X="1.25" Y="8.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Menus\AutoRefillingItemContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.SDK.GUI.Controls.ItemContainer" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="System.IDisposable" Collapsed="true">
+    <Position X="4" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TAPI.SDK.GUI.IControlParent" Collapsed="true">
+    <Position X="9.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="PoroCYon.XnaExtensions.ICloneable&lt;T&gt;" Collapsed="true">
+    <Position X="5.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="System.ICloneable" Collapsed="true">
+    <Position X="7.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Enum Name="TAPI.PoroCYon.ICM.InterfaceType" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEABAAgAIABAAABAAGEAAAAAAAgAAAAQEAAAA=</HashCode>
+      <FileName>MainUI.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TAPI.PoroCYon.ICM.Menus.AccentColour" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Menus\SettingsUI.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TAPI.PoroCYon.ICM.Menus.ThemeColour" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Menus\SettingsUI.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

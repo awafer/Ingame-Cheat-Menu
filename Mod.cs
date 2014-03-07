@@ -41,27 +41,9 @@ namespace TAPI.PoroCYon.ICM
         /// </summary>
         public override void OnLoad()
         {
-            //Sdk.Init();
             base.OnLoad();
 
-            UI.Init();
-
-            FileStream fs = null;
-            try
-            {
-                fs = new FileStream(ICMDataFile, FileMode.Open);
-                ReadSettings(fs);
-            }
-            catch (IOException)
-            {
-                fs = new FileStream(ICMDataFile, FileMode.Create);
-                WriteSettings(fs);
-            }
-            finally
-            {
-                if (fs != null)
-                    fs.Close();
-            }
+            Sdk.Init();
         }
 
         /// <summary>
@@ -69,6 +51,22 @@ namespace TAPI.PoroCYon.ICM
         /// </summary>
         public override void OnAllModsLoaded()
         {
+            UI.Init();
+
+            FileStream fs = null;
+            try
+            {
+                fs = new FileStream(ICMDataFile, FileMode.Open);
+                ReadSettings(fs);
+                fs.Close();
+            }
+            catch (IOException)
+            {
+                fs = new FileStream(ICMDataFile, FileMode.Create);
+                WriteSettings(fs);
+                fs.Close();
+            }
+
             // easy as 4 * Math.Atan(1)
 
             //SdkUI.AddUI(MainUI.Interface = new MainUI());
