@@ -396,9 +396,7 @@ namespace PoroCYon.ICM.Menus
             });
 
             int col = 0, row = 0, index = 0;
-            for (int i = 1;
-                i <= 0x200000;
-                i *= 2, col++, index++)
+            for (int i = 1; i <= 0x200000; i *= 2, col++, index++)
             {
                 if (col >= 3)
                 {
