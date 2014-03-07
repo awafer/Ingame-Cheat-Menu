@@ -395,7 +395,6 @@ namespace PoroCYon.ICM.Menus
                 Position = new Vector2(170f, Main.screenHeight - 420f)
             });
 
-            #region category buttons
             int col = 0, row = 0, index = 0;
             for (int i = 1;
                 i <= 0x200000;
@@ -410,12 +409,11 @@ namespace PoroCYon.ICM.Menus
                 AddControl(CategoryButtons[index] = new ItemCategoryButton((Category)i)
                 {
                     Position = new Vector2(480f + Main.inventoryBackTexture.Width * col,
-                        Main.screenHeight - 430f + Main.inventoryBackTexture.Height * row)
+                        Main.screenHeight - 440f + Main.inventoryBackTexture.Height * row)
                 });
                 CategoryButtons[index].Position += Main.inventoryBackTexture.Size() / 2f
                     - ((Texture2D)CategoryButtons[index].Picture).Size() / 2f;
             }
-            #endregion
         }
 
         /// <summary>
