@@ -17,7 +17,7 @@ namespace PoroCYon.ICM.Controls
     /// <summary>
     /// A 'readonly' ItemContainer... 
     /// </summary>
-    public class CheatItemContainer : Button
+    public sealed class CheatItemContainer : Button
     {
         Texture2D bgTex = Main.inventoryBackTexture;
         int invBackNum = 1;
