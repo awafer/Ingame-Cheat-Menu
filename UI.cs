@@ -2083,6 +2083,9 @@ namespace PoroCYon.ICM
                         row = 0;
                     }
                     if (i != 0)
+                    {
+                        Main.LoadNPC(i);
+
                         sb.Draw(Main.npcTexture[Defs.npcs[Defs.npcNames[i]].type],
                             new Vector2(160f + col * Main.inventoryBack7Texture.Width,
                                         (Main.screenHeight - 350f) + row * Main.inventoryBack7Texture.Height)
@@ -2091,14 +2094,16 @@ namespace PoroCYon.ICM
                             new Rectangle(0, 0, Main.npcTexture[Defs.npcs[Defs.npcNames[i]].type].Width, Main.npcTexture[Defs.npcs[Defs.npcNames[i]].type].Height / Main.npcFrameCount[Defs.npcs[Defs.npcNames[i]].type]),
                             Defs.npcs[Defs.npcNames[i]].color == Color.Transparent ? Color.White : Defs.npcs[Defs.npcNames[i]].GetColor(Color.White));
 
-                    if (new Rectangle(160 + col * Main.inventoryBack7Texture.Width, (Main.screenHeight - 350) + row * Main.inventoryBack7Texture.Height,
-                        Main.inventoryBack7Texture.Width, Main.inventoryBack7Texture.Height).Intersects(UI.mouse) && i != 0)
-                    {
-                        mouse = true;
-                        mText = Defs.npcs[Defs.npcNames[i]].name;
-                        if (Defs.npcs[Defs.npcNames[i]].lifeMax != 1)
-                            mText += " (" + Defs.npcs[Defs.npcNames[i]].lifeMax + " max life)";
+                        if (new Rectangle(160 + col * Main.inventoryBack7Texture.Width, (Main.screenHeight - 350) + row * Main.inventoryBack7Texture.Height,
+                            Main.inventoryBack7Texture.Width, Main.inventoryBack7Texture.Height).Intersects(UI.mouse) && i != 0)
+                        {
+                            mouse = true;
+                            mText = Defs.npcs[Defs.npcNames[i]].name;
+                            if (Defs.npcs[Defs.npcNames[i]].lifeMax != 1)
+                                mText += " (" + Defs.npcs[Defs.npcNames[i]].lifeMax + " max life)";
+                        }
                     }
+
                     row++;
                 }
                 position -= added;
