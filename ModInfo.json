@@ -17,7 +17,7 @@
         "C:\\WINDOWS\\Microsoft.NET\\assembly\\GAC_MSIL\\System.Xaml\\v4.0_4.0.0.0__b77a5c561934e089\\System.Xaml.dll",
 		
         "PoroCYon.XnaExtensions.dll",
-        "TAPI.SDK.dll"
+        "PoroCYon.MCT.dll"
     ],
 	
 	"MSBuild": true,
