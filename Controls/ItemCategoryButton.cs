@@ -6,10 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
 using PoroCYon.XnaExtensions.Graphics;
 using TAPI;
-using TAPI.SDK;
-using TAPI.SDK.UI;
-using TAPI.SDK.UI.Interface;
-using TAPI.SDK.UI.Interface.Controls;
+using PoroCYon.MCT;
+using PoroCYon.MCT.UI;
+using PoroCYon.MCT.UI.Interface;
+using PoroCYon.MCT.UI.Interface.Controls;
 using PoroCYon.ICM.Menus;
 
 namespace PoroCYon.ICM.Controls
@@ -26,14 +26,6 @@ namespace PoroCYon.ICM.Controls
         /// </summary>
         public Category Category;
 
-        Texture2D picAsTex
-        {
-            get
-            {
-                return IsGif ? ((AnimatedGif)Picture).Frames[0] : (Texture2D)Picture;
-            }
-        }
-
         /// <summary>
         /// The hitbox of the Control
         /// </summary>
@@ -41,7 +33,7 @@ namespace PoroCYon.ICM.Controls
         {
             get
             {
-                Vector2 pos = Position - (Main.inventoryBackTexture.Size() / 2f - ((Texture2D)Picture).Size() / 2f);
+                Vector2 pos = Position - (Main.inventoryBackTexture.Size() / 2f - PicAsTexture.Size() / 2f);
 
                 return new Rectangle((int)pos.X, (int)pos.Y, 52, 52);
             }
@@ -61,7 +53,7 @@ namespace PoroCYon.ICM.Controls
         /// </summary>
         /// <param name="cat">The category of the ItemCategoryButton</param>
         public ItemCategoryButton(Category cat)
-            : base(SdkUI.WhitePixel)
+            : base(MctUI.WhitePixel)
         {
             HasBackground = true;
 

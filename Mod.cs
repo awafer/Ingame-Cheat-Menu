@@ -6,10 +6,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
 using TAPI;
-using TAPI.SDK;
-using TAPI.SDK.UI;
-using TAPI.SDK.UI.Interface;
-using TAPI.SDK.UI.MenuItems;
+using PoroCYon.MCT;
+using PoroCYon.MCT.UI;
+using PoroCYon.MCT.UI.Interface;
+using PoroCYon.MCT.UI.Interface.Controls;
+using PoroCYon.MCT.UI.MenuItems;
 using PoroCYon.ICM.Menus;
 using PoroCYon.ICM.Menus.Sub;
 
@@ -44,7 +45,7 @@ namespace PoroCYon.ICM
         /// </summary>
         public override void OnLoad()
         {
-            Sdk.Init();
+            Mct.Init();
             base.OnLoad();
 
             FileStream fs = null;
@@ -72,19 +73,19 @@ namespace PoroCYon.ICM
         {
             // easy as 4 * Math.Atan(1)
 
-            SdkUI.AddCustomUI(MainUI.Interface = new MainUI());
+            MctUI.AddCustomUI(MainUI.Interface = new MainUI());
 
-            SdkUI.AddCustomUI(ItemUI.Interface = new ItemUI());
-            SdkUI.AddCustomUI(BuffUI.Interface = new BuffUI());
-            SdkUI.AddCustomUI(PrefixUI.Interface = new PrefixUI());
-            SdkUI.AddCustomUI(NPCUI.Interface = new NPCUI());
-            SdkUI.AddCustomUI(PlayerUI.Interface = new PlayerUI());
-            SdkUI.AddCustomUI(WorldUI.Interface = new WorldUI());
+            MctUI.AddCustomUI(ItemUI.Interface = new ItemUI());
+            MctUI.AddCustomUI(BuffUI.Interface = new BuffUI());
+            MctUI.AddCustomUI(PrefixUI.Interface = new PrefixUI());
+            MctUI.AddCustomUI(NPCUI.Interface = new NPCUI());
+            MctUI.AddCustomUI(PlayerUI.Interface = new PlayerUI());
+            MctUI.AddCustomUI(WorldUI.Interface = new WorldUI());
 
-            SdkUI.AddCustomUI(EditPlayerUI.Interface = new EditPlayerUI());
-            SdkUI.AddCustomUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
-            SdkUI.AddCustomUI(EditItemUI.Interface = new EditItemUI());
-            SdkUI.AddCustomUI(EditNPCUI.Interface = new EditNPCUI());
+            MctUI.AddCustomUI(EditPlayerUI.Interface = new EditPlayerUI());
+            MctUI.AddCustomUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
+            MctUI.AddCustomUI(EditItemUI.Interface = new EditItemUI());
+            MctUI.AddCustomUI(EditNPCUI.Interface = new EditNPCUI());
 
             // a bit less easier...
             Menu.menuPages.Add("ICM:Settings", new SettingsPage());
