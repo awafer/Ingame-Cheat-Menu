@@ -156,7 +156,7 @@ namespace PoroCYon.ICM
 
                 OnDraw = (c, sb) =>
                 {
-                    sb.Draw(Main.itemTexture[1], c.Position, null, GrayColour(c.Hitbox, Color.White), 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
+                    sb.Draw(Main.itemTexture[1], c.Position, null, Color.White, c.Rotation, c.Origin, c.Scale * 0.75f, c.SpriteEffects, c.LayerDepth);
                 }
             });
             #endregion
@@ -169,7 +169,7 @@ namespace PoroCYon.ICM
 
                 OnDraw = (c, sb) =>
                 {
-                    sb.Draw(Main.buffTexture[1], c.Position, null, GrayColour(c.Hitbox, Color.White), 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
+                    sb.Draw(Main.buffTexture[1], c.Position, null, Color.White, c.Rotation, c.Origin, c.Scale * 0.75f, c.SpriteEffects, c.LayerDepth);
                 }
             });
             #endregion
@@ -182,7 +182,7 @@ namespace PoroCYon.ICM
 
                 OnDraw = (c, sb) =>
                 {
-                    sb.Draw(Main.npcHeadTexture[9], c.Position, null, GrayColour(c.Hitbox, Color.White), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    sb.Draw(Main.npcHeadTexture[9], c.Position, null, Color.White, c.Rotation, c.Origin, c.Scale, c.SpriteEffects, c.LayerDepth);
                 }
             });
             #endregion
@@ -197,7 +197,7 @@ namespace PoroCYon.ICM
                 {
                     Main.LoadNPC(1);
                     sb.Draw(Main.npcTexture[1], c.Position, new Rectangle(0, 0, Main.npcTexture[1].Width, 24),
-                        GrayColour(c.Hitbox, new Color(0, 80, 255, 200)), 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
+                        new Color(0, 80, 255, 200), c.Rotation, c.Origin, c.Scale * 0.75f, c.SpriteEffects, c.LayerDepth);
                 }
             });
             #endregion
@@ -211,17 +211,17 @@ namespace PoroCYon.ICM
                 OnDraw = (c, sb) =>
                 {
                     sb.Draw(Main.playerHeadTexture, c.Position + new Vector2(-4, 2), new Rectangle(0, 6, Main.playerHeadTexture.Width, 30),
-                        GrayColour(c.Hitbox, Main.localPlayer.skinColor), 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
+                        Main.localPlayer.skinColor, c.Rotation, c.Origin, c.Scale * 0.75f, c.SpriteEffects, c.LayerDepth);
 
                     sb.Draw(Main.playerEyeWhitesTexture, c.Position + new Vector2(-4, 2), new Rectangle(0, 6, Main.playerEyeWhitesTexture.Width, 30),
-                        GrayColour(c.Hitbox, Color.White), 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
+                        Color.White, c.Rotation, c.Origin, c.Scale * 0.75f, c.SpriteEffects, c.LayerDepth);
 
                     sb.Draw(Main.playerEyesTexture, c.Position + new Vector2(-4, 2), new Rectangle(0, 6, Main.playerEyesTexture.Width, 30),
-                        GrayColour(c.Hitbox, Main.localPlayer.eyeColor), 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
+                        Main.localPlayer.eyeColor, c.Rotation, c.Origin, c.Scale * 0.75f, c.SpriteEffects, c.LayerDepth);
 
                     sb.Draw(Main.playerHairTexture[Main.localPlayer.hair], c.Position + new Vector2(-4, 2), new Rectangle(0, 6,
                         Main.playerHairTexture[Main.localPlayer.hair].Width, 30),
-                        GrayColour(c.Hitbox, Main.localPlayer.hairColor), 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
+                        Main.localPlayer.hairColor, c.Rotation, c.Origin, c.Scale * 0.75f, c.SpriteEffects, c.LayerDepth);
 
                 }
             });
@@ -238,8 +238,7 @@ namespace PoroCYon.ICM
                     sb.Draw(Main.dayTime ? (Main.eclipse ? Main.sun3Texture : Main.sunTexture) : (Main.pumpkinMoon ? Main.pumpkinMoonTexture : Main.moonTexture[0]),
                         c.Position + (Main.dayTime ? new Vector2(-17f) : Vector2.Zero), Main.dayTime ? null :
                         new Rectangle?(new Rectangle(0, Main.moonPhase * Main.moonTexture[0].Width, Main.moonTexture[0].Width, Main.moonTexture[0].Width)),
-                        GrayColour(c.Hitbox, Color.White), 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
-
+                        Color.White, c.Rotation, c.Origin, c.Scale * 0.5f, c.SpriteEffects, c.LayerDepth);
                 }
             });
             #endregion
@@ -297,7 +296,7 @@ namespace PoroCYon.ICM
         [TargetedPatchingOptOut(TPOOReason)]
         public static Vector2 PositionOf(InterfaceType button)
         {
-            return new Vector2(100f + 24f * (int)button, Main.screenHeight - 100f);
+            return new Vector2(100f + 40f * (int)button, Main.screenHeight - 100f);
         }
 
         /// <summary>

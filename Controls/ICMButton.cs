@@ -31,7 +31,7 @@ namespace PoroCYon.ICM.Controls
         {
             get
             {
-                return new Rectangle((int)Position.X + 12, (int)Position.Y + 12, 24, 24);
+                return new Rectangle((int)Position.X + 4, (int)Position.Y + 4, 40, 40);
             }
         }
 
@@ -60,8 +60,11 @@ namespace PoroCYon.ICM.Controls
         /// <param name="sb">The SpriteBatch used to draw the Control</param>
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(SdkUI.WhitePixel, Position, null, Color.Lerp(Colour, Color.Black, IsHovered
-                || MainUI.UIType == ChangeTo ? 0f : 0.5f), Rotation, Origin, Scale * 24f, SpriteEffects, LayerDepth);
+            if (HasBackground)
+            {
+                Rectangle bg =  new Rectangle((int)Position.X - 8, (int)Position.Y - 8, 40, 40);
+                Drawing.DrawBlueBox(sb, bg.X, bg.Y, bg.Width, bg.Height, IsHovered || MainUI.UIType == ChangeTo ? 0.85f : 0.75f);
+            }
 
             base.Draw(sb);
         }

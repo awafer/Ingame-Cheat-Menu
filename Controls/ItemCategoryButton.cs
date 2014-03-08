@@ -103,7 +103,7 @@ namespace PoroCYon.ICM.Controls
                 case Category.Melee:
                     id = 4; // iron broadsword
                     break;
-                case Category.Others:
+                case Category.Other:
                     Picture = Main.confuseTexture; // question mark
                     break;
                 case Category.Paint:
@@ -156,10 +156,9 @@ namespace PoroCYon.ICM.Controls
             if ((ItemUI.Category & Category) != 0)
                 ItemUI.Category ^= Category;
             else
-            {
                 ItemUI.Category |= Category;
-                ItemUI.Position = 0;
-            }
+
+            ItemUI.Position = 0;
 
             ItemUI.ResetItemList();
         }

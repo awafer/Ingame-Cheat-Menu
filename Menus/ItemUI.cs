@@ -136,12 +136,12 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// Anything else
         /// </summary>
-        Others = 0x200000,
+        Other = 0x200000,
 
         /// <summary>
         /// All categories
         /// </summary>
-        All = Weapon | Armour | Vanity | Accessory | Ammunition | Material | Potion | Tile | Wall | Dye | Paint | Pet | Summon | Tools | Others
+        All = Weapon | Armour | Vanity | Accessory | Ammunition | Material | Potion | Tile | Wall | Dye | Paint | Pet | Summon | Tools | Other
 
         // Count = 22
     }
@@ -240,7 +240,14 @@ namespace PoroCYon.ICM.Menus
         /// The amount of items displayed (ItemContainers.Length)
         /// </summary>
         public const int ITEM_LIST_LENGTH = 20;
+        /// <summary>
+        /// The amount of categories
+        /// </summary>
         public const int CATEGORY_LIST_LENGTH = 22;
+        /// <summary>
+        /// The amount of filter options
+        /// </summary>
+        public const int FILTER_OPTIONS_LENGTH = 3;
 
         /// <summary>
         /// The TextBox instance used to search Items
@@ -262,6 +269,14 @@ namespace PoroCYon.ICM.Menus
         /// The 22 category buttons
         /// </summary>
         public static ItemCategoryButton[] CategoryButtons
+        {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// The 3 filter options RadioButtons
+        /// </summary>
+        public static RadioButton[] FilterOptions
         {
             get;
             private set;
@@ -326,6 +341,7 @@ namespace PoroCYon.ICM.Menus
             ItemContainers = new CheatItemContainer[ITEM_LIST_LENGTH];
             Items = new List<Item>();
             CategoryButtons = new ItemCategoryButton[CATEGORY_LIST_LENGTH];
+            FilterOptions = new RadioButton[FILTER_OPTIONS_LENGTH];
         }
 
         /// <summary>
@@ -334,7 +350,7 @@ namespace PoroCYon.ICM.Menus
         public override void Open()
         {
             CreateContainers();
-            ResetItemList();
+            ResetItemList(true);
         }
         /// <summary>
         /// When the UI is closed
@@ -358,10 +374,10 @@ namespace PoroCYon.ICM.Menus
 
             base.Init();
 
-            CreateContainers();
-            ResetItemList();
+            //CreateContainers();
+            //ResetItemList(true);
 
-            AddControl(new ImageButton(LeftArrow) 
+            AddControl(new ImageButton(LeftArrow )
             {
                 HasBackground = true,
                 KeepFiring = true,
@@ -393,7 +409,62 @@ namespace PoroCYon.ICM.Menus
 
             AddControl(SearchBox = new TextBox("Search item...")
             {
-                Position = new Vector2(170f, Main.screenHeight - 420f)
+                EnterMode = EnterMode.StopWhenEnterOrShiftEnter,
+
+                Position = new Vector2(170f, Main.screenHeight - 415f)
+            });
+
+            AddControl(new TextBlock("Found items: " + Items.Count + ", Filter: " + Category)
+            {
+                Position = new Vector2(170f, Main.screenHeight - 460f),
+
+                OnUpdate = (c) => ((TextBlock)c).Text = "Found items: " + Items.Count + ", Filter: " + Category
+            });
+
+            AddControl(FilterOptions[0] = new RadioButton("ICM:FilterType", true,  "AND filtering")
+            {
+                Position = new Vector2(20f, Main.screenHeight - 470f),
+                Tooltip = "The filter searches for items that have all of the selected remarks.",
+
+                OnChecked = (ca) =>
+                {
+                    if (Category == Category.All)
+                        Category = Category.None;
+                    else if (Category == Category.None)
+                        Category = Category.All;
+
+                    ResetItemList();
+                }
+            });
+            AddControl(FilterOptions[1] = new RadioButton("ICM:FilterType", false, "OR filtering") 
+            {
+                Position = new Vector2(20f, Main.screenHeight - 420f),
+                Tooltip = "The filter searches for items which have one or more of the selected remarks.",
+
+                OnChecked = (ca) =>
+                {
+                    if (Category == Category.All)
+                        Category = Category.None;
+                    else if (Category == Category.None)
+                        Category = Category.All;
+
+                    ResetItemList();
+                }
+            });
+            AddControl(FilterOptions[2] = new RadioButton("ICM:FilterType", false, "XOR filtering")
+            {
+                Position = new Vector2(20f, Main.screenHeight - 370f),
+                Tooltip = "The filter searches for items which have none of the selected remarks.",
+
+                OnChecked = (ca) =>
+                {
+                    if (Category == Category.All)
+                        Category = Category.None;
+                    else if (Category == Category.None)
+                        Category = Category.All;
+
+                    ResetItemList();
+                }
             });
 
             int col = 0, row = 0, index = 0;
@@ -418,15 +489,24 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// Clears the Item list and fills it, with the current filters
         /// </summary>
-        public static void ResetItemList()
+        /// <param name="thisThread">Wether to load it on the current thread or on a new one</param>
+        public static void ResetItemList(bool thisThread = false)
         {
-            new Thread(() =>
+            ThreadStart start = () =>
             {
                 Items.Clear();
-                Items.AddRange(from i in Defs.items.Values where IncludeInList(i) select CopyItem(i));
+
+                foreach (Item i in Defs.items.Values)
+                    if (IncludeInList(i))
+                        Items.Add(CopyItem(i));
 
                 ResetContainers();
-            }).Start();
+            };
+
+            if (thisThread)
+                start();
+            else
+                new Thread(start).Start();
         }
         /// <summary>
         /// Resets the ItemContainer content
@@ -483,15 +563,23 @@ namespace PoroCYon.ICM.Menus
         [TargetedPatchingOptOut(MainUI.TPOOReason)]
         public static bool IsInCategory(Item i)
         {
-            return IsInCategory(i, Category);
+            if (FilterOptions[0].IsChecked)
+                return IsInCategoryAND(i, Category);
+            if (FilterOptions[1].IsChecked)
+                return IsInCategoryOR(i, Category);
+            if (FilterOptions[2].IsChecked)
+                return IsInCategoryXOR(i, Category);
+
+            return false;
         }
+
         /// <summary>
-        /// Checks wether an Item is in a certain category or not.
+        /// Checks wether an Item is in a certain category or not, using AND filtering.
         /// </summary>
         /// <param name="i">The Item to check</param>
         /// <param name="cat">The Category to compare the Item with</param>
         /// <returns>true if the Item is in the category, false otherwise.</returns>
-        public static bool IsInCategory(Item i, Category cat)
+        public static bool IsInCategoryAND(Item i, Category cat)
         {
             if (i.type == 0)
                 return false;
@@ -499,6 +587,10 @@ namespace PoroCYon.ICM.Menus
                 return true;
 
             bool ret = true;
+
+            if ((cat & Category.Other) != 0)
+                ret &= IsOther(i);
+
 
             if ((cat & Category.Melee) != 0)
                 ret &= i.melee;
@@ -550,30 +642,25 @@ namespace PoroCYon.ICM.Menus
             if ((cat & Category.Summon) != 0)
                 ret &= i.summon;
 
-            if ((cat & Category.Others) != 0)
-                return !i.melee && !i.ranged && !i.magic && i.headSlot < 0 && i.bodySlot < 0 && i.legSlot < 0 && !i.vanity && !i.accessory &&
-                    i.pick <= 0 && i.hammer <= 0 && i.axe <= 0 && (i.ammo <= 0 || i.notAmmo) && (!i.material || i.notMaterial)
-                    && !(i.healLife > 0 || i.healMana > 0) && i.buffType <= 0 && i.createTile <= 0 && i.createWall <= 0 && i.paint < 0 && i.dye <= 0
-                    && !Main.vanityPet[i.buffType] && !Main.lightPet[i.buffType] && !i.summon;
-
             return ret;
         }
         /// <summary>
-        /// Checks wether an Item is in a category or not.
+        /// Checks wether an Item is in a certain category or not, using OR filtering.
         /// </summary>
         /// <param name="i">The Item to check</param>
         /// <param name="cat">The Category to compare the Item with</param>
         /// <returns>true if the Item is in the category, false otherwise.</returns>
         public static bool IsInCategoryOR(Item i, Category cat)
         {
-            if (i.type == 0)
+            if (i.type == 0 || cat == Category.None)
                 return false;
             if (cat == Category.All)
                 return true;
-            if (cat == Category.None)
-                return false;
 
             bool ret = false;
+
+            if ((cat & Category.Other) != 0)
+                ret |= IsOther(i);
 
             if ((cat & Category.Melee) != 0)
                 ret |= i.melee;
@@ -627,6 +714,89 @@ namespace PoroCYon.ICM.Menus
 
             return ret;
         }
+        /// <summary>
+        /// Checks wether an Item is in a certain category or not, using XOR filtering.
+        /// </summary>
+        /// <param name="i">The Item to check</param>
+        /// <param name="cat">The Category to compare the Item with</param>
+        /// <returns>true if the Item is in the category, false otherwise.</returns>
+        public static bool IsInCategoryXOR(Item i, Category cat)
+        {
+            if (i.type == 0 || cat == Category.All)
+                return false;
+            if (cat == Category.None)
+                return true;
+
+            bool ret = false;
+
+            if ((cat & Category.Other) != 0)
+                ret ^= IsOther(i);
+
+            if ((cat & Category.Melee) != 0)
+                ret ^= i.melee;
+            if ((cat & Category.Ranged) != 0)
+                ret ^= i.ranged;
+            if ((cat & Category.Magic) != 0)
+                ret ^= i.magic;
+
+            if ((cat & Category.Helmet) != 0)
+                ret ^= i.headSlot >= 0;
+            if ((cat & Category.Torso) != 0)
+                ret ^= i.bodySlot >= 0;
+            if ((cat & Category.Leggings) != 0)
+                ret ^= i.legSlot >= 0;
+
+            if ((cat & Category.Vanity) != 0)
+                ret ^= i.vanity;
+            if ((cat & Category.Accessory) != 0)
+                ret ^= i.accessory;
+
+            if ((cat & Category.Pickaxe) != 0)
+                ret ^= i.pick > 0;
+            if ((cat & Category.Axe) != 0)
+                ret ^= i.axe > 0;
+            if ((cat & Category.Hammer) != 0)
+                ret ^= i.hammer > 0;
+
+            if ((cat & Category.Ammunition) != 0)
+                ret ^= i.ammo > 0 && !i.notAmmo;
+            if ((cat & Category.Material) != 0)
+                ret ^= i.material && !i.notMaterial;
+            if ((cat & Category.Potion) != 0)
+                ret ^= i.consumable;
+
+            if ((cat & Category.Buff) != 0)
+                ret ^= i.buffType > 0;
+
+            if ((cat & Category.Tile) != 0)
+                ret ^= i.createTile > 0;
+            if ((cat & Category.Wall) != 0)
+                ret ^= i.createWall > 0;
+
+            if ((cat & Category.Paint) != 0)
+                ret ^= i.paint > 0;
+            if ((cat & Category.Dye) != 0)
+                ret ^= i.dye > 0;
+            if ((cat & Category.Pet) != 0)
+                ret ^= Main.vanityPet[i.buffType] || Main.lightPet[i.buffType];
+            if ((cat & Category.Summon) != 0)
+                ret ^= i.summon;
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Gets wether an Item belongs to the Other category or not
+        /// </summary>
+        /// <param name="i">The Item to check</param>
+        /// <returns>>ether the Item belongs to the Other category or not</returns>
+        public static bool IsOther(Item i)
+        {
+            return !i.melee && !i.ranged && !i.magic && i.headSlot < 0 && i.bodySlot < 0 && i.legSlot < 0 && !i.vanity && !i.accessory &&
+                    i.pick <= 0 && i.hammer <= 0 && i.axe <= 0 && (i.ammo <= 0 || i.notAmmo) && (!i.material || i.notMaterial)
+                    && !(i.healLife > 0 || i.healMana > 0) && i.buffType <= 0 && i.createTile <= 0 && i.createWall <= 0 && i.paint < 0 && i.dye <= 0
+                    && !Main.vanityPet[i.buffType] && !Main.lightPet[i.buffType] && !i.summon;
+        }
 
         /// <summary>
         /// Checks wether an Item is a result of the given search string
@@ -662,10 +832,18 @@ namespace PoroCYon.ICM.Menus
         /// </summary>
         /// <param name="i">An Item to check</param>
         /// <returns>true if the Item should be included, false otherwise.</returns>
-        [TargetedPatchingOptOut(MainUI.TPOOReason)]
         public static bool IncludeInList(Item i)
         {
-            return IsInCategory(i) && IsSearchResult(i);
+            bool ret = IsInCategory(i);
+
+            if (FilterOptions[0].IsChecked)
+                return ret && IsSearchResult(i);
+            if (FilterOptions[1].IsChecked)
+                return ret || IsSearchResult(i);
+            if (FilterOptions[2].IsChecked)
+                return ret ^  IsSearchResult(i);
+
+            return false;
         }
 
         /// <summary>
