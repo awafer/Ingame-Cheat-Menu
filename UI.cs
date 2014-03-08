@@ -10,9 +10,10 @@ using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
 using PoroCYon.XnaExtensions.Geometry;
 using PoroCYon.XnaExtensions.Input;
-using TAPI.SDK;
+using TAPI;
+using PoroCYon.MCT;
 
-namespace TAPI.PoroCYon.ICM
+namespace PoroCYon.ICM
 {
     using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
     using Mouse = Microsoft.Xna.Framework.Input.Mouse;
@@ -1363,7 +1364,7 @@ namespace TAPI.PoroCYon.ICM
                                     NPC.downedGoblins |= Main.invasionType == 1;
                                     NPC.downedFrost |= Main.invasionType == 2;
                                     NPC.downedPirates |= Main.invasionType == 3;
-                                    TAPI.SDK.World.StopInvasion();
+                                    World.StopInvasion();
                                 }
                             }
                             pressCD = 0;
