@@ -14,6 +14,8 @@ using PoroCYon.ICM.Menus;
 
 namespace PoroCYon.ICM.Controls
 {
+    using Categories = PoroCYon.ICM.Menus.ItemUI.Categories;
+
     /// <summary>
     /// A button used to toggle an Item category filter on or off
     /// </summary>
@@ -24,7 +26,7 @@ namespace PoroCYon.ICM.Controls
         /// <summary>
         /// The category of the ItemCategoryButton
         /// </summary>
-        public Category Category;
+        public Categories Category;
 
         /// <summary>
         /// The hitbox of the Control
@@ -43,7 +45,7 @@ namespace PoroCYon.ICM.Controls
         /// Creates a new instance of the ItemCategoryButton class
         /// </summary>
         public ItemCategoryButton()
-            : this(Category.All)
+            : this(Categories.All)
         {
 
         }
@@ -52,77 +54,77 @@ namespace PoroCYon.ICM.Controls
         /// Creates a new instance of the ItemCategoryButton class
         /// </summary>
         /// <param name="cat">The category of the ItemCategoryButton</param>
-        public ItemCategoryButton(Category cat)
+        public ItemCategoryButton(Categories cat)
             : base(MctUI.WhitePixel)
         {
             HasBackground = true;
 
             switch (Category = cat)
             {
-                case Category.Accessory:
+                case Categories.Accessory:
                     id = 49; // band of regeneration
                     break;
-                case Category.Ammunition:
+                case Categories.Ammunition:
                     id = 40; // wooden arrow
                     break;
-                case Category.Axe:
+                case Categories.Axe:
                     id = 10; // iron axe
                     break;
-                case Category.Buff:
+                case Categories.Buff:
                     id = 298; // shine potion
                     break;
-                case Category.Potion:
+                case Categories.Potion:
                     id = 28; // leser healing potion
                     break;
-                case Category.Dye:
+                case Categories.Dye:
                     id = 1007; // red dye
                     break;
-                case Category.Hammer:
+                case Categories.Hammer:
                     id = 7; // iron hammer
                     break;
-                case Category.Helmet:
+                case Categories.Helmet:
                     id = 727; // wood helmet
                     break;
-                case Category.Leggings:
+                case Categories.Leggings:
                     id = 729; // wood greaves
                     break;
-                case Category.Magic:
+                case Categories.Magic:
                     id = 165; // water bolt
                     break;
-                case Category.Material:
+                case Categories.Material:
                     id = 22; // iron bar
                     break;
-                case Category.Melee:
+                case Categories.Melee:
                     id = 4; // iron broadsword
                     break;
-                case Category.Other:
+                case Categories.Other:
                     Picture = Main.confuseTexture; // question mark
                     break;
-                case Category.Paint:
+                case Categories.Paint:
                     id = 1073; // red paint
                     break;
-                case Category.Pet:
+                case Categories.Pet:
                     id = 603; // carrot
                     break;
-                case Category.Pickaxe:
+                case Categories.Pickaxe:
                     id = 1; // iron pickaxe
                     break;
-                case Category.Ranged:
+                case Categories.Ranged:
                     id = 39; // wooden bow
                     break;
-                case Category.Summon:
+                case Categories.Summon:
                     id = 1157; // pygmy staff
                     break;
-                case Category.Tile:
+                case Categories.Tile:
                     id = 2; // dirt block
                     break;
-                case Category.Torso:
+                case Categories.Torso:
                     id = 728; // wood breastplate
                     break;
-                case Category.Vanity:
+                case Categories.Vanity:
                     id = 239; // top hat
                     break;
-                case Category.Wall:
+                case Categories.Wall:
                     id = 26; // stone wall
                     break;
             }
@@ -150,9 +152,9 @@ namespace PoroCYon.ICM.Controls
             else
                 ItemUI.Category |= Category;
 
-            ItemUI.Position = 0;
+            ItemUI.Interface.Position = 0;
 
-            ItemUI.ResetItemList();
+            ItemUI.Interface.ResetItemList();
         }
 
         /// <summary>

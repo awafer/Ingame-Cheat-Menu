@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime;
@@ -18,245 +19,229 @@ using PoroCYon.ICM.Controls;
 namespace PoroCYon.ICM.Menus
 {
     /// <summary>
-    /// All Item categories. Enumeration is marked as Flags.
-    /// </summary>
-    [Flags]
-    public enum Category : int
-    {
-        // hex ftw
-
-        /// <summary>
-        /// Nothing
-        /// </summary>
-        None = 0x0,
-
-        /// <summary>
-        /// Melee weapons
-        /// </summary>
-        Melee = 0x1,
-        /// <summary>
-        /// Ranged weapons
-        /// </summary>
-        Ranged = 0x2,
-        /// <summary>
-        /// Magic weapons
-        /// </summary>
-        Magic = 0x4,
-        /// <summary>
-        /// A weapon (melee, ranged or magic)
-        /// </summary>
-        Weapon = Melee | Ranged | Magic,
-
-        /// <summary>
-        /// Helmets
-        /// </summary>
-        Helmet = 0x8,
-        /// <summary>
-        /// Torsos
-        /// </summary>
-        Torso = 0x10,
-        /// <summary>
-        /// Leggings
-        /// </summary>
-        Leggings = 0x20,
-        /// <summary>
-        /// Helmets, Torsos and Leggings
-        /// </summary>
-        Armour = Helmet | Torso | Leggings,
-
-        /// <summary>
-        /// Vanity items
-        /// </summary>
-        Vanity = 0x40,
-        /// <summary>
-        /// Accessories
-        /// </summary>
-        Accessory = 0x80,
-        /// <summary>
-        /// The item gives the player a buff or debuff
-        /// </summary>
-        Buff = 0x100,
-
-        /// <summary>
-        /// Pickaxes
-        /// </summary>
-        Pickaxe = 0x200,
-        /// <summary>
-        /// Axes
-        /// </summary>
-        Axe = 0x400,
-        /// <summary>
-        /// Hammers
-        /// </summary>
-        Hammer = 0x800,
-        /// <summary>
-        /// Tools (pickaxes, axes and hammers)
-        /// </summary>
-        Tools = Pickaxe | Axe | Hammer,
-
-        /// <summary>
-        /// Ammo
-        /// </summary>
-        Ammunition = 0x1000,
-        /// <summary>
-        /// Materials (used to craft something else)
-        /// </summary>
-        Material = 0x2000,
-        /// <summary>
-        /// The Item heals life or mana
-        /// </summary>
-        Potion = 0x4000,
-
-        /// <summary>
-        /// Tiles (Item places a tile when used)
-        /// </summary>
-        Tile = 0x8000,
-        /// <summary>
-        /// Walls (Item places a wall when used)
-        /// </summary>
-        Wall = 0x10000,
-        /// <summary>
-        /// Paint
-        /// </summary>
-        Paint = 0x20000,
-
-        /// <summary>
-        /// The item is a dye
-        /// </summary>
-        Dye = 0x40000,
-        /// <summary>
-        /// Pet summoning item
-        /// </summary>
-        Pet = 0x80000,
-        /// <summary>
-        /// Summon (defender, not a boss) item
-        /// </summary>
-        Summon = 0x100000,
-
-        /// <summary>
-        /// Anything else
-        /// </summary>
-        Other = 0x200000,
-
-        /// <summary>
-        /// All categories
-        /// </summary>
-        All = Weapon | Armour | Vanity | Accessory | Ammunition | Material | Potion | Tile | Wall | Dye | Paint | Pet | Summon | Tools | Other
-
-        // Count = 22
-    }
-
-    /// <summary>
-    /// An IEnumerable which provides an iterator over all available Items.
-    /// foreach (Item i in new ItemEnumerable()) { ... }
-    /// </summary>
-    [Obsolete("This class is no longer used, but works perfectly fine.\n"
-        + "You could also use '(from i in Defs.items.Values where ItemUI.IncludeInList(i) select ItemUI.CopyItem(i))'")]
-    public sealed class ItemEnumerable : IEnumerable<Item>
-    {
-        /// <summary>
-        /// Gets the generic enumerator of this IEnumerable instance
-        /// </summary>
-        /// <returns>The generic enumerator of this IEnumerable instance</returns>
-        IEnumerator<Item> IEnumerable<Item>.GetEnumerator()
-        {
-            return new ItemEnumerator();
-        }
-        /// <summary>
-        /// Gets the enumerator of this IEnumerable instance
-        /// </summary>
-        /// <returns>The enumerator of this IEnumerable instance</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new ItemEnumerator();
-        }
-    }
-
-    sealed class ItemEnumerator : IEnumerator<Item>
-    {
-        int offset = 0, current = -1;
-
-        internal int ID
-        {
-            get
-            {
-                return offset + current;
-            }
-        }
-
-        internal ItemEnumerator(int startID = 0)
-        {
-            offset = startID;
-            current = -1;
-        }
-
-        Item IEnumerator<Item>.Current
-        {
-            get
-            {
-                Item ret = new Item();
-                ret.netDefaults(ID);
-                return ret;
-            }
-        }
-        object IEnumerator.Current
-        {
-            get
-            {
-                Item ret = new Item();
-                ret.netDefaults(ID);
-                return ret;
-            }
-        }
-
-        public bool MoveNext()
-        {
-            do
-            {
-                if (++current >= Defs.items.Count)
-                    return false;
-            } while (!ItemUI.IncludeInList(((IEnumerator<Item>)this).Current));
-
-            return true;
-        }
-
-        public void Reset()
-        {
-            current = -1;
-        }
-
-        public void Dispose()
-        {
-            // nothing to dispose...
-        }
-    }
-
-    /// <summary>
     /// The ICM Item cheat UI
     /// </summary>
-    public sealed class ItemUI : CheatUI
+    public sealed class ItemUI : CheatUI<Item>
     {
         /// <summary>
-        /// The amount of items displayed (ItemContainers.Length)
+        /// All Item categories. Enumeration is marked as Flags.
         /// </summary>
-        public const int ITEM_LIST_LENGTH = 20;
+        [Flags]
+        public enum Categories : int
+        {
+            // hex ftw
+
+            /// <summary>
+            /// Nothing
+            /// </summary>
+            None = 0x0,
+
+            /// <summary>
+            /// Melee weapons
+            /// </summary>
+            Melee = 0x1,
+            /// <summary>
+            /// Ranged weapons
+            /// </summary>
+            Ranged = 0x2,
+            /// <summary>
+            /// Magic weapons
+            /// </summary>
+            Magic = 0x4,
+            /// <summary>
+            /// A weapon (melee, ranged or magic)
+            /// </summary>
+            Weapon = Melee | Ranged | Magic,
+
+            /// <summary>
+            /// Helmets
+            /// </summary>
+            Helmet = 0x8,
+            /// <summary>
+            /// Torsos
+            /// </summary>
+            Torso = 0x10,
+            /// <summary>
+            /// Leggings
+            /// </summary>
+            Leggings = 0x20,
+            /// <summary>
+            /// Helmets, Torsos and Leggings
+            /// </summary>
+            Armour = Helmet | Torso | Leggings,
+
+            /// <summary>
+            /// Vanity items
+            /// </summary>
+            Vanity = 0x40,
+            /// <summary>
+            /// Accessories
+            /// </summary>
+            Accessory = 0x80,
+            /// <summary>
+            /// The item gives the player a buff or debuff
+            /// </summary>
+            Buff = 0x100,
+
+            /// <summary>
+            /// Pickaxes
+            /// </summary>
+            Pickaxe = 0x200,
+            /// <summary>
+            /// Axes
+            /// </summary>
+            Axe = 0x400,
+            /// <summary>
+            /// Hammers
+            /// </summary>
+            Hammer = 0x800,
+            /// <summary>
+            /// Tools (pickaxes, axes and hammers)
+            /// </summary>
+            Tools = Pickaxe | Axe | Hammer,
+
+            /// <summary>
+            /// Ammo
+            /// </summary>
+            Ammunition = 0x1000,
+            /// <summary>
+            /// Materials (used to craft something else)
+            /// </summary>
+            Material = 0x2000,
+            /// <summary>
+            /// The Item heals life or mana
+            /// </summary>
+            Potion = 0x4000,
+
+            /// <summary>
+            /// Tiles (Item places a tile when used)
+            /// </summary>
+            Tile = 0x8000,
+            /// <summary>
+            /// Walls (Item places a wall when used)
+            /// </summary>
+            Wall = 0x10000,
+            /// <summary>
+            /// Paint
+            /// </summary>
+            Paint = 0x20000,
+
+            /// <summary>
+            /// The item is a dye
+            /// </summary>
+            Dye = 0x40000,
+            /// <summary>
+            /// Pet summoning item
+            /// </summary>
+            Pet = 0x80000,
+            /// <summary>
+            /// Summon (defender, not a boss) item
+            /// </summary>
+            Summon = 0x100000,
+
+            /// <summary>
+            /// Anything else
+            /// </summary>
+            Other = 0x200000,
+
+            /// <summary>
+            /// All categories
+            /// </summary>
+            All = Weapon | Armour | Vanity | Accessory | Ammunition | Material | Potion | Tile | Wall | Dye | Paint | Pet | Summon | Tools | Other
+
+            // Count = 22
+        }
+
+        /// <summary>
+        /// An IEnumerable which provides an iterator over all available Items.
+        /// foreach (Item i in new ItemEnumerable()) { ... }
+        /// </summary>
+        [Obsolete("This class is no longer used, but works perfectly fine.\n"
+            + "You could also use '(from i in Defs.items.Values where ItemUI.IncludeInList(i) select ItemUI.CopyItem(i))'")]
+        public sealed class ItemEnumerable : IEnumerable<Item>
+        {
+            /// <summary>
+            /// Gets the generic enumerator of this IEnumerable instance
+            /// </summary>
+            /// <returns>The generic enumerator of this IEnumerable instance</returns>
+            IEnumerator<Item> IEnumerable<Item>.GetEnumerator()
+            {
+                return new ItemEnumerator();
+            }
+            /// <summary>
+            /// Gets the enumerator of this IEnumerable instance
+            /// </summary>
+            /// <returns>The enumerator of this IEnumerable instance</returns>
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return new ItemEnumerator();
+            }
+        }
+
+        sealed class ItemEnumerator : IEnumerator<Item>
+        {
+            int offset = 0, current = -1;
+
+            internal int ID
+            {
+                get
+                {
+                    return offset + current;
+                }
+            }
+
+            internal ItemEnumerator(int startID = 0)
+            {
+                offset = startID;
+                current = -1;
+            }
+
+            Item IEnumerator<Item>.Current
+            {
+                get
+                {
+                    Item ret = new Item();
+                    ret.netDefaults(ID);
+                    return ret;
+                }
+            }
+            object IEnumerator.Current
+            {
+                get
+                {
+                    Item ret = new Item();
+                    ret.netDefaults(ID);
+                    return ret;
+                }
+            }
+
+            public bool MoveNext()
+            {
+                do
+                {
+                    if (++current >= Defs.items.Count)
+                        return false;
+                } while (!ItemUI.Interface.IncludeInList(((IEnumerator<Item>)this).Current));
+
+                return true;
+            }
+
+            public void Reset()
+            {
+                current = -1;
+            }
+
+            public void Dispose()
+            {
+                // nothing to dispose...
+            }
+        }
+
         /// <summary>
         /// The amount of categories
         /// </summary>
         public const int CATEGORY_LIST_LENGTH = 22;
-        /// <summary>
-        /// The amount of filter options
-        /// </summary>
-        public const int FILTER_OPTIONS_LENGTH = 3;
 
-        /// <summary>
-        /// The TextBox instance used to search Items
-        /// </summary>
-        public static TextBox SearchBox
-        {
-            get;
-            private set;
-        }
         /// <summary>
         /// The 20 Item containers which contain the currently displayed Items
         /// </summary>
@@ -273,53 +258,13 @@ namespace PoroCYon.ICM.Menus
             get;
             private set;
         }
-        /// <summary>
-        /// The 3 filter options RadioButtons
-        /// </summary>
-        public static RadioButton[] FilterOptions
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// The current list of Items (which match the search query)
-        /// </summary>
-        public static List<Item> Items
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// The left arrow Texture2D
-        /// </summary>
-        public static Texture2D LeftArrow
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// The right arrow Texture2D
-        /// </summary>
-        public static Texture2D RightArrow
-        {
-            get;
-            private set;
-        }
 
         internal static Item TooltipToDisplay = null;
 
-        static bool changedSearchText = false;
-
-        /// <summary>
-        /// The position of the Item list
-        /// </summary>
-        public static int Position = 0;
         /// <summary>
         /// The current category
         /// </summary>
-        public static Category Category = Category.None;
+        public static Categories Category = Categories.None;
 
         /// <summary>
         /// The ItemUI singleton instance
@@ -337,11 +282,8 @@ namespace PoroCYon.ICM.Menus
 
         static ItemUI()
         {
-            SearchBox = new TextBox();
-            ItemContainers = new CheatItemContainer[ITEM_LIST_LENGTH];
-            Items = new List<Item>();
+            ItemContainers = new CheatItemContainer[LIST_LENGTH];
             CategoryButtons = new ItemCategoryButton[CATEGORY_LIST_LENGTH];
-            FilterOptions = new RadioButton[FILTER_OPTIONS_LENGTH];
         }
 
         /// <summary>
@@ -357,7 +299,8 @@ namespace PoroCYon.ICM.Menus
         /// </summary>
         public override void Close()
         {
-            Items.Clear();
+            base.Close();
+
             RemoveContainers();
         }
 
@@ -366,59 +309,18 @@ namespace PoroCYon.ICM.Menus
         /// </summary>
         public override void Init()
         {
-            Position = 0;
-            Category = Category.None;
-
-            LeftArrow = Mod.ModInstance.textures["Sprites/Left.png"];
-            RightArrow = Mod.ModInstance.textures["Sprites/Right.png"];
+            Category = Categories.None;
 
             base.Init();
 
-            //CreateContainers();
-            //ResetItemList(true);
+            LeftButton.OnClicked += (b) => ResetContainers();
+            RightButton.OnClicked += (b) => ResetContainers();
 
-            AddControl(new ImageButton(LeftArrow )
-            {
-                HasBackground = true,
-                KeepFiring = true,
-
-                Position = new Vector2(130f, Main.screenHeight - 208),
-
-                OnClicked = (b) =>
-                {
-                    Position = Math.Max(Position - 4, 0);
-
-                    ResetContainers();
-                }
-            });
-            AddControl(new ImageButton(RightArrow)
-            {
-                HasBackground = true,
-                KeepFiring = true,
-
-                Position = new Vector2(430f, Main.screenHeight - 208),
-
-                OnClicked = (b) =>
-                {
-                    if (Items.Count > 20)
-                        Position = Math.Min(Position + 4, Items.Count - 1);
-
-                    ResetContainers();
-                }
-            });
-
-            AddControl(SearchBox = new TextBox("Search item...")
-            {
-                EnterMode = EnterMode.EnterOrShiftEnter,
-
-                Position = new Vector2(170f, Main.screenHeight - 415f)
-            });
-
-            AddControl(new TextBlock("Found items: " + Items.Count + ", Filter: " + Category)
+            AddControl(new TextBlock("Found items: " + objects.Count + ", Filter: " + Category)
             {
                 Position = new Vector2(170f, Main.screenHeight - 460f),
 
-                OnUpdate = (c) => ((TextBlock)c).Text = "Found items: " + Items.Count + ", Filter: " + Category
+                OnUpdate = (c) => ((TextBlock)c).Text = "Found items: " + objects.Count + ", Filter: " + Category
             });
 
             AddControl(FilterOptions[0] = new RadioButton("ICM:FilterType", true,  "AND filtering")
@@ -428,10 +330,10 @@ namespace PoroCYon.ICM.Menus
 
                 OnChecked = (ca) =>
                 {
-                    if (Category == Category.All)
-                        Category = Category.None;
-                    else if (Category == Category.None)
-                        Category = Category.All;
+                    if (Category == Categories.All)
+                        Category = Categories.None;
+                    else if (Category == Categories.None)
+                        Category = Categories.All;
 
                     ResetItemList();
                 }
@@ -443,10 +345,10 @@ namespace PoroCYon.ICM.Menus
 
                 OnChecked = (ca) =>
                 {
-                    if (Category == Category.All)
-                        Category = Category.None;
-                    else if (Category == Category.None)
-                        Category = Category.All;
+                    if (Category == Categories.All)
+                        Category = Categories.None;
+                    else if (Category == Categories.None)
+                        Category = Categories.All;
 
                     ResetItemList();
                 }
@@ -458,10 +360,10 @@ namespace PoroCYon.ICM.Menus
 
                 OnChecked = (ca) =>
                 {
-                    if (Category == Category.All)
-                        Category = Category.None;
-                    else if (Category == Category.None)
-                        Category = Category.All;
+                    if (Category == Categories.All)
+                        Category = Categories.None;
+                    else if (Category == Categories.None)
+                        Category = Categories.All;
 
                     ResetItemList();
                 }
@@ -476,7 +378,7 @@ namespace PoroCYon.ICM.Menus
                     col = 0;
                 }
 
-                AddControl(CategoryButtons[index] = new ItemCategoryButton((Category)i)
+                AddControl(CategoryButtons[index] = new ItemCategoryButton((Categories)i)
                 {
                     Position = new Vector2(480f + Main.inventoryBackTexture.Width * col,
                         Main.screenHeight - 440f + Main.inventoryBackTexture.Height * row)
@@ -490,15 +392,15 @@ namespace PoroCYon.ICM.Menus
         /// Clears the Item list and fills it, with the current filters
         /// </summary>
         /// <param name="thisThread">Wether to load it on the current thread or on a new one</param>
-        public static void ResetItemList(bool thisThread = false)
+        public void ResetItemList(bool thisThread = false)
         {
             ThreadStart start = () =>
             {
-                Items.Clear();
+                objects.Clear();
 
                 foreach (Item i in Defs.items.Values)
                     if (IncludeInList(i))
-                        Items.Add(CopyItem(i));
+                        objects.Add(CopyItem(i));
 
                 ResetContainers();
             };
@@ -511,15 +413,15 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// Resets the ItemContainer content
         /// </summary>
-        public static void ResetContainers()
+        public void ResetContainers()
         {
             for (int i = Position; i < Position + 20; i++)
             {
-                if (i >= Items.Count)
+                if (i >= objects.Count)
                     ItemContainers[i - Position].Item = new Item();
                 else
                 {
-                    ItemContainers[i - Position].Item = CopyItem(Items[i]);
+                    ItemContainers[i - Position].Item = CopyItem(objects[i]);
                     ItemContainers[i - Position].Item.stack = ItemContainers[i - Position].Item.maxStack;
                 }
             }
@@ -528,10 +430,10 @@ namespace PoroCYon.ICM.Menus
         void CreateContainers()
         {
             if (ItemContainers == null)
-                ItemContainers = new CheatItemContainer[ITEM_LIST_LENGTH];
+                ItemContainers = new CheatItemContainer[LIST_LENGTH];
 
             int row = 0, col = 0;
-            for (int i = 0; i < ITEM_LIST_LENGTH; i++, col++)
+            for (int i = 0; i < LIST_LENGTH; i++, col++)
             {
                 if (ItemContainers[i] == null)
                     ItemContainers[i] = new CheatItemContainer();
@@ -549,7 +451,7 @@ namespace PoroCYon.ICM.Menus
         }
         void RemoveContainers()
         {
-            for (int i = 0; i < ITEM_LIST_LENGTH; i++)
+            for (int i = 0; i < LIST_LENGTH; i++)
                 RemoveControl(ItemContainers[i]);
 
             ItemContainers = null;
@@ -561,7 +463,7 @@ namespace PoroCYon.ICM.Menus
         /// <param name="i">The Item to check</param>
         /// <returns>true if the Item is in the current category, false otherwise.</returns>
         [TargetedPatchingOptOut(MainUI.TPOOReason)]
-        public static bool IsInCategory(Item i)
+        public bool IsInCategory(Item i)
         {
             if (FilterOptions[0].IsChecked)
                 return IsInCategoryAND(i, Category);
@@ -570,7 +472,7 @@ namespace PoroCYon.ICM.Menus
             if (FilterOptions[2].IsChecked)
                 return IsInCategoryXOR(i, Category);
 
-            return false;
+            throw new YoureAHackerException(new Exception("There should be at least one of the filter RadioButtons checked..."));
         }
 
         /// <summary>
@@ -579,67 +481,67 @@ namespace PoroCYon.ICM.Menus
         /// <param name="i">The Item to check</param>
         /// <param name="cat">The Category to compare the Item with</param>
         /// <returns>true if the Item is in the category, false otherwise.</returns>
-        public static bool IsInCategoryAND(Item i, Category cat)
+        public static bool IsInCategoryAND(Item i, Categories cat)
         {
             if (i.type == 0)
                 return false;
-            if (cat == Category.None)
+            if (cat == Categories.None)
                 return true;
 
             bool ret = true;
 
-            if ((cat & Category.Other) != 0)
+            if ((cat & Categories.Other) != 0)
                 ret &= IsOther(i);
 
 
-            if ((cat & Category.Melee) != 0)
+            if ((cat & Categories.Melee) != 0)
                 ret &= i.melee;
-            if ((cat & Category.Ranged) != 0)
+            if ((cat & Categories.Ranged) != 0)
                 ret &= i.ranged;
-            if ((cat & Category.Magic) != 0)
+            if ((cat & Categories.Magic) != 0)
                 ret &= i.magic;
 
-            if ((cat & Category.Helmet) != 0)
+            if ((cat & Categories.Helmet) != 0)
                 ret &= i.headSlot >= 0;
-            if ((cat & Category.Torso) != 0)
+            if ((cat & Categories.Torso) != 0)
                 ret &= i.bodySlot >= 0;
-            if ((cat & Category.Leggings) != 0)
+            if ((cat & Categories.Leggings) != 0)
                 ret &= i.legSlot >= 0;
 
-            if ((cat & Category.Vanity) != 0)
+            if ((cat & Categories.Vanity) != 0)
                 ret &= i.vanity;
-            if ((cat & Category.Accessory) != 0)
+            if ((cat & Categories.Accessory) != 0)
                 ret &= i.accessory;
 
-            if ((cat & Category.Pickaxe) != 0)
+            if ((cat & Categories.Pickaxe) != 0)
                 ret &= i.pick > 0;
-            if ((cat & Category.Axe) != 0)
+            if ((cat & Categories.Axe) != 0)
                 ret &= i.axe > 0;
-            if ((cat & Category.Hammer) != 0)
+            if ((cat & Categories.Hammer) != 0)
                 ret &= i.hammer > 0;
 
-            if ((cat & Category.Ammunition) != 0)
+            if ((cat & Categories.Ammunition) != 0)
                 ret &= i.ammo > 0 && !i.notAmmo;
-            if ((cat & Category.Material) != 0)
+            if ((cat & Categories.Material) != 0)
                 ret &= i.material && !i.notMaterial;
-            if ((cat & Category.Potion) != 0)
+            if ((cat & Categories.Potion) != 0)
                 ret &= i.healLife > 0 || i.healMana > 0;
 
-            if ((cat & Category.Buff) != 0)
+            if ((cat & Categories.Buff) != 0)
                 ret &= i.buffType > 0;
 
-            if ((cat & Category.Tile) != 0)
+            if ((cat & Categories.Tile) != 0)
                 ret &= i.createTile > 0;
-            if ((cat & Category.Wall) != 0)
+            if ((cat & Categories.Wall) != 0)
                 ret &= i.createWall > 0;
 
-            if ((cat & Category.Paint) != 0)
+            if ((cat & Categories.Paint) != 0)
                 ret &= i.paint > 0;
-            if ((cat & Category.Dye) != 0)
+            if ((cat & Categories.Dye) != 0)
                 ret &= i.dye > 0;
-            if ((cat & Category.Pet) != 0)
+            if ((cat & Categories.Pet) != 0)
                 ret &= Main.vanityPet[i.buffType] || Main.lightPet[i.buffType];
-            if ((cat & Category.Summon) != 0)
+            if ((cat & Categories.Summon) != 0)
                 ret &= i.summon;
 
             return ret;
@@ -650,66 +552,66 @@ namespace PoroCYon.ICM.Menus
         /// <param name="i">The Item to check</param>
         /// <param name="cat">The Category to compare the Item with</param>
         /// <returns>true if the Item is in the category, false otherwise.</returns>
-        public static bool IsInCategoryOR(Item i, Category cat)
+        public static bool IsInCategoryOR(Item i, Categories cat)
         {
-            if (i.type == 0 || cat == Category.None)
+            if (i.type == 0 || cat == Categories.None)
                 return false;
-            if (cat == Category.All)
+            if (cat == Categories.All)
                 return true;
 
             bool ret = false;
 
-            if ((cat & Category.Other) != 0)
+            if ((cat & Categories.Other) != 0)
                 ret |= IsOther(i);
 
-            if ((cat & Category.Melee) != 0)
+            if ((cat & Categories.Melee) != 0)
                 ret |= i.melee;
-            if ((cat & Category.Ranged) != 0)
+            if ((cat & Categories.Ranged) != 0)
                 ret |= i.ranged;
-            if ((cat & Category.Magic) != 0)
+            if ((cat & Categories.Magic) != 0)
                 ret |= i.magic;
 
-            if ((cat & Category.Helmet) != 0)
+            if ((cat & Categories.Helmet) != 0)
                 ret |= i.headSlot >= 0;
-            if ((cat & Category.Torso) != 0)
+            if ((cat & Categories.Torso) != 0)
                 ret |= i.bodySlot >= 0;
-            if ((cat & Category.Leggings) != 0)
+            if ((cat & Categories.Leggings) != 0)
                 ret |= i.legSlot >= 0;
 
-            if ((cat & Category.Vanity) != 0)
+            if ((cat & Categories.Vanity) != 0)
                 ret |= i.vanity;
-            if ((cat & Category.Accessory) != 0)
+            if ((cat & Categories.Accessory) != 0)
                 ret |= i.accessory;
 
-            if ((cat & Category.Pickaxe) != 0)
+            if ((cat & Categories.Pickaxe) != 0)
                 ret |= i.pick > 0;
-            if ((cat & Category.Axe) != 0)
+            if ((cat & Categories.Axe) != 0)
                 ret |= i.axe > 0;
-            if ((cat & Category.Hammer) != 0)
+            if ((cat & Categories.Hammer) != 0)
                 ret |= i.hammer > 0;
 
-            if ((cat & Category.Ammunition) != 0)
+            if ((cat & Categories.Ammunition) != 0)
                 ret |= i.ammo > 0 && !i.notAmmo;
-            if ((cat & Category.Material) != 0)
+            if ((cat & Categories.Material) != 0)
                 ret |= i.material && !i.notMaterial;
-            if ((cat & Category.Potion) != 0)
+            if ((cat & Categories.Potion) != 0)
                 ret |= i.consumable;
 
-            if ((cat & Category.Buff) != 0)
+            if ((cat & Categories.Buff) != 0)
                 ret |= i.buffType > 0;
 
-            if ((cat & Category.Tile) != 0)
+            if ((cat & Categories.Tile) != 0)
                 ret |= i.createTile > 0;
-            if ((cat & Category.Wall) != 0)
+            if ((cat & Categories.Wall) != 0)
                 ret |= i.createWall > 0;
 
-            if ((cat & Category.Paint) != 0)
+            if ((cat & Categories.Paint) != 0)
                 ret |= i.paint > 0;
-            if ((cat & Category.Dye) != 0)
+            if ((cat & Categories.Dye) != 0)
                 ret |= i.dye > 0;
-            if ((cat & Category.Pet) != 0)
+            if ((cat & Categories.Pet) != 0)
                 ret |= Main.vanityPet[i.buffType] || Main.lightPet[i.buffType];
-            if ((cat & Category.Summon) != 0)
+            if ((cat & Categories.Summon) != 0)
                 ret |= i.summon;
 
             return ret;
@@ -720,66 +622,66 @@ namespace PoroCYon.ICM.Menus
         /// <param name="i">The Item to check</param>
         /// <param name="cat">The Category to compare the Item with</param>
         /// <returns>true if the Item is in the category, false otherwise.</returns>
-        public static bool IsInCategoryXOR(Item i, Category cat)
+        public static bool IsInCategoryXOR(Item i, Categories cat)
         {
-            if (i.type == 0 || cat == Category.All)
+            if (i.type == 0 || cat == Categories.All)
                 return false;
-            if (cat == Category.None)
+            if (cat == Categories.None)
                 return true;
 
             bool ret = false;
 
-            if ((cat & Category.Other) != 0)
+            if ((cat & Categories.Other) != 0)
                 ret ^= IsOther(i);
 
-            if ((cat & Category.Melee) != 0)
+            if ((cat & Categories.Melee) != 0)
                 ret ^= i.melee;
-            if ((cat & Category.Ranged) != 0)
+            if ((cat & Categories.Ranged) != 0)
                 ret ^= i.ranged;
-            if ((cat & Category.Magic) != 0)
+            if ((cat & Categories.Magic) != 0)
                 ret ^= i.magic;
 
-            if ((cat & Category.Helmet) != 0)
+            if ((cat & Categories.Helmet) != 0)
                 ret ^= i.headSlot >= 0;
-            if ((cat & Category.Torso) != 0)
+            if ((cat & Categories.Torso) != 0)
                 ret ^= i.bodySlot >= 0;
-            if ((cat & Category.Leggings) != 0)
+            if ((cat & Categories.Leggings) != 0)
                 ret ^= i.legSlot >= 0;
 
-            if ((cat & Category.Vanity) != 0)
+            if ((cat & Categories.Vanity) != 0)
                 ret ^= i.vanity;
-            if ((cat & Category.Accessory) != 0)
+            if ((cat & Categories.Accessory) != 0)
                 ret ^= i.accessory;
 
-            if ((cat & Category.Pickaxe) != 0)
+            if ((cat & Categories.Pickaxe) != 0)
                 ret ^= i.pick > 0;
-            if ((cat & Category.Axe) != 0)
+            if ((cat & Categories.Axe) != 0)
                 ret ^= i.axe > 0;
-            if ((cat & Category.Hammer) != 0)
+            if ((cat & Categories.Hammer) != 0)
                 ret ^= i.hammer > 0;
 
-            if ((cat & Category.Ammunition) != 0)
+            if ((cat & Categories.Ammunition) != 0)
                 ret ^= i.ammo > 0 && !i.notAmmo;
-            if ((cat & Category.Material) != 0)
+            if ((cat & Categories.Material) != 0)
                 ret ^= i.material && !i.notMaterial;
-            if ((cat & Category.Potion) != 0)
+            if ((cat & Categories.Potion) != 0)
                 ret ^= i.consumable;
 
-            if ((cat & Category.Buff) != 0)
+            if ((cat & Categories.Buff) != 0)
                 ret ^= i.buffType > 0;
 
-            if ((cat & Category.Tile) != 0)
+            if ((cat & Categories.Tile) != 0)
                 ret ^= i.createTile > 0;
-            if ((cat & Category.Wall) != 0)
+            if ((cat & Categories.Wall) != 0)
                 ret ^= i.createWall > 0;
 
-            if ((cat & Category.Paint) != 0)
+            if ((cat & Categories.Paint) != 0)
                 ret ^= i.paint > 0;
-            if ((cat & Category.Dye) != 0)
+            if ((cat & Categories.Dye) != 0)
                 ret ^= i.dye > 0;
-            if ((cat & Category.Pet) != 0)
+            if ((cat & Categories.Pet) != 0)
                 ret ^= Main.vanityPet[i.buffType] || Main.lightPet[i.buffType];
-            if ((cat & Category.Summon) != 0)
+            if ((cat & Categories.Summon) != 0)
                 ret ^= i.summon;
 
             return ret;
@@ -804,7 +706,7 @@ namespace PoroCYon.ICM.Menus
         /// <param name="i">The Item to check</param>
         /// <returns>true if the Item matches the current search string, false otherwise.</returns>
         [TargetedPatchingOptOut(MainUI.TPOOReason)]
-        public static bool IsSearchResult(Item i)
+        public bool IsSearchResult(Item i)
         {
             if (SearchBox.Text.IsEmpty() || !changedSearchText)
                 return true;
@@ -832,7 +734,7 @@ namespace PoroCYon.ICM.Menus
         /// </summary>
         /// <param name="i">An Item to check</param>
         /// <returns>true if the Item should be included, false otherwise.</returns>
-        public static bool IncludeInList(Item i)
+        public bool IncludeInList(Item i)
         {
             bool ret = IsInCategory(i);
 
@@ -888,21 +790,6 @@ namespace PoroCYon.ICM.Menus
         }
 
         /// <summary>
-        /// Updates the Control
-        /// </summary>
-        public override void Update()
-        {
-            string oldText = SearchBox.Text;
-
-            base.Update();
-
-            if (oldText != SearchBox.Text)
-            {
-                changedSearchText = true;
-                ResetItemList();
-            }
-        }
-        /// <summary>
         /// Draws the CustomUI
         /// </summary>
         /// <param name="sb">The SpriteBatch used to draw the Control</param>
@@ -916,6 +803,16 @@ namespace PoroCYon.ICM.Menus
                 MctUI.MouseText(TooltipToDisplay);
 
             TooltipToDisplay = null;
+        }
+
+        /// <summary>
+        /// Called when the text of the search text box is changed
+        /// </summary>
+        public override void SearchTextChanged()
+        {
+            base.SearchTextChanged();
+
+            ResetItemList();
         }
     }
 }

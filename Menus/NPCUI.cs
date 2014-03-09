@@ -15,7 +15,7 @@ namespace PoroCYon.ICM.Menus
     /// <summary>
     /// The ICM NPC cheat menu
     /// </summary>
-    public sealed class NPCUI : CheatUI
+    public sealed class NPCUI : CheatUI<NPC>
     {
         /// <summary>
         /// The NPCUI singleton instance

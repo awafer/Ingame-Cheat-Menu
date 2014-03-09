@@ -12,7 +12,7 @@ using PoroCYon.MCT.UI.Interface.Controls;
 
 namespace PoroCYon.ICM.Menus
 {
-    public sealed class PrefixUI : CheatUI
+    public sealed class PrefixUI : CheatUI<Prefix>
     {
         /// <summary>
         /// The PrefixUI singleton instance
