@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
@@ -13,6 +14,9 @@ using PoroCYon.MCT.UI.Interface.Controls;
 
 namespace PoroCYon.ICM
 {
+    /// <summary>
+    /// The base class of all cheat menus
+    /// </summary>
     public abstract class CheatUI : CustomUI
     {
         /// <summary>
@@ -79,9 +83,25 @@ namespace PoroCYon.ICM
             if (RightArrow == null)
                 RightArrow = Mod.ModInstance.textures["Sprites/Right.png"];
         }
+
+        /// <summary>
+        /// Excludes all 'special' (not an alphanumerical character or a space) characters from a string
+        /// </summary>
+        /// <param name="s">The string to exclude all special characters from</param>
+        /// <returns><paramref name="s"/> without any special characters</returns>
+        public static string ExcludeSpecialChars(string s)
+        {
+            string ret = "";
+
+            for (int i = 0; i < s.Length; i++)
+                if ((s[i] >= '0' && s[i] <= '9') || (s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z') || s[i] == ' ') // 0-9, A-Z, a-z, space
+                    ret += s[i];
+
+            return ret;
+        }
     }
     /// <summary>
-    /// The base class of all cheat menus, provides automated hiding
+    /// The base class of all cheat menus, provides searching, filter options and an object list
     /// </summary>
     public abstract class CheatUI<T> : CheatUI
     {
@@ -108,7 +128,15 @@ namespace PoroCYon.ICM
         /// </summary>
         public ImageButton RightButton;
 
-        protected bool changedSearchText = false;
+        /// <summary>
+        /// The thread where all objects are reset with the new filters
+        /// </summary>
+        protected Thread ResetThread = null;
+
+        /// <summary>
+        /// Wether the user changed the search text or not
+        /// </summary>
+        protected bool ChangedSearchText = false;
 
         /// <summary>
         /// The position of the cheat object list
@@ -119,7 +147,7 @@ namespace PoroCYon.ICM
         /// </summary>
         public TextBox SearchBox = new TextBox();
         /// <summary>
-        /// The current list of Buffs (which match the search query)
+        /// The current list (which match the search query)
         /// </summary>
         public ReadOnlyCollection<T> Objects
         {
@@ -129,6 +157,9 @@ namespace PoroCYon.ICM
             }
         }
 
+        /// <summary>
+        /// The current list (which match the search query), writable
+        /// </summary>
         protected List<T> objects = new List<T>();
 
         /// <summary>
@@ -191,6 +222,22 @@ namespace PoroCYon.ICM
 
                 Position = new Vector2(170f, Main.screenHeight - 415f)
             });
+
+            AddControl(FilterOptions[0] = new RadioButton("ICM:FilterType", true, "AND filtering")
+            {
+                Position = new Vector2(20f, Main.screenHeight - 470f),
+                Tooltip = "The filter searches for items that have all of the selected remarks."
+            });
+            AddControl(FilterOptions[1] = new RadioButton("ICM:FilterType", false, "OR filtering")
+            {
+                Position = new Vector2(20f, Main.screenHeight - 420f),
+                Tooltip = "The filter searches for items which have one or more of the selected remarks."
+            });
+            AddControl(FilterOptions[2] = new RadioButton("ICM:FilterType", false, "XOR filtering")
+            {
+                Position = new Vector2(20f, Main.screenHeight - 370f),
+                Tooltip = "The filter searches for items which have none of the selected remarks."
+            });
         }
 
         /// <summary>
@@ -202,9 +249,9 @@ namespace PoroCYon.ICM
 
             base.Update();
 
-            if (oldText != SearchBox.Text)
+            if (oldText != SearchBox.Text && oldText.Length < SearchBox.Text.Length) // wait until 'Search T...' is deleted
             {
-                changedSearchText = true;
+                ChangedSearchText = true;
                 SearchTextChanged();
             }
         }

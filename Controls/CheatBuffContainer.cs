@@ -17,15 +17,15 @@ namespace PoroCYon.ICM.Controls
     /// <summary>
     /// A 'readonly' ItemContainer... 
     /// </summary>
-    public sealed class CheatItemContainer : Button
+    public sealed class CheatBuffContainer : Button
     {
         Texture2D bgTex = Main.inventoryBackTexture;
         int invBackNum = 1;
 
         /// <summary>
-        /// The Item the CheatItemContainer contains
+        /// The Buff the CheatBuffContainer contains
         /// </summary>
-        public Item Item;
+        public Buff Buff;
 
         /// <summary>
         /// Gets or sets [n] where [n] is Main.inventoryBack[n]Texture
@@ -95,20 +95,23 @@ namespace PoroCYon.ICM.Controls
         }
 
         /// <summary>
-        /// Creates a new instance of the CheatItemContainer class
+        /// Creates a new instance of the CheatBuffContainer class
         /// </summary>
-        public CheatItemContainer()
-            : this(new Item())
+        public CheatBuffContainer()
+            : this(new Buff())
         {
 
         }
         /// <summary>
-        /// Creates a new instance of the CheatItemContainer class
+        /// Creates a new instance of the CheatBuffContainer class
         /// </summary>
-        /// <param name="i">The Item of the CheatItemContainer</param>
-        public CheatItemContainer(Item i)
+        /// <param name="i">The Buff of the CheatBuffContainer</param>
+        public CheatBuffContainer(Buff i)
         {
-            Item = i;
+            Buff = i;
+
+            if (Buff.ID > 0)
+                Tooltip = Buff.DisplayName + "\n" + Buff.Tooltip;
         }
 
         /// <summary>
@@ -118,13 +121,24 @@ namespace PoroCYon.ICM.Controls
         {
             base.Click();
 
-            if (Main.mouseItem.type == 0 || Main.mouseItem.stack == 0)
-            {
-                ItemUI.CopyItem(Item, ref Main.mouseItem);
-                Main.mouseItem.stack = Main.mouseItem.maxStack;
+            if (Buff.ID <= 0)
+                return;
 
-                Main.PlaySound(7);
-            }
+            if (Main.localPlayer.AnyBuff(Buff.ID) > -1) // has buff
+                Main.localPlayer.DelBuff(Buff.ID);
+            else
+                Main.localPlayer.AddBuff(Buff.ID, BuffUI.ToTicks(BuffUI.BuffTime));
+        }
+
+        /// <summary>
+        /// Updates the Control
+        /// </summary>
+        public override void Update()
+        {
+            base.Update();
+
+            if (Buff.ID > 0)
+                Tooltip = Buff.DisplayName + "\n" + Buff.Tooltip;
         }
 
         /// <summary>
@@ -137,12 +151,9 @@ namespace PoroCYon.ICM.Controls
 
             sb.Draw(bgTex, Position, null, MainUI.WithAlpha(Color.White, 150), Rotation, Origin, Scale, SpriteEffects, LayerDepth);
 
-            if (!Item.IsBlank())
-                sb.Draw(Item.GetTexture(), Position + (bgTex.Size() / 2f - Main.itemTexture[Item.type].Size() / 2f), null, Item.GetTextureColor(),
+            if (Buff.ID > 0)
+                sb.Draw(Buff.Texture, Position + (bgTex.Size() / 2f - Buff.Texture.Size() / 2f), null, Color.White,
                     Rotation, Origin, Scale, SpriteEffects, LayerDepth);
-
-            if (IsHovered)
-                ItemUI.TooltipToDisplay = Item;
         }
     }
 }

@@ -241,6 +241,10 @@ namespace PoroCYon.ICM.Menus
         /// The amount of categories
         /// </summary>
         public const int CATEGORY_LIST_LENGTH = 22;
+        /// <summary>
+        /// The highest value in the Categories enum
+        /// </summary>
+        public const int HIGHEST_CATEGORY_VALUE = 0x200000;
 
         /// <summary>
         /// The 20 Item containers which contain the currently displayed Items
@@ -323,54 +327,36 @@ namespace PoroCYon.ICM.Menus
                 OnUpdate = (c) => ((TextBlock)c).Text = "Found items: " + objects.Count + ", Filter: " + Category
             });
 
-            AddControl(FilterOptions[0] = new RadioButton("ICM:FilterType", true,  "AND filtering")
+            FilterOptions[0].OnChecked += (ca) =>
             {
-                Position = new Vector2(20f, Main.screenHeight - 470f),
-                Tooltip = "The filter searches for items that have all of the selected remarks.",
+                if (Category == Categories.All)
+                    Category = Categories.None;
+                else if (Category == Categories.None)
+                    Category = Categories.All;
 
-                OnChecked = (ca) =>
-                {
-                    if (Category == Categories.All)
-                        Category = Categories.None;
-                    else if (Category == Categories.None)
-                        Category = Categories.All;
-
-                    ResetItemList();
-                }
-            });
-            AddControl(FilterOptions[1] = new RadioButton("ICM:FilterType", false, "OR filtering") 
+                ResetItemList();
+            };
+            FilterOptions[1].OnChecked += (ca) =>
             {
-                Position = new Vector2(20f, Main.screenHeight - 420f),
-                Tooltip = "The filter searches for items which have one or more of the selected remarks.",
+                if (Category == Categories.All)
+                    Category = Categories.None;
+                else if (Category == Categories.None)
+                    Category = Categories.All;
 
-                OnChecked = (ca) =>
-                {
-                    if (Category == Categories.All)
-                        Category = Categories.None;
-                    else if (Category == Categories.None)
-                        Category = Categories.All;
-
-                    ResetItemList();
-                }
-            });
-            AddControl(FilterOptions[2] = new RadioButton("ICM:FilterType", false, "XOR filtering")
+                ResetItemList();
+            };
+            FilterOptions[2].OnChecked += (ca) =>
             {
-                Position = new Vector2(20f, Main.screenHeight - 370f),
-                Tooltip = "The filter searches for items which have none of the selected remarks.",
+                if (Category == Categories.All)
+                    Category = Categories.None;
+                else if (Category == Categories.None)
+                    Category = Categories.All;
 
-                OnChecked = (ca) =>
-                {
-                    if (Category == Categories.All)
-                        Category = Categories.None;
-                    else if (Category == Categories.None)
-                        Category = Categories.All;
-
-                    ResetItemList();
-                }
-            });
+                ResetItemList();
+            };
 
             int col = 0, row = 0, index = 0;
-            for (int i = 1; i <= 0x200000; i *= 2, col++, index++)
+            for (int i = 1; i <= HIGHEST_CATEGORY_VALUE; i *= 2, col++, index++)
             {
                 if (col >= 3)
                 {
@@ -404,6 +390,9 @@ namespace PoroCYon.ICM.Menus
 
                 ResetContainers();
             };
+
+            if (ResetThread != null && ResetThread.ThreadState == ThreadState.Running)
+                ResetThread.Abort();
 
             if (thisThread)
                 start();
@@ -708,7 +697,7 @@ namespace PoroCYon.ICM.Menus
         [TargetedPatchingOptOut(MainUI.TPOOReason)]
         public bool IsSearchResult(Item i)
         {
-            if (SearchBox.Text.IsEmpty() || !changedSearchText)
+            if (SearchBox.Text.IsEmpty() || !ChangedSearchText)
                 return true;
 
             return IsSearchResult(i, SearchBox.Text);
@@ -746,22 +735,6 @@ namespace PoroCYon.ICM.Menus
                 return ret ^  IsSearchResult(i);
 
             return false;
-        }
-
-        /// <summary>
-        /// Excludes all 'special' (not an alphanumerical character or a space) characters from a string
-        /// </summary>
-        /// <param name="s">The string to exclude all special characters from</param>
-        /// <returns><paramref name="s"/> without any special characters</returns>
-        public static string ExcludeSpecialChars(string s)
-        {
-            string ret = "";
-
-            for (int i = 0; i < s.Length; i++)
-                if ((s[i] >= '0' && s[i] <= '9') || (s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= 'a' && s[i] <= 'z') || s[i] == ' ') // 0-9, A-Z, a-z, space
-                    ret += s[i];
-
-            return ret;
         }
 
         /// <summary>

@@ -12,6 +12,9 @@ using PoroCYon.MCT.UI.Interface.Controls;
 
 namespace PoroCYon.ICM.Menus
 {
+    /// <summary>
+    /// The ICM Prefix cheat UI
+    /// </summary>
     public sealed class PrefixUI : CheatUI<Prefix>
     {
         /// <summary>
