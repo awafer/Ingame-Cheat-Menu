@@ -93,6 +93,15 @@ namespace PoroCYon.ICM.Menus
         }
 
         /// <summary>
+        /// Buttons used to show the minutes of the buff length
+        /// </summary>
+        public static PlusMinusButton Minutes;
+        /// <summary>
+        /// Buttons used to show the seconds of the buff length
+        /// </summary>
+        public static PlusMinusButton Seconds;
+
+        /// <summary>
         /// The time of the buff to apply to the Player
         /// </summary>
         public static TimeSpan BuffTime = new TimeSpan(0, 1, 0);
@@ -214,6 +223,47 @@ namespace PoroCYon.ICM.Menus
                 CategoryButtons[index].Position += Main.inventoryBackTexture.Size() / 2f
                     - ((Texture2D)CategoryButtons[index].Picture).Size() / 2f;
             }
+
+            AddControl(Minutes = new PlusMinusButton(1f, "Minutes")
+            {
+                Position = new Vector2(480f, Main.screenHeight - 250f),
+
+                Step = 1f,
+
+                OnValueChanged = (pmb, ov, nv) =>
+                {
+                    int min = (int)(nv - ov);
+                    int minOnly = min % 60;
+                    int hr = (min - minOnly) / 60;
+
+                    BuffTime += new TimeSpan(hr, minOnly, 0);
+
+                    if (BuffTime.TotalSeconds < 1)
+                        BuffTime = new TimeSpan(0, 0, 1);
+                    if (BuffTime.TotalHours > 1)
+                        BuffTime = new TimeSpan(1, 0, 0);
+                }
+            });
+            AddControl(Seconds = new PlusMinusButton(0f, "Seconds")
+            {
+                Position = new Vector2(480f, Main.screenHeight - 250f + Minutes.Hitbox.Height),
+
+                Step = 1f,
+
+                OnValueChanged = (pmb, ov, nv) =>
+                {
+                    int sec = (int)(nv - ov);
+                    int secOnly = sec % 60;
+                    int min = (sec - secOnly) / 60;
+
+                    BuffTime += new TimeSpan(0, min, secOnly);
+
+                    if (BuffTime.TotalSeconds < 1)
+                        BuffTime = new TimeSpan(0, 0, 1);
+                    if (BuffTime.TotalHours > 1)
+                        BuffTime = new TimeSpan(1, 0, 0);
+                }
+            });
         }
 
         /// <summary>
@@ -452,6 +502,22 @@ namespace PoroCYon.ICM.Menus
         public static void CopyBuff(Buff toCopy, ref Buff copyTo)
         {
             copyTo = new Buff(toCopy.ID);
+        }
+
+        /// <summary>
+        /// Updates the CustomUI
+        /// </summary>
+        public override void Update()
+        {
+            float oldMin = Minutes.Value;
+            float oldSec = Seconds.Value;
+
+            base.Update();
+
+            if (oldMin != Minutes.Value)
+                BuffTime.Add(new TimeSpan(0, (int)(Minutes.Value - oldMin), 0));
+            if (oldSec != Seconds.Value)
+                BuffTime.Add(new TimeSpan(0, 0, (int)(Seconds.Value - oldSec)));
         }
 
         /// <summary>

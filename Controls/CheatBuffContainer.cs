@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
 using TAPI;
 using PoroCYon.MCT;
+using PoroCYon.MCT.Content;
 using PoroCYon.MCT.UI;
 using PoroCYon.MCT.UI.Interface;
 using PoroCYon.MCT.UI.Interface.Controls;
@@ -110,6 +111,8 @@ namespace PoroCYon.ICM.Controls
         {
             Buff = i;
 
+            Tooltip = "";
+
             if (Buff.ID > 0)
                 Tooltip = Buff.DisplayName + "\n" + Buff.Tooltip;
         }
@@ -124,8 +127,9 @@ namespace PoroCYon.ICM.Controls
             if (Buff.ID <= 0)
                 return;
 
-            if (Main.localPlayer.AnyBuff(Buff.ID) > -1) // has buff
-                Main.localPlayer.DelBuff(Buff.ID);
+            int bid = -1;
+            if ((bid = Main.localPlayer.AnyBuff(Buff.ID)) > -1) // has buff
+                Main.localPlayer.DelBuff(bid);
             else
                 Main.localPlayer.AddBuff(Buff.ID, BuffUI.ToTicks(BuffUI.BuffTime));
         }
@@ -137,8 +141,14 @@ namespace PoroCYon.ICM.Controls
         {
             base.Update();
 
-            if (Buff.ID > 0)
-                Tooltip = Buff.DisplayName + "\n" + Buff.Tooltip;
+            InventoryBackTextureNum =
+                Main.localPlayer.AnyBuff(Buff.ID) > -1 && Buff.ID > 0
+                    ? (Buff.Type & BuffType.Debuff) != 0
+                        ? 2
+                        : 3
+                    : 1;
+
+            Tooltip = Buff.ID > 0 ? Buff.DisplayName + "\n" + Buff.Tooltip : "";
         }
 
         /// <summary>
