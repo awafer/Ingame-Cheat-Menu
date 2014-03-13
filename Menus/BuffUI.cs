@@ -142,24 +142,6 @@ namespace PoroCYon.ICM.Menus
         }
 
         /// <summary>
-        /// When the UI is opened
-        /// </summary>
-        public override void Open()
-        {
-            CreateContainers();
-            ResetBuffList(true);
-        }
-        /// <summary>
-        /// When the UI is closed
-        /// </summary>
-        public override void Close()
-        {
-            base.Close();
-
-            RemoveContainers();
-        }
-
-        /// <summary>
         /// Initializes the CustomUI
         /// </summary>
         public override void Init()
@@ -167,9 +149,6 @@ namespace PoroCYon.ICM.Menus
             Category = Categories.None;
 
             base.Init();
-
-            LeftButton.OnClicked += (b) => ResetContainers();
-            RightButton.OnClicked += (b) => ResetContainers();
 
             AddControl(new TextBlock("Found buffs: " + objects.Count + ", Filter: " + Category)
             {
@@ -185,7 +164,7 @@ namespace PoroCYon.ICM.Menus
                 else if (Category == Categories.None)
                     Category = Categories.All;
 
-                ResetBuffList();
+                ResetObjectList();
             };
             FilterOptions[1].OnChecked += (ca) =>
             {
@@ -194,7 +173,7 @@ namespace PoroCYon.ICM.Menus
                 else if (Category == Categories.None)
                     Category = Categories.All;
 
-                ResetBuffList();
+                ResetObjectList();
             };
             FilterOptions[2].OnChecked += (ca) =>
             {
@@ -203,7 +182,7 @@ namespace PoroCYon.ICM.Menus
                 else if (Category == Categories.None)
                     Category = Categories.All;
 
-                ResetBuffList();
+                ResetObjectList();
             };
 
             int col = 0, row = 0, index = 0;
@@ -270,7 +249,7 @@ namespace PoroCYon.ICM.Menus
         /// Clears the Buff list and fills it, with the current filters
         /// </summary>
         /// <param name="thisThread">Wether to load it on the current thread or on a new one</param>
-        public void ResetBuffList(bool thisThread = false)
+        public override void ResetObjectList(bool thisThread = false)
         {
             ThreadStart start = () =>
             {
@@ -294,13 +273,16 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// Resets the BuffContainer content
         /// </summary>
-        public void ResetContainers()
+        public override void ResetContainers()
         {
             for (int i = Position; i < Position + 20; i++)
                 BuffContainers[i - Position].Buff = i >= objects.Count ? new Buff() : CopyBuff(objects[i]);
         }
 
-        void CreateContainers()
+        /// <summary>
+        /// Creates the object container list
+        /// </summary>
+        protected override void CreateContainers()
         {
             if (BuffContainers == null)
                 BuffContainers = new CheatBuffContainer[LIST_LENGTH];
@@ -322,7 +304,10 @@ namespace PoroCYon.ICM.Menus
                 AddControl(BuffContainers[i]);
             }
         }
-        void RemoveContainers()
+        /// <summary>
+        /// Disposes the object container list
+        /// </summary>
+        protected override void RemoveContainers()
         {
             for (int i = 0; i < LIST_LENGTH; i++)
                 RemoveControl(BuffContainers[i]);
@@ -447,11 +432,11 @@ namespace PoroCYon.ICM.Menus
             return IsSearchResult(b, SearchBox.Text);
         }
         /// <summary>
-        /// Checks wether an Item is a result of the given search string
+        /// Checks wether a Buff is a result of the given search string
         /// </summary>
-        /// <param name="b">The Item to check</param>
-        /// <param name="search">The searched </param>
-        /// <returns>true if the Item matches the search string, false otherwise.</returns>
+        /// <param name="b">The Buff to check</param>
+        /// <param name="search">The searched text</param>
+        /// <returns>true if the Buff matches the search string, false otherwise.</returns>
         public static bool IsSearchResult(Buff b, string search)
         {
             if (search.IsEmpty())
@@ -518,16 +503,6 @@ namespace PoroCYon.ICM.Menus
                 BuffTime.Add(new TimeSpan(0, (int)(Minutes.Value - oldMin), 0));
             if (oldSec != Seconds.Value)
                 BuffTime.Add(new TimeSpan(0, 0, (int)(Seconds.Value - oldSec)));
-        }
-
-        /// <summary>
-        /// Called when the text of the search text box is changed
-        /// </summary>
-        public override void SearchTextChanged()
-        {
-            base.SearchTextChanged();
-
-            ResetBuffList();
         }
     }
 }

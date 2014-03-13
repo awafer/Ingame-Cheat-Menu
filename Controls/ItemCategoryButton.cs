@@ -154,7 +154,7 @@ namespace PoroCYon.ICM.Controls
 
             ItemUI.Interface.Position = 0;
 
-            ItemUI.Interface.ResetItemList();
+            ItemUI.Interface.ResetObjectList();
         }
 
         /// <summary>

@@ -173,11 +173,21 @@ namespace PoroCYon.ICM
         }
 
         /// <summary>
+        /// When the UI is opened
+        /// </summary>
+        public override void Open()
+        {
+            CreateContainers();
+            ResetObjectList(true);
+        }
+        /// <summary>
         /// When the UI is closed
         /// </summary>
         public override void Close()
         {
             objects.Clear();
+
+            RemoveContainers();
         }
 
         /// <summary>
@@ -238,6 +248,9 @@ namespace PoroCYon.ICM
                 Position = new Vector2(20f, Main.screenHeight - 370f),
                 Tooltip = "The filter searches for items which have none of the selected remarks."
             });
+
+            LeftButton.OnClicked += (b) => ResetContainers();
+            RightButton.OnClicked += (b) => ResetContainers();
         }
 
         /// <summary>
@@ -257,11 +270,42 @@ namespace PoroCYon.ICM
         }
 
         /// <summary>
+        /// Clears the object list and fills it, with the current filters
+        /// </summary>
+        /// <param name="thisThread">Wether to load it on the current thread or on a new one</param>
+        public virtual void ResetObjectList(bool thisThread = false)
+        {
+
+        }
+        /// <summary>
+        /// Resets the object containers content
+        /// </summary>
+        public virtual void ResetContainers()
+        {
+
+        }
+
+        /// <summary>
+        /// Creates the object container list
+        /// </summary>
+        protected virtual void CreateContainers()
+        {
+
+        }
+        /// <summary>
+        /// Disposes the object container list
+        /// </summary>
+        protected virtual void RemoveContainers()
+        {
+
+        }
+
+        /// <summary>
         /// Called when the text of the search text box is changed
         /// </summary>
         public virtual void SearchTextChanged()
         {
-
+            ResetObjectList();
         }
     }
 }

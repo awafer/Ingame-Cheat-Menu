@@ -16,7 +16,7 @@ using PoroCYon.ICM.Menus;
 namespace PoroCYon.ICM.Controls
 {
     /// <summary>
-    /// A 'readonly' ItemContainer... 
+    /// A Buff container which is used to apply or de-apply buffs to the Player
     /// </summary>
     public sealed class CheatBuffContainer : Button
     {

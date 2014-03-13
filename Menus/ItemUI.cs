@@ -291,24 +291,6 @@ namespace PoroCYon.ICM.Menus
         }
 
         /// <summary>
-        /// When the UI is opened
-        /// </summary>
-        public override void Open()
-        {
-            CreateContainers();
-            ResetItemList(true);
-        }
-        /// <summary>
-        /// When the UI is closed
-        /// </summary>
-        public override void Close()
-        {
-            base.Close();
-
-            RemoveContainers();
-        }
-
-        /// <summary>
         /// Initializes the CustomUI
         /// </summary>
         public override void Init()
@@ -316,9 +298,6 @@ namespace PoroCYon.ICM.Menus
             Category = Categories.None;
 
             base.Init();
-
-            LeftButton.OnClicked += (b) => ResetContainers();
-            RightButton.OnClicked += (b) => ResetContainers();
 
             AddControl(new TextBlock("Found items: " + objects.Count + ", Filter: " + Category)
             {
@@ -334,7 +313,7 @@ namespace PoroCYon.ICM.Menus
                 else if (Category == Categories.None)
                     Category = Categories.All;
 
-                ResetItemList();
+                ResetObjectList();
             };
             FilterOptions[1].OnChecked += (ca) =>
             {
@@ -343,7 +322,7 @@ namespace PoroCYon.ICM.Menus
                 else if (Category == Categories.None)
                     Category = Categories.All;
 
-                ResetItemList();
+                ResetObjectList();
             };
             FilterOptions[2].OnChecked += (ca) =>
             {
@@ -352,7 +331,7 @@ namespace PoroCYon.ICM.Menus
                 else if (Category == Categories.None)
                     Category = Categories.All;
 
-                ResetItemList();
+                ResetObjectList();
             };
 
             int col = 0, row = 0, index = 0;
@@ -378,7 +357,7 @@ namespace PoroCYon.ICM.Menus
         /// Clears the Item list and fills it, with the current filters
         /// </summary>
         /// <param name="thisThread">Wether to load it on the current thread or on a new one</param>
-        public void ResetItemList(bool thisThread = false)
+        public override void ResetObjectList(bool thisThread = false)
         {
             ThreadStart start = () =>
             {
@@ -402,7 +381,7 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// Resets the ItemContainer content
         /// </summary>
-        public void ResetContainers()
+        public override void ResetContainers()
         {
             for (int i = Position; i < Position + 20; i++)
             {
@@ -416,7 +395,10 @@ namespace PoroCYon.ICM.Menus
             }
         }
 
-        void CreateContainers()
+        /// <summary>
+        /// Creates the object container list
+        /// </summary>
+        protected override void CreateContainers()
         {
             if (ItemContainers == null)
                 ItemContainers = new CheatItemContainer[LIST_LENGTH];
@@ -438,7 +420,10 @@ namespace PoroCYon.ICM.Menus
                 AddControl(ItemContainers[i]);
             }
         }
-        void RemoveContainers()
+        /// <summary>
+        /// Disposes the object container list
+        /// </summary>
+        protected override void RemoveContainers()
         {
             for (int i = 0; i < LIST_LENGTH; i++)
                 RemoveControl(ItemContainers[i]);
@@ -706,7 +691,7 @@ namespace PoroCYon.ICM.Menus
         /// Checks wether an Item is a result of the given search string
         /// </summary>
         /// <param name="i">The Item to check</param>
-        /// <param name="search">The searched </param>
+        /// <param name="search">The searched text</param>
         /// <returns>true if the Item matches the search string, false otherwise.</returns>
         public static bool IsSearchResult(Item i, string search)
         {
@@ -776,16 +761,6 @@ namespace PoroCYon.ICM.Menus
                 MctUI.MouseText(TooltipToDisplay);
 
             TooltipToDisplay = null;
-        }
-
-        /// <summary>
-        /// Called when the text of the search text box is changed
-        /// </summary>
-        public override void SearchTextChanged()
-        {
-            base.SearchTextChanged();
-
-            ResetItemList();
         }
     }
 }
