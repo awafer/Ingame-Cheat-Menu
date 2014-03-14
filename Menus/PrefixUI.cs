@@ -54,7 +54,7 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// The container which contains the Item where the Prefix should be set to
         /// </summary>
-        public static ItemContainer ToSet
+        public static SimpleItemContainer ToSet
         {
             get;
             private set;
@@ -72,7 +72,7 @@ namespace PoroCYon.ICM.Menus
         {
             get
             {
-                return ToSet.ContainedItem;
+                return ToSet.Item;
             }
         }
 
@@ -92,20 +92,24 @@ namespace PoroCYon.ICM.Menus
         {
             base.Init();
 
-            LeftButton.Position.X += 60f;
+            LeftButton.Position.X += 20f;
+            RightButton.Position.X += 60f;
 
-            /*AddControl(*/ToSet = new ItemContainer(Mod.ModInstance)
+            AddControl(ToSet = new SimpleItemContainer()
             {
                 InventoryBackTextureNum = 5,
 
                 Position = new Vector2(550f, 500f)
-            }/*)*/;
+            });
             AddControl(AvoidWrong = new CheckBox(true, "Use safe prefix reforging")
             {
                 Tooltip = "With safe prefix setting, the game determinates\nwether the selected prefix can be applied to an Item or not.\nIf possible, it sets the prefix. Otherwise, the prefix is removed.",
 
                 Position = new Vector2(550f, 650f)
             });
+
+            for (int i = 0; i < FILTER_OPTIONS_LENGTH; i++)
+                FilterOptions[i].Destroy();
         }
 
         /// <summary>
@@ -166,7 +170,7 @@ namespace PoroCYon.ICM.Menus
         public override void ResetContainers()
         {
             for (int i = Position; i < Position + PREFIX_LIST_LENGTH; i++)
-                PrefixContainers[i - Position].Prefix = i >= objects.Count ? Prefix.None : Defs.prefixes[Defs.prefixNames[i]];
+                PrefixContainers[i - Position].Prefix = i >= objects.Count ? Prefix.None.Clone() : objects[i];
         }
 
         /// <summary>
@@ -250,7 +254,7 @@ namespace PoroCYon.ICM.Menus
             //if (FilterOptions[2].IsChecked)
             //    return ret ^ IsSearchResult(p);
 
-            return IsSearchResult(p);
+            return !p.Equals(Prefix.None) && !String.IsNullOrEmpty(p.name) && !String.IsNullOrEmpty(p.DisplayName()) && IsSearchResult(p);
         }
     }
 }

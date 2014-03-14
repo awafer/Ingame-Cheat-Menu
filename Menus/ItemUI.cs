@@ -263,8 +263,6 @@ namespace PoroCYon.ICM.Menus
             private set;
         }
 
-        internal static Item TooltipToDisplay = null;
-
         /// <summary>
         /// The current category
         /// </summary>
@@ -745,22 +743,6 @@ namespace PoroCYon.ICM.Menus
             copyTo.netDefaults(toCopy.netID);
             copyTo.Prefix(toCopy.prefix.name);
             copyTo.stack = toCopy.stack;
-        }
-
-        /// <summary>
-        /// Draws the CustomUI
-        /// </summary>
-        /// <param name="sb">The SpriteBatch used to draw the Control</param>
-        public override void Draw(SpriteBatch sb)
-        {
-            TooltipToDisplay = null;
-
-            base.Draw(sb);
-
-            if (TooltipToDisplay != null)
-                MctUI.MouseText(TooltipToDisplay);
-
-            TooltipToDisplay = null;
         }
     }
 }

@@ -41,6 +41,24 @@ namespace PoroCYon.ICM
             private set;
         }
 
+        internal static Item TooltipToDisplay = null;
+
+        /// <summary>
+        /// Draws the CustomUI
+        /// </summary>
+        /// <param name="sb">The SpriteBatch used to draw the Control</param>
+        public override void Draw(SpriteBatch sb)
+        {
+            TooltipToDisplay = null;
+
+            base.Draw(sb);
+
+            if (TooltipToDisplay != null)
+                MctUI.MouseText(TooltipToDisplay);
+
+            TooltipToDisplay = null;
+        }
+
         /// <summary>
         /// Creates a new instace of the CheatUI class
         /// </summary>

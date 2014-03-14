@@ -76,6 +76,7 @@
     <Compile Include="Controls\CheatItemContainer.cs" />
     <Compile Include="Controls\CheatPrefixButton.cs" />
     <Compile Include="Controls\ItemCategoryButton.cs" />
+    <Compile Include="Controls\SimpleItemContainer.cs" />
     <Compile Include="Menus\BuffUI.cs" />
     <Compile Include="CheatUI.cs" />
     <Compile Include="Controls\ICMButton.cs" />

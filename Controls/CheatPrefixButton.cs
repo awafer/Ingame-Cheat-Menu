@@ -52,9 +52,20 @@ namespace PoroCYon.ICM.Controls
 
             Text = Prefix.DisplayName();
 
-            Tooltip = "";
-            foreach (Tuple<string, bool> t in Prefix.TooltipText(PrefixUI.ItemToSet))
-                Tooltip = t.Item1 + "\n";
+            if (PrefixUI.AvoidWrong.IsChecked && !Prefix.CanApplyToItem(PrefixUI.ItemToSet))
+            {
+                Tooltip = "This prefix cannot be set to that Item.\n";
+                Colour = Color.Red;
+            }
+            else
+            {
+                Colour = Color.White;
+
+                Tooltip = "";
+                foreach (Tuple<string, bool> t in Prefix.TooltipText(PrefixUI.ItemToSet))
+                    Tooltip += t.Item1 + "\n";
+            }
+            Tooltip += Prefix.type;
         }
 
         /// <summary>
@@ -64,7 +75,8 @@ namespace PoroCYon.ICM.Controls
         {
             base.Click();
 
-            PrefixUI.ItemToSet.Prefix(Prefix.name, PrefixUI.AvoidWrong.IsChecked);
+            if (PrefixUI.ToSet.Item.Prefix(Prefix.name, PrefixUI.AvoidWrong.IsChecked))
+                Main.PlaySound(2, -1, -1, 37);
         }
     }
 }

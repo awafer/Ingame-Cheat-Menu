@@ -142,7 +142,7 @@ namespace PoroCYon.ICM.Controls
                     Rotation, Origin, Scale, SpriteEffects, LayerDepth);
 
             if (IsHovered)
-                ItemUI.TooltipToDisplay = Item;
+                CheatUI.TooltipToDisplay = Item;
         }
     }
 }
