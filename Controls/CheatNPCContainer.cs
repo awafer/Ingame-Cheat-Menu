@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
+using PoroCYon.XnaExtensions.Geometry;
 using TAPI;
 using PoroCYon.MCT;
 using PoroCYon.MCT.UI;
@@ -15,17 +16,28 @@ using PoroCYon.ICM.Menus;
 namespace PoroCYon.ICM.Controls
 {
     /// <summary>
-    /// A 'readonly' ItemContainer... 
+    /// A control which spawns NPCs
     /// </summary>
-    public sealed class CheatItemContainer : Button
+    public sealed class CheatNPCContainer : Button
     {
+        static WrapperDictionary<string, bool> changesFrame = new WrapperDictionary<string, bool>();
+
+        /// <summary>
+        /// The amount of NPCs to spawn
+        /// </summary>
+        public static int Amount = 0;
+        /// <summary>
+        /// The netID of the selected NPC to spawn
+        /// </summary>
+        public static int CurrentNetID = 0;
+
         Texture2D bgTex = Main.inventoryBackTexture;
         int invBackNum = 1;
 
         /// <summary>
-        /// The Item the CheatItemContainer contains
+        /// The NPC the CheatNPCContainer contains
         /// </summary>
-        public Item Item;
+        public NPC NPC;
 
         /// <summary>
         /// Gets or sets [n] where [n] is Main.inventoryBack[n]Texture
@@ -95,20 +107,22 @@ namespace PoroCYon.ICM.Controls
         }
 
         /// <summary>
-        /// Creates a new instance of the CheatItemContainer class
+        /// Creates a new instance of the CheatNPCContainer class
         /// </summary>
-        public CheatItemContainer()
-            : this(new Item())
+        public CheatNPCContainer()
+            : this(new NPC())
         {
 
         }
         /// <summary>
-        /// Creates a new instance of the CheatItemContainer class
+        /// Creates a new instance of the CheatNPCContainer class
         /// </summary>
-        /// <param name="i">The Item of the CheatItemContainer</param>
-        public CheatItemContainer(Item i)
+        /// <param name="n">The NPC of the CheatNPCContainer</param>
+        public CheatNPCContainer(NPC n)
         {
-            Item = i;
+            KeepFiring = true;
+
+            NPC = n;
         }
 
         /// <summary>
@@ -118,13 +132,49 @@ namespace PoroCYon.ICM.Controls
         {
             base.Click();
 
-            if (Main.mouseItem.type == 0 || Main.mouseItem.stack == 0)
+            if (CurrentNetID == NPC.netID)
+                Amount++;
+            else
             {
-                ItemUI.CopyItem(Item, ref Main.mouseItem);
-                Main.mouseItem.stack = Main.mouseItem.maxStack;
-
-                Main.PlaySound(7);
+                CurrentNetID = NPC.netID;
+                Amount = 1;
             }
+        }
+
+        /// <summary>
+        /// Updates the Control
+        /// </summary>
+        public override void Update()
+        {
+            base.Update();
+
+            if (NPC.type > 0)
+            {
+                Main.LoadNPC(NPC.type);
+
+                // frame stuff
+                if (!changesFrame.ContainsKey(NPC.name))
+                    changesFrame.Add(NPC.name, false);
+
+                if (!changesFrame[NPC.name])
+                    NPC.frame = new Rectangle(0, 0, Main.npcTexture[NPC.type].Width, Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type]);
+
+                double oldFrameCounter = NPC.frameCounter;
+
+                NPC.FindFrame();
+
+                if (oldFrameCounter != NPC.frameCounter)
+                    changesFrame[NPC.name] = true;
+
+                // display name
+                Tooltip = NPC.displayName.IsEmpty() ? NPC.name : NPC.displayName;
+
+                // internal name
+                if (!NPC.displayName.IsEmpty() && NPC.displayName != NPC.name)
+                    Tooltip += " (" + NPC.name + ")";
+            }
+            else
+                Tooltip = "No NPC";
         }
 
         /// <summary>
@@ -137,12 +187,26 @@ namespace PoroCYon.ICM.Controls
 
             sb.Draw(bgTex, Position, null, MainUI.WithAlpha(Color.White, 150), Rotation, Origin, Scale, SpriteEffects, LayerDepth);
 
-            if (!Item.IsBlank())
-                sb.Draw(Item.GetTexture(), Position + (bgTex.Size() / 2f - Item.GetTexture().Size() / 2f), null, Item.GetTextureColor(),
-                    Rotation, Origin, Scale, SpriteEffects, LayerDepth);
+            if (NPC.type > 0)
+            {
+                Main.LoadNPC(NPC.type);
 
-            if (IsHovered)
-                CheatUI.TooltipToDisplay = Item;
+                Color c = NPC.GetColor(Color.White);
+
+                if (c == new Color(0, 0, 0, 0))
+                    c = NPC.GetAlpha(Color.White);
+
+                // make a bit smaller if too big (like EoC sized)
+                Vector2
+                    scale = Scale * NPC.scale,
+                    size = NPC.frame.Size() * scale;
+
+                if (size.X > 86f || size.Y > 86f)
+                    scale *= size.X > size.Y ? Hitbox.Width / size.X : Hitbox.Height / size.Y;
+
+                sb.Draw(Main.npcTexture[NPC.type], Position + (bgTex.Size() / 2f - (NPC.frame.Size() * scale) / 2f), NPC.frame,
+                    c, Rotation, Origin, scale, SpriteEffects, LayerDepth);
+            }
         }
     }
 }

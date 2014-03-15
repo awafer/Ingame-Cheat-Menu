@@ -280,7 +280,7 @@ namespace PoroCYon.ICM
 
             base.Update();
 
-            if (oldText != SearchBox.Text && oldText.Length < SearchBox.Text.Length) // wait until 'Search T...' is deleted
+            if (oldText != SearchBox.Text && ((oldText.Length < SearchBox.Text.Length && !ChangedSearchText) || ChangedSearchText)) // wait until 'Search T...' is deleted
             {
                 ChangedSearchText = true;
                 SearchTextChanged();

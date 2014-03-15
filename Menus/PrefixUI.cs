@@ -28,7 +28,7 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// The 20 Prefix containers which contain the currently displayed Prefixes
         /// </summary>
-        public static CheatPrefixButton[] PrefixContainers
+        public static CheatPrefixContainer[] PrefixContainers
         {
             get;
             private set;
@@ -179,13 +179,13 @@ namespace PoroCYon.ICM.Menus
         protected override void CreateContainers()
         {
             if (PrefixContainers == null)
-                PrefixContainers = new CheatPrefixButton[PREFIX_LIST_LENGTH];
+                PrefixContainers = new CheatPrefixContainer[PREFIX_LIST_LENGTH];
 
             int row = 0, col = 0;
             for (int i = 0; i < PREFIX_LIST_LENGTH; i++, col++)
             {
                 if (PrefixContainers[i] == null)
-                    PrefixContainers[i] = new CheatPrefixButton();
+                    PrefixContainers[i] = new CheatPrefixContainer();
 
                 if (col >= 3)
                 {

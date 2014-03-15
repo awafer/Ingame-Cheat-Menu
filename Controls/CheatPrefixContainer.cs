@@ -16,7 +16,7 @@ namespace PoroCYon.ICM.Controls
     /// <summary>
     /// A button which is used to apply a Prefix to an Item
     /// </summary>
-    public sealed class CheatPrefixButton : TextButton
+    public sealed class CheatPrefixContainer : TextButton
     {
         /// <summary>
         /// The Prefix of the CheatPrefixButton
@@ -26,7 +26,7 @@ namespace PoroCYon.ICM.Controls
         /// <summary>
         /// Creates a new instance of the CheatPrefixButton class
         /// </summary>
-        public CheatPrefixButton()
+        public CheatPrefixContainer()
             : this(Prefix.None)
         {
 
@@ -35,7 +35,7 @@ namespace PoroCYon.ICM.Controls
         /// Creates a new instance of the CheatPrefixButton class
         /// </summary>
         /// <param name="i">The Prefix of the CheatPrefixButton</param>
-        public CheatPrefixButton(Prefix i)
+        public CheatPrefixContainer(Prefix i)
             : base("")
         {
             Size = new Vector2(80f, 30f);
