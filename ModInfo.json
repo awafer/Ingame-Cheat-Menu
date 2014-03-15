@@ -1,4 +1,4 @@
-﻿{
+{
     "displayName": "Ingame Cheat Menu",
     "author": "PoroCYon",  
     "version": "1.0.0.0",
@@ -21,7 +21,7 @@
     ],
 	
 	"MSBuild": true,
-	"msBuildFile": "Ingame Cheat Menu.csproj",
+	"msBuildFile": "Ingame Cheat Menu\\Ingame Cheat Menu.csproj",
 
     "includePDB": true
 }
