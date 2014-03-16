@@ -201,6 +201,9 @@ namespace PoroCYon.ICM.Controls
                     scale = Scale * NPC.scale,
                     size = NPC.frame.Size() * scale;
 
+                //new Rectangle((int)Position.X - Math.Min(NPC.Width / 2, Hitbox.Width), (int)Position.Y - Math.Min(NPC.Height / 2, Hitbox.Width),
+                //    Math.Min(NPC.Width, Hitbox.Width), Math.Min(NPC.Height, Hitbox.Width))
+
                 if (size.X > 86f || size.Y > 86f)
                     scale *= size.X > size.Y ? Hitbox.Width / size.X : Hitbox.Height / size.Y;
 

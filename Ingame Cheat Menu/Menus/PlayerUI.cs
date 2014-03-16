@@ -45,5 +45,65 @@ namespace PoroCYon.ICM.Menus
         {
 
         }
+
+        /// <summary>
+        /// Initializes the CustomUI
+        /// </summary>
+        public override void Init()
+        {
+            base.Init();
+
+            AddControl(new TextButton("Heal!")
+            {
+                Position = new Vector2(200f, Main.screenHeight - 350f),
+
+                OnClicked = (b) =>
+                {
+                    int
+                        healAmount = Main.localPlayer.statLifeMax2 - Main.localPlayer.statLife,
+                        manaAmount = Main.localPlayer.statManaMax2 - Main.localPlayer.statMana;
+
+                    Main.localPlayer.statLife += healAmount;
+                    Main.localPlayer.statMana += manaAmount;
+
+                    Main.localPlayer.HealEffect(healAmount);
+                    Main.localPlayer.ManaEffect(manaAmount);
+                }
+            });
+
+            AddControl(new TextButton("Difficulty: "
+                + (Main.localPlayer.difficulty == 0 ? "Softcore" : Main.localPlayer.difficulty == 1 ? "Mediumcore" : "Hardcore"))
+            {
+                Position = new Vector2(200f, Main.screenHeight - 300f),
+
+                OnClicked = (b) =>
+                {
+                    Main.localPlayer.difficulty++;
+                    if (Main.localPlayer.difficulty > 2)
+                        Main.localPlayer.difficulty = 0;
+                    ((TextButton)b).Text = "Difficulty: "
+                        + (Main.localPlayer.difficulty == 0 ? "Softcore" : Main.localPlayer.difficulty == 1 ? "Mediumcore" : "Hardcore");
+                }
+            });
+
+            AddControl(new PlusMinusButton(Main.localPlayer.statLifeMax, "Max life")
+            {
+                Position = new Vector2(200f, Main.screenHeight - 250f),
+
+                OnValueChanged = (pmb, o, n) =>
+                {
+                    Main.localPlayer.statLifeMax = (int)n;
+                }
+            });
+            AddControl(new PlusMinusButton(Main.localPlayer.statManaMax, "Max mana")
+            {
+                Position = new Vector2(400f, Main.screenHeight - 250f),
+
+                OnValueChanged = (pmb, o, n) =>
+                {
+                    Main.localPlayer.statManaMax = (int)n;
+                }
+            });
+        }
     }
 }
