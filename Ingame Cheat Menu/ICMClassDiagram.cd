@@ -62,112 +62,73 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Menus.BuffUI" Collapsed="true">
-    <Position X="6" Y="5.5" Width="1.5" />
+    <Position X="6" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAQwAAACIAAJAEAARABAAQAAAABAAABAACADACAACoA=</HashCode>
       <FileName>Menus\BuffUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Menus.ItemUI" Collapsed="true">
-    <Position X="4.25" Y="5.5" Width="1.5" />
+    <Position X="4.25" Y="6.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
-    <NestedTypes>
-      <Enum Name="PoroCYon.ICM.Menus.ItemUI.Categories" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Menus\ItemUI.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-      <Class Name="PoroCYon.ICM.Menus.ItemUI.ItemEnumerable" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Menus\ItemUI.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-      <Class Name="PoroCYon.ICM.Menus.ItemUI.ItemEnumerator" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Menus\ItemUI.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>CAAwAAECIAAJAAAABQBAAAAAAABgAABAACACACAACAA=</HashCode>
       <FileName>Menus\ItemUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Menus.NPCUI" Collapsed="true">
-    <Position X="2.5" Y="5.5" Width="1.5" />
+    <Position X="4.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAQwAAACoQAJAAAABABAAAAAAABAAABAACACACAACAA=</HashCode>
       <FileName>Menus\NPCUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Menus.PlayerUI" Collapsed="true">
-    <Position X="0.75" Y="5.5" Width="1.5" />
+    <Position X="2.25" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAACAACAAAA=</HashCode>
       <FileName>Menus\PlayerUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Menus.PrefixUI" Collapsed="true">
-    <Position X="6" Y="6.5" Width="1.5" />
+    <Position X="6" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAQkAAACAAAAAgACAABBAAAAAAEAAABAACBCACAAAEA=</HashCode>
       <FileName>Menus\PrefixUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Menus.WorldUI" Collapsed="true">
-    <Position X="4.25" Y="6.5" Width="1.5" />
+    <Position X="0.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Menus\WorldUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Menus.Sub.EditGlobalNPCUI" Collapsed="true">
-    <Position X="6" Y="7.5" Width="1.5" />
+    <Position X="2.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Menus\Sub\EditGlobalNPCUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Menus.Sub.EditItemUI" Collapsed="true">
-    <Position X="4.25" Y="7.5" Width="1.5" />
+    <Position X="0.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Menus\Sub\EditItemUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Menus.Sub.EditNPCUI" Collapsed="true">
-    <Position X="2.5" Y="7.5" Width="1.5" />
-    <InheritanceLine Type="PoroCYon.ICM.CheatUI" FixedToPoint="true">
-      <Path>
-        <Point X="4.75" Y="4.691" />
-        <Point X="4.75" Y="5.125" />
-        <Point X="4.148" Y="5.125" />
-        <Point X="4.148" Y="7.346" />
-        <Point X="3.25" Y="7.346" />
-        <Point X="3.25" Y="7.5" />
-      </Path>
-    </InheritanceLine>
+    <Position X="2.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Menus\Sub\EditNPCUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Menus.Sub.EditPlayerUI" Collapsed="true">
-    <Position X="0.75" Y="7.5" Width="1.5" />
-    <InheritanceLine Type="PoroCYon.ICM.CheatUI" ManuallyRouted="true">
-      <Path>
-        <Point X="4.75" Y="4.691" />
-        <Point X="4.75" Y="5.125" />
-        <Point X="2.338" Y="5.125" />
-        <Point X="2.338" Y="7.364" />
-        <Point X="1.5" Y="7.364" />
-        <Point X="1.5" Y="7.5" />
-      </Path>
-    </InheritanceLine>
+    <Position X="0.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAABAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Menus\Sub\EditPlayerUI.cs</FileName>
@@ -279,6 +240,28 @@
     <Position X="13" Y="1.75" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PoroCYon.ICM.MPlayer" Collapsed="true">
+    <Position X="14.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>MPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TAPI.ModPlayer" Collapsed="true">
+    <Position X="14.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TAPI.ModEntity" Collapsed="true">
+    <Position X="14.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="PoroCYon.ICM.CheatUI&lt;T&gt;" Collapsed="true">
+    <Position X="5.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQgBACCAAAAKAAgIAAAAAAAAQAEACFAAAAyAACAAAA=</HashCode>
+      <FileName>CheatUI.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Enum Name="PoroCYon.ICM.InterfaceType" Collapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />

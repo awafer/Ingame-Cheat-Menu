@@ -92,8 +92,9 @@ namespace PoroCYon.ICM.Menus
 
                 OnValueChanged = (pmb, o, n) =>
                 {
-                    Main.localPlayer.statLifeMax = (int)n;
-                }
+                    Main.localPlayer.statLife = Main.localPlayer.statLifeMax += (int)(n - o);
+                },
+                OnUpdate = (c) => ((PlusMinusButton)c).Value = Main.localPlayer.statLifeMax
             });
             AddControl(new PlusMinusButton(Main.localPlayer.statManaMax, "Max mana")
             {
@@ -101,8 +102,9 @@ namespace PoroCYon.ICM.Menus
 
                 OnValueChanged = (pmb, o, n) =>
                 {
-                    Main.localPlayer.statManaMax = (int)n;
-                }
+                    Main.localPlayer.statMana = Main.localPlayer.statManaMax += (int)(n - o);
+                },
+                OnUpdate = (c) => ((PlusMinusButton)c).Value = Main.localPlayer.statManaMax
             });
         }
     }
