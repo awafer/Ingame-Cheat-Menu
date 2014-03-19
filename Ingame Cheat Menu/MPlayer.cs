@@ -18,6 +18,7 @@ namespace PoroCYon.ICM
         static int oldStack;
         static bool oldMouse;
         static int[] CD = new int[2];
+        static Vector2 oVel = Vector2.Zero; // overriddenVelocity
 
         public MPlayer(ModBase @base, Player p)
             : base(@base, p)
@@ -39,71 +40,71 @@ namespace PoroCYon.ICM
 
                 if (Invincibility)
                 {
-                    Main.localPlayer.immuneAlpha = 0;
-                    Main.localPlayer.potionDelay = 0;
-                    Main.localPlayer.lavaCD = 3;
-                    Main.localPlayer.gravDir = 1f;
-                    Main.localPlayer.immuneTime = 60;
+                    player.immuneAlpha = 0;
+                    player.potionDelay = 0;
+                    player.lavaCD = 3;
+                    player.gravDir = 1f;
+                    player.immuneTime = 60;
 
-                    Main.localPlayer.suffocating = false;
-                    Main.localPlayer.slippy = false;
-                    Main.localPlayer.slippy2 = false;
-                    Main.localPlayer.powerrun = false;
-                    Main.localPlayer.poisoned = false;
-                    Main.localPlayer.venom = false;
-                    Main.localPlayer.onFire = false;
-                    Main.localPlayer.burned = false;
-                    Main.localPlayer.suffocating = false;
-                    Main.localPlayer.onFire2 = false;
-                    Main.localPlayer.ichor = false;
-                    Main.localPlayer.blackout = false;
-                    Main.localPlayer.burned = false;
-                    Main.localPlayer.onFrostBurn = false;
-                    Main.localPlayer.blind = false;
-                    Main.localPlayer.blackout = false;
-                    Main.localPlayer.noItems = false;
-                    Main.localPlayer.immune = true;
-                    Main.localPlayer.lavaImmune = true;
-                    Main.localPlayer.noKnockback = true;
+                    player.suffocating = false;
+                    player.slippy = false;
+                    player.slippy2 = false;
+                    player.powerrun = false;
+                    player.poisoned = false;
+                    player.venom = false;
+                    player.onFire = false;
+                    player.burned = false;
+                    player.suffocating = false;
+                    player.onFire2 = false;
+                    player.ichor = false;
+                    player.blackout = false;
+                    player.burned = false;
+                    player.onFrostBurn = false;
+                    player.blind = false;
+                    player.blackout = false;
+                    player.noItems = false;
+                    player.immune = true;
+                    player.lavaImmune = true;
+                    player.noKnockback = true;
 
                     for (int i = 0; i < 10; i++)
-                        if ((Main.localPlayer.buffType[i] == 30 || Main.localPlayer.buffType[i] == 22 || Main.localPlayer.buffType[i] == 36 || Main.localPlayer.buffType[i] == 31
-                            || Main.localPlayer.buffType[i] == 35 || Main.localPlayer.buffType[i] == 32) && Main.localPlayer.buffTime[i] > 0)
-                            Main.localPlayer.buffTime[i] = Main.localPlayer.buffType[i] = 0;
+                        if ((player.buffType[i] == 30 || player.buffType[i] == 22 || player.buffType[i] == 36 || player.buffType[i] == 31
+                            || player.buffType[i] == 35 || player.buffType[i] == 32) && player.buffTime[i] > 0)
+                            player.buffTime[i] = player.buffType[i] = 0;
 
-                    if (Main.localPlayer.statLife < Main.localPlayer.statLifeMax)
-                        Main.localPlayer.statLife = Main.localPlayer.statLifeMax;
-                    if (Main.localPlayer.statMana < Main.localPlayer.statManaMax2)
-                        Main.localPlayer.statMana = Main.localPlayer.statManaMax2;
+                    if (player.statLife < player.statLifeMax)
+                        player.statLife = player.statLifeMax;
+                    if (player.statMana < player.statManaMax2)
+                        player.statMana = player.statManaMax2;
 
-                    Main.localPlayer.breath = Main.localPlayer.breathMax - 1;
+                    player.breath = player.breathMax - 1;
                 }
                 if (Noclip)
                 {
-                    Main.localPlayer.fallStart = (int)(Main.localPlayer.position.Y / 16f);
-                    Main.localPlayer.gravControl = false;
+                    player.fallStart = (int)(player.position.Y / 16f);
+                    player.gravControl = false;
                 }
                 if (Invincibility && Noclip)
                 {
-                    Lighting.AddLight((int)Main.localPlayer.position.X, (int)Main.localPlayer.position.Y, 1.2f, 1.2f, 1.2f);
+                    Lighting.AddLight((int)player.position.X, (int)player.position.Y, 1.2f, 1.2f, 1.2f);
 
-                    Main.dust[Dust.NewDust(Main.localPlayer.position, Main.localPlayer.width, Main.localPlayer.height, 57, Main.localPlayer.velocity.X * 3, Main.localPlayer.velocity.Y * 3 * Main.localPlayer.direction, 100, new Color(), 1.5f)].noGravity = true;
+                    Main.dust[Dust.NewDust(player.position, player.width, player.height, 57, player.velocity.X * 3, player.velocity.Y * 3 * player.direction, 100, new Color(), 1.5f)].noGravity = true;
 
-                    Main.localPlayer.accCompass = Main.localPlayer.accDepthMeter = 1;
-                    Main.localPlayer.accWatch = 3;
-                    Main.localPlayer.blockRange = 40;
-                    Main.localPlayer.AddBuff(9, 60);
-                    Main.localPlayer.AddBuff(17, 60);
-                    Main.localPlayer.AddBuff(12, 60);
-                    Main.localPlayer.pickSpeed = 0.000001f;
+                    player.accCompass = player.accDepthMeter = 1;
+                    player.accWatch = 3;
+                    player.blockRange = 40;
+                    player.AddBuff(9, 60);
+                    player.AddBuff(17, 60);
+                    player.AddBuff(12, 60);
+                    player.pickSpeed = 0.000001f;
 
                     if (Main.mouseItem.type == 0)
                     {
-                        if (Main.localPlayer.inventory[Main.localPlayer.selectedItem].stack < oldStack
-                            && Main.localPlayer.selectedItem == Main.localPlayer.oldSelectItem && !oldMouse
-                            && oldStack <= Main.localPlayer.inventory[Main.localPlayer.selectedItem].maxStack)
-                            Main.localPlayer.inventory[Main.localPlayer.selectedItem].stack = oldStack;
-                        oldStack = Main.localPlayer.inventory[Main.localPlayer.selectedItem].stack;
+                        if (player.inventory[player.selectedItem].stack < oldStack
+                            && player.selectedItem == player.oldSelectItem && !oldMouse
+                            && oldStack <= player.inventory[player.selectedItem].maxStack)
+                            player.inventory[player.selectedItem].stack = oldStack;
+                        oldStack = player.inventory[player.selectedItem].stack;
                         oldMouse = false;
                     }
                     else
@@ -114,9 +115,9 @@ namespace PoroCYon.ICM
                         oldMouse = true;
                     }
 
-                    //Main.localPlayer.blockRange += 40;
-                    Main.localPlayer.tileRangeX = 50;
-                    Main.localPlayer.tileRangeY = 30;
+                    //player.blockRange += 40;
+                    player.tileRangeX = 50;
+                    player.tileRangeY = 30;
 
                     if (!Constants.KeyboardInputFocused())
                     {
@@ -124,28 +125,28 @@ namespace PoroCYon.ICM
                         {
                             CD[0] = 0;
 
-                            Main.PlaySound(2, (int)Main.localPlayer.position.X, (int)Main.localPlayer.position.Y, 29);
+                            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 29);
 
                             for (int num89 = 0; num89 < 50; num89++)
-                                Dust.NewDust(Main.localPlayer.position, Main.localPlayer.width, Main.localPlayer.height, 76, (float)Math.Cos(Main.rand.Next(628) / 100d), (float)Math.Cos(Main.rand.Next(628) / 100d), 150, default(Color), 2f);
+                                Dust.NewDust(player.position, player.width, player.height, 76, (float)Math.Cos(Main.rand.Next(628) / 100d), (float)Math.Cos(Main.rand.Next(628) / 100d), 150, default(Color), 2f);
 
-                            Main.localPlayer.position = GInput.Mouse.WorldPosition + new Vector2(Main.localPlayer.width / 2, Main.localPlayer.height / 2);
+                            player.position = GInput.Mouse.WorldPosition + new Vector2(player.width / 2, player.height / 2);
 
                             for (int num91 = 0; num91 < 50; num91++)
-                                Main.dust[Dust.NewDust(Main.localPlayer.position, Main.localPlayer.width, Main.localPlayer.height, 64, (float)Math.Cos(Main.rand.Next(628) / 100d) * 10f, (float)Math.Sin(Main.rand.Next(628) / 100d) * 20f, 150, default(Color), 6f)].noGravity = true;
+                                Main.dust[Dust.NewDust(player.position, player.width, player.height, 64, (float)Math.Cos(Main.rand.Next(628) / 100d) * 10f, (float)Math.Sin(Main.rand.Next(628) / 100d) * 20f, 150, default(Color), 6f)].noGravity = true;
 
-                            Main.PlaySound(2, (int)Main.localPlayer.position.X, (int)Main.localPlayer.position.Y, 29);
+                            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 29);
                         }
                         if (GInput.Keyboard.IsKeyDown(Keys.J))
                         {
-                            Main.localPlayer.position = GInput.Mouse.WorldPosition + new Vector2(Main.localPlayer.width / 2, Main.localPlayer.height / 2);
+                            player.position = GInput.Mouse.WorldPosition + new Vector2(player.width / 2, player.height / 2);
 
                             for (int zzz = 0; zzz < 18; zzz++)
                                 for (int zzb = 0; zzb < 2; zzb++)
                                 {
-                                    Dust d = Main.dust[Dust.NewDust(Main.localPlayer.position + new Vector2(-5, -5), (Main.localPlayer.width + 2 * 5), (Main.localPlayer.height + 2 * 5), 66, 0, 0, 100, default(Color), 2.5f)];
+                                    Dust d = Main.dust[Dust.NewDust(player.position + new Vector2(-5, -5), (player.width + 2 * 5), (player.height + 2 * 5), 66, 0, 0, 100, default(Color), 2.5f)];
                                     d.velocity /= 10f;
-                                    d.velocity += ((Main.localPlayer.velocity) * zzz / 100f);
+                                    d.velocity += ((player.velocity) * zzz / 100f);
                                     d.noGravity = true;
                                 }
                         }
@@ -156,7 +157,7 @@ namespace PoroCYon.ICM
                                 if (n.active && !n.friendly)
                                 {
                                     n.NPCLoot();
-                                    n.HitEffect(Main.localPlayer.direction, 50);
+                                    n.HitEffect(player.direction, 50);
                                     Main.PlaySound(4, (int)n.position.X, (int)n.position.Y, n.soundKilled);
                                     n.active = false;
                                 }
@@ -176,6 +177,89 @@ namespace PoroCYon.ICM
                             Projectile.NewProjectile(GInput.Mouse.WorldPosition.X, GInput.Mouse.WorldPosition.Y, 0, 0, 11, 0, 0, Main.myPlayer);
                         }
                     }
+                }
+            }
+        }
+
+        public override void PostUpdate()
+        {
+            base.PostUpdate();
+
+            if (player == Main.localPlayer)
+            {
+                if (Invincibility)
+                {
+                    player.suffocating = false;
+                    player.slippy = false;
+                    player.slippy2 = false;
+                    player.powerrun = false;
+                    player.poisoned = false;
+                    player.venom = false;
+                    player.onFire = false;
+                    player.burned = false;
+                    player.suffocating = false;
+                    player.onFire2 = false;
+                    player.ichor = false;
+                    player.blackout = false;
+                    player.burned = false;
+                    player.onFrostBurn = false;
+                    player.blind = false;
+                    player.blackout = false;
+                    player.noItems = false;
+                    player.immune = true;
+                    player.lavaImmune = true;
+                    player.noKnockback = true;
+                    for (int i = 0; i < 10; i++)
+                        if ((player.buffType[i] == 30 || player.buffType[i] == 22 || player.buffType[i] == 36 || player.buffType[i] == 31
+                            || player.buffType[i] == 35 || player.buffType[i] == 32 || player.buffType[i] == 44 || player.buffType[i] == 46
+                             || player.buffType[i] == 47 || player.buffType[i] == 67 || player.buffType[i] == 68 || player.buffType[i] == 69
+                             || player.buffType[i] == 70 || player.buffType[i] == 80) && player.buffTime[i] > 0)
+                            player.buffTime[i] = player.buffType[i] = 0;
+                    if (player.statLife < player.statLifeMax)
+                        player.statLife = player.statLifeMax;
+                    if (player.statMana < player.statManaMax2)
+                        player.statMana = player.statManaMax2;
+                    player.breath = player.breathMax;
+
+                    player.immuneAlpha = 0;
+                    player.potionDelay = 0;
+                    player.lavaCD = 3;
+                    player.gravDir = 1f;
+                    player.immuneTime = 60;
+                }
+                if (Noclip)
+                {
+                    player.fallStart = (int)(player.position.Y / 16f);
+                    player.gravControl = false;
+                    player.position -= player.oldVelocity;
+                    player.position -= player.velocity;
+                    player.velocity = new Vector2(0, -0.0000002f);
+                    float abc = 75f;
+                    if (player.controlDown)
+                        oVel.Y += abc;
+                    if (player.controlUp)
+                        oVel.Y -= abc;
+                    if (player.controlLeft)
+                        oVel.X -= abc;
+                    if (player.controlRight)
+                        oVel.X += abc;
+                    if (player.position - oVel / 50f != player.oldPosition)
+                    {
+                        player.position -= player.position - player.oldPosition;
+                        player.position += oVel / 25f;
+                    }
+                    else
+                        player.position += oVel / 50f;
+                    oVel *= 0.75f;
+                }
+                if (Invincibility && Noclip)
+                {
+                    Lighting.AddLight((int)player.position.X, (int)player.position.Y, 1.2f, 1.2f, 1.2f);
+                        Main.dust[Dust.NewDust(player.position, player.width, player.height, 57, player.velocity.X * 3, player.velocity.Y * 3 * player.direction, 100, new Color(), 1.5f)].noGravity = true;
+                    player.accCompass = player.accDepthMeter = 1;
+                    player.accWatch = 3;
+                    player.blockRange = 40;
+                    player.pickSpeed = 0.000001f;
                 }
             }
         }

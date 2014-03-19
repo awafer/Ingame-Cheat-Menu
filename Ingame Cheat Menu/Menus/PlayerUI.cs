@@ -23,6 +23,35 @@ namespace PoroCYon.ICM.Menus
         public static PlayerUI Interface;
 
         /// <summary>
+        /// Gets or sets wether Invincibility is turned on or off
+        /// </summary>
+        public static bool Invincibility
+        {
+            get
+            {
+                return MPlayer.Invincibility;
+            }
+            set
+            {
+                MPlayer.Invincibility = value;
+            }
+        }
+        /// <summary>
+        /// Gets or sets wether Noclip is turned on or off
+        /// </summary>
+        public static bool Noclip
+        {
+            get
+            {
+                return MPlayer.Noclip;
+            }
+            set
+            {
+                MPlayer.Noclip = value;
+            }
+        }
+
+        /// <summary>
         /// Creates a new instance of the PlayerUI class
         /// </summary>
         public PlayerUI()
@@ -105,6 +134,41 @@ namespace PoroCYon.ICM.Menus
                     Main.localPlayer.statMana = Main.localPlayer.statManaMax += (int)(n - o);
                 },
                 OnUpdate = (c) => ((PlusMinusButton)c).Value = Main.localPlayer.statManaMax
+            });
+
+            AddControl(new CheckBox(false, "Invincibility")
+            {
+                Position = new Vector2(200f, Main.screenHeight - 200f),
+
+                OnChecked = (cb) =>
+                {
+                    Invincibility = true;
+
+                    cb.Text = "Invincibility: on";
+                },
+                OnUnchecked = (cb) =>
+                {
+                    Invincibility = false;
+
+                    cb.Text = "Invincibility: off";
+                }
+            });
+            AddControl(new CheckBox(false, "Noclip")
+            {
+                Position = new Vector2(500f, Main.screenHeight - 200f),
+
+                OnChecked = (cb) =>
+                {
+                    Noclip = true;
+
+                    cb.Text = "Noclip: on";
+                },
+                OnUnchecked = (cb) =>
+                {
+                    Noclip = false;
+
+                    cb.Text = "Noclip: off";
+                }
             });
         }
     }
