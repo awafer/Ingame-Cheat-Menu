@@ -155,7 +155,7 @@ namespace PoroCYon.ICM.Menus
             });
             AddControl(new CheckBox(false, "Noclip")
             {
-                Position = new Vector2(500f, Main.screenHeight - 200f),
+                Position = new Vector2(400f, Main.screenHeight - 200f),
 
                 OnChecked = (cb) =>
                 {
