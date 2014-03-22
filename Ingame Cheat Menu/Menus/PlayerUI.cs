@@ -143,14 +143,10 @@ namespace PoroCYon.ICM.Menus
                 OnChecked = (cb) =>
                 {
                     Invincibility = true;
-
-                    cb.Text = "Invincibility: on";
                 },
                 OnUnchecked = (cb) =>
                 {
                     Invincibility = false;
-
-                    cb.Text = "Invincibility: off";
                 }
             });
             AddControl(new CheckBox(false, "Noclip")
@@ -160,14 +156,10 @@ namespace PoroCYon.ICM.Menus
                 OnChecked = (cb) =>
                 {
                     Noclip = true;
-
-                    cb.Text = "Noclip: on";
                 },
                 OnUnchecked = (cb) =>
                 {
                     Noclip = false;
-
-                    cb.Text = "Noclip: off";
                 }
             });
         }
