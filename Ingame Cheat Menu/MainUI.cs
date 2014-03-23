@@ -24,21 +24,13 @@ namespace PoroCYon.ICM
     public enum InterfaceType : sbyte
     {
         /// <summary>
-        /// Editing an NPC instance
-        /// </summary>
-        EditNPC = -4,
-        /// <summary>
-        /// Editing an Item instance
-        /// </summary>
-        EditItem = -3,
-        /// <summary>
         /// Editing global NPC variables
         /// </summary>
         EditGlobalNPC = -2,
         /// <summary>
-        /// Editing the local Player instance
+        /// Editing an Item instance
         /// </summary>
-        EditPlayer = -1,
+        EditItem = -1,
 
         /// <summary>
         /// No UI is shown
@@ -117,14 +109,10 @@ namespace PoroCYon.ICM
                     case InterfaceType.World:
                         return WorldUI.Interface;
 
-                    case InterfaceType.EditPlayer:
-                        return EditPlayerUI.Interface;
                     case InterfaceType.EditGlobalNPC:
                         return EditGlobalNPCUI.Interface;
                     case InterfaceType.EditItem:
                         return EditItemUI.Interface;
-                    case InterfaceType.EditNPC:
-                        return EditNPCUI.Interface;
                 }
 
                 throw new ArgumentOutOfRangeException("UIType");
@@ -152,7 +140,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "Items",
                 Position = PositionOf(InterfaceType.Item),
-                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
+                //Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {
@@ -165,7 +153,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "Buffs",
                 Position = PositionOf(InterfaceType.Buff),
-                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
+                //Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {
@@ -178,7 +166,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "Reforge",
                 Position = PositionOf(InterfaceType.Prefix),
-                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
+                //Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {
@@ -191,7 +179,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "NPCs",
                 Position = PositionOf(InterfaceType.NPC),
-                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
+                //Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {
@@ -206,7 +194,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "Player",
                 Position = PositionOf(InterfaceType.Player),
-                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
+                //Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {
@@ -231,7 +219,7 @@ namespace PoroCYon.ICM
             {
                 Tooltip = "World",
                 Position = PositionOf(InterfaceType.World),
-                Colour = WithAlpha(SettingsPage.ColourTheme, 255),
+                //Colour = WithAlpha(SettingsPage.ColourTheme, 255),
 
                 OnDraw = (c, sb) =>
                 {

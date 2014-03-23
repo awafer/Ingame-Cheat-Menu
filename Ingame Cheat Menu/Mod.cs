@@ -13,6 +13,7 @@ using PoroCYon.MCT.UI.Interface.Controls;
 using PoroCYon.MCT.UI.MenuItems;
 using PoroCYon.ICM.Menus;
 using PoroCYon.ICM.Menus.Sub;
+using PoroCYon.ICM.Pages;
 
 namespace PoroCYon.ICM
 {
@@ -48,22 +49,22 @@ namespace PoroCYon.ICM
             Mct.Init();
             base.OnLoad();
 
-            FileStream fs = null;
-            try
-            {
-                fs = new FileStream(ICMDataFile, FileMode.Open);
-                ReadSettings(fs);
-            }
-            catch (IOException)
-            {
-                fs = new FileStream(ICMDataFile, FileMode.Create);
-                WriteSettings(fs);
-            }
-            finally
-            {
-                if (fs != null)
-                    fs.Close();
-            }
+            //FileStream fs = null;
+            //try
+            //{
+            //    fs = new FileStream(ICMDataFile, FileMode.Open);
+            //    ReadSettings(fs);
+            //}
+            //catch (IOException)
+            //{
+            //    fs = new FileStream(ICMDataFile, FileMode.Create);
+            //    WriteSettings(fs);
+            //}
+            //finally
+            //{
+            //    if (fs != null)
+            //        fs.Close();
+            //}
         }
 
         /// <summary>
@@ -82,23 +83,106 @@ namespace PoroCYon.ICM
             MctUI.AddCustomUI(PlayerUI.Interface = new PlayerUI());
             MctUI.AddCustomUI(WorldUI.Interface = new WorldUI());
 
-            MctUI.AddCustomUI(EditPlayerUI.Interface = new EditPlayerUI());
             MctUI.AddCustomUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
             MctUI.AddCustomUI(EditItemUI.Interface = new EditItemUI());
-            MctUI.AddCustomUI(EditNPCUI.Interface = new EditNPCUI());
 
-            // a bit less easier...
-            Menu.menuPages.Add("ICM:Settings", new SettingsPage());
-
-            MenuAnchor aOptions = new MenuAnchor()
+            #region edit player code
+            // a bit less easy...
+            MenuAnchor aCustom = new MenuAnchor()
             {
                 anchor = new Vector2(0.5f, 0f),
                 offset = new Vector2(315f, 200f),
                 offset_button = new Vector2(0f, 50f)
             };
 
-            Menu.menuPages["Options"].anchors.Add(aOptions);
-            //Menu.menuPages["Options"].buttons.Add(new MenuButton(0, "ICM Settings", "ICM:Settings").With(mb => mb.SetAutomaticPosition(aOptions, 0)));
+            //Menu.menuPages.Add("ICM:Settings", new SettingsPage());
+
+            //Menu.menuPages["Options"].anchors.Add(aOptions);
+            //Menu.menuPages["Options"].buttons.Add(new MenuButton(1, "ICM Settings", "ICM:Settings").With(mb => mb.SetAutomaticPosition(aCustom, 0)));
+
+            for (int i = 0; i < 5; i++)
+            {
+                int index = i;
+                Menu.menuPages["Player Select"].buttons.Add(new MenuButton(new Vector2(0.5f, 0), new Vector2(100, 200 + i * 50), "12345678901234567890", "")
+                .Where(w =>
+                {
+                    w.Update = () =>
+                    {
+                        if (index + Menu.skip < Main.numLoadPlayers)
+                        {
+                            w.displayText = "Edit " + Main.loadPlayer[index + Menu.skip].name;
+
+                            w.scale = Math.Min(1f, (w.size.X - 20) / Main.fontMouseText.MeasureString(w.displayText).X);
+                        }
+                        else
+                        {
+                            //w.Disable(true); this bugs for a random reason
+                            w.displayText = "<Create Player>";
+                            w.scale = 1;
+                        }
+                    };
+                    w.Click = () =>
+                    {
+                        int pid = index + Menu.skip;
+
+                        if (pid >= Main.numLoadPlayers)
+                        {
+                            Main.loadPlayer[Main.numLoadPlayers] = new Player();
+                            Main.loadPlayer[Main.numLoadPlayers].inventory[0].SetDefaults("Copper Shortsword");
+                            Main.loadPlayer[Main.numLoadPlayers].inventory[0].Prefix(-1);
+                            Main.loadPlayer[Main.numLoadPlayers].inventory[1].SetDefaults("Copper Pickaxe");
+                            Main.loadPlayer[Main.numLoadPlayers].inventory[1].Prefix(-1);
+                            Main.loadPlayer[Main.numLoadPlayers].inventory[2].SetDefaults("Copper Axe");
+                            Main.loadPlayer[Main.numLoadPlayers].inventory[2].Prefix(-1);
+                            Menu.MoveTo("Create Player");
+                            return;
+                        }
+
+                        string name = (string)Main.loadPlayer[pid].name.Clone(); // backup name because it's reset in {Create Player}.OnEntry
+
+                        int oldLoadPlayers = Main.numLoadPlayers;
+                        Main.numLoadPlayers = pid;
+
+                        string path = Main.PlayerPath + "\\" + Main.loadPlayer[pid].name + ".plr";
+
+                        if (File.Exists(path))
+                            File.Delete(path);
+                        if (File.Exists(path))
+                            File.Delete(path);
+                        if (File.Exists(path))
+                            File.Delete(path);
+
+                        MenuPage create = Menu.menuPages["Create Player"];
+
+                        // sometimes, hacking is NOT easy
+
+                        Action entry = () => { };
+                        Action entryCleanup = () => { };
+
+                        entryCleanup += () =>
+                        {
+                            Main.numLoadPlayers = oldLoadPlayers;
+                            Menu.menuPages["Player Select"].OnEntry -= entryCleanup;
+                        };
+                        entry += () =>
+                        {
+                            if (create.buttons[17].displayText == "Save Player")
+                                create.buttons[17].displayText = "Create Player";
+                            else
+                                create.buttons[17].displayText = "Save Player";
+
+                            create.OnEntry -= entry;
+                            Menu.menuPages["Player Select"].OnEntry += entryCleanup;
+                        };
+                        create.OnEntry += entry;
+
+                        Menu.MoveTo("Create Player");
+
+                        Main.loadPlayer[pid].name = name;
+                    };
+                }));
+            }
+            #endregion
 
             base.OnAllModsLoaded();
         }
@@ -110,30 +194,30 @@ namespace PoroCYon.ICM
         {
             base.OnUnload();
 
-            FileStream fs = new FileStream(Main.SavePath + "\\ICM_Data.sav", FileMode.Create);
-            WriteSettings(fs);
-            fs.Close();
+            //FileStream fs = new FileStream(Main.SavePath + "\\ICM_Data.sav", FileMode.Create);
+            //WriteSettings(fs);
+            //fs.Close();
 
             ModInstance = null;
         }
 
-        /// <summary>
-        /// Writes the ICM settings to a Stream
-        /// </summary>
-        /// <param name="s">The Stream to write the data to</param>
-        public static void ReadSettings(Stream s)
-        {
-            SettingsPage.AccentColour = (AccentColour)s.ReadByte();
-            SettingsPage.ThemeColour  = (ThemeColour) s.ReadByte();
-        }
-        /// <summary>
-        /// Reads the ICM settings from a Stream
-        /// </summary>
-        /// <param name="s">The Stream to read the data from</param>
-        public static void WriteSettings(Stream s)
-        {
-            s.WriteByte((byte)SettingsPage.AccentColour);
-            s.WriteByte((byte)SettingsPage.ThemeColour );
-        }
+        ///// <summary>
+        ///// Writes the ICM settings to a Stream
+        ///// </summary>
+        ///// <param name="s">The Stream to write the data to</param>
+        //public static void ReadSettings(Stream s)
+        //{
+        //    SettingsPage.AccentColour = (AccentColour)s.ReadByte();
+        //    SettingsPage.ThemeColour  = (ThemeColour) s.ReadByte();
+        //}
+        ///// <summary>
+        ///// Reads the ICM settings from a Stream
+        ///// </summary>
+        ///// <param name="s">The Stream to read the data from</param>
+        //public static void WriteSettings(Stream s)
+        //{
+        //    s.WriteByte((byte)SettingsPage.AccentColour);
+        //    s.WriteByte((byte)SettingsPage.ThemeColour );
+        //}
     }
 }

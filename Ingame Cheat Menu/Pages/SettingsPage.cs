@@ -10,11 +10,12 @@ using TAPI;
 using PoroCYon.MCT.UI;
 using PoroCYon.MCT.UI.MenuItems;
 
-namespace PoroCYon.ICM
+namespace PoroCYon.ICM.Pages
 {
     /// <summary>
     /// All possible accent (foreground) colours
     /// </summary>
+    [Obsolete("This code is not used.")]
     public enum AccentColour : byte
     {
         /// <summary>
@@ -33,6 +34,7 @@ namespace PoroCYon.ICM
     /// <summary>
     /// All possible theme (background) colours
     /// </summary>
+    [Obsolete("This code is not used.")]
     public enum ThemeColour : byte
     {
         /// <summary>
@@ -48,6 +50,7 @@ namespace PoroCYon.ICM
     /// <summary>
     /// The ICM settings UI
     /// </summary>
+    [Obsolete("This code is not used.")]
     public sealed class SettingsPage : Page
     {
         readonly static Color
