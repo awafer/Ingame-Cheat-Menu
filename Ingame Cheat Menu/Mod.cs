@@ -22,6 +22,8 @@ namespace PoroCYon.ICM
     /// </summary>
     public sealed class Mod : ModBase
     {
+        static int editPlayerOffset;
+
         /// <summary>
         /// The path to the ICM_Data.sav file
         /// </summary>
@@ -68,6 +70,23 @@ namespace PoroCYon.ICM
         }
 
         /// <summary>
+        /// Called after the game is drawn
+        /// </summary>
+        /// <param name="sb">The SpriteBatch used to draw the Game</param>
+        public override void PostGameDraw(SpriteBatch sb)
+        {
+            base.PostGameDraw(sb);
+
+            if (Menu.currentPage == "Player Select")
+            {
+                MenuPage p = Menu.menuPages["Player Select"];
+
+                for (int i = 0; i < 5; i++)
+                    p.buttons[i + editPlayerOffset].Disable(i + Menu.skip >= Main.numLoadPlayers);
+            }
+        }
+
+        /// <summary>
         /// Called when all mods are loaded
         /// </summary>
         public override void OnAllModsLoaded()
@@ -100,6 +119,8 @@ namespace PoroCYon.ICM
             //Menu.menuPages["Options"].anchors.Add(aOptions);
             //Menu.menuPages["Options"].buttons.Add(new MenuButton(1, "ICM Settings", "ICM:Settings").With(mb => mb.SetAutomaticPosition(aCustom, 0)));
 
+            editPlayerOffset = Menu.menuPages["Player Select"].buttons.Count;
+
             for (int i = 0; i < 5; i++)
             {
                 int index = i;
@@ -114,12 +135,10 @@ namespace PoroCYon.ICM
 
                             w.scale = Math.Min(1f, (w.size.X - 20) / Main.fontMouseText.MeasureString(w.displayText).X);
                         }
-                        else
-                        {
-                            //w.Disable(true); this bugs for a random reason
-                            w.displayText = "<Create Player>";
-                            w.scale = 1;
-                        }
+                        //else
+                        //{
+                        //    // disabling done in PostGameDraw
+                        //}
                     };
                     w.Click = () =>
                     {
@@ -201,23 +220,25 @@ namespace PoroCYon.ICM
             ModInstance = null;
         }
 
-        ///// <summary>
-        ///// Writes the ICM settings to a Stream
-        ///// </summary>
-        ///// <param name="s">The Stream to write the data to</param>
-        //public static void ReadSettings(Stream s)
-        //{
-        //    SettingsPage.AccentColour = (AccentColour)s.ReadByte();
-        //    SettingsPage.ThemeColour  = (ThemeColour) s.ReadByte();
-        //}
-        ///// <summary>
-        ///// Reads the ICM settings from a Stream
-        ///// </summary>
-        ///// <param name="s">The Stream to read the data from</param>
-        //public static void WriteSettings(Stream s)
-        //{
-        //    s.WriteByte((byte)SettingsPage.AccentColour);
-        //    s.WriteByte((byte)SettingsPage.ThemeColour );
-        //}
+        /// <summary>
+        /// Writes the ICM settings to a Stream
+        /// </summary>
+        /// <param name="s">The Stream to write the data to</param>
+        [Obsolete("This code is not used.")]
+        public static void ReadSettings(Stream s)
+        {
+            SettingsPage.AccentColour = (AccentColour)s.ReadByte();
+            SettingsPage.ThemeColour = (ThemeColour)s.ReadByte();
+        }
+        /// <summary>
+        /// Reads the ICM settings from a Stream
+        /// </summary>
+        /// <param name="s">The Stream to read the data from</param>
+        [Obsolete("This code is not used.")]
+        public static void WriteSettings(Stream s)
+        {
+            s.WriteByte((byte)SettingsPage.AccentColour);
+            s.WriteByte((byte)SettingsPage.ThemeColour);
+        }
     }
 }
