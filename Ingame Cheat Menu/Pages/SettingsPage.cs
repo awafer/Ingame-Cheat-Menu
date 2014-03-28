@@ -134,7 +134,7 @@ namespace PoroCYon.ICM.Pages
         }
 
         /// <summary>
-        /// Creates a new instance of the SettingsUI class
+        /// Creates a new instance of the SettingsPage class
         /// </summary>
         public SettingsPage()
             : base()
@@ -143,20 +143,20 @@ namespace PoroCYon.ICM.Pages
         }
 
         /// <summary>
-        /// Initializes the CustomUI
+        /// Initializes the Page
         /// </summary>
         protected override void Init()
         {
             base.Init();
 
             MenuAnchor
-                aLeft = new MenuAnchor()
+                aLeft = new MenuAnchor()  
                 {
                     anchor = new Vector2(0.5f, 0),
                     offset = new Vector2(-105, 200),
                     offset_button = new Vector2(0, 50)
                 },
-                aRight = new MenuAnchor()
+                aRight = new MenuAnchor() 
                 {
                     anchor = new Vector2(0.5f, 0),
                     offset = new Vector2(105, 200),
@@ -265,7 +265,7 @@ namespace PoroCYon.ICM.Pages
 
             // ---
 
-            buttons.Add(new MenuButton(0, "Back", "Options").With(mb => mb.SetAutomaticPosition(aCentre, 4)));
+            buttons.Add(new MenuButton(0, "Back", "Options").Where(mb => mb.SetAutomaticPosition(aCentre, 4)));
         }
     }
 }

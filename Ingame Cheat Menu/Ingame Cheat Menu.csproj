@@ -87,6 +87,7 @@
     <Compile Include="Menus\PrefixUI.cs" />
     <Compile Include="ModUI.cs" />
     <Compile Include="MPlayer.cs" />
+    <Compile Include="Pages\EditWorldPage.cs" />
     <Compile Include="Pages\SettingsPage.cs" />
     <Compile Include="Menus\Sub\EditItemUI.cs" />
     <Compile Include="Menus\Sub\EditGlobalNPCUI.cs" />

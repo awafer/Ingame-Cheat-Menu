@@ -22,7 +22,7 @@ namespace PoroCYon.ICM
     /// </summary>
     public sealed class Mod : ModBase
     {
-        static int editPlayerOffset;
+        static int editPlayerOffset, editWorldOffset;
 
         /// <summary>
         /// The path to the ICM_Data.sav file
@@ -84,6 +84,13 @@ namespace PoroCYon.ICM
                 for (int i = 0; i < 5; i++)
                     p.buttons[i + editPlayerOffset].Disable(i + Menu.skip >= Main.numLoadPlayers);
             }
+            if (Menu.currentPage == "World Select")
+            {
+                MenuPage p = Menu.menuPages["World Select"];
+
+                for (int i = 0; i < 5; i++)
+                    p.buttons[i + editWorldOffset].Disable(i + Menu.skip >= Main.numLoadWorlds);
+            }
         }
 
         /// <summary>
@@ -105,8 +112,10 @@ namespace PoroCYon.ICM
             MctUI.AddCustomUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
             MctUI.AddCustomUI(EditItemUI.Interface = new EditItemUI());
 
-            #region edit player code
+
             // a bit less easy...
+            Menu.menuPages.Add("ICM:Edit World", new EditWorldPage());
+
             MenuAnchor aCustom = new MenuAnchor()
             {
                 anchor = new Vector2(0.5f, 0f),
@@ -119,12 +128,13 @@ namespace PoroCYon.ICM
             //Menu.menuPages["Options"].anchors.Add(aOptions);
             //Menu.menuPages["Options"].buttons.Add(new MenuButton(1, "ICM Settings", "ICM:Settings").With(mb => mb.SetAutomaticPosition(aCustom, 0)));
 
+            #region edit player code
             editPlayerOffset = Menu.menuPages["Player Select"].buttons.Count;
 
             for (int i = 0; i < 5; i++)
             {
                 int index = i;
-                Menu.menuPages["Player Select"].buttons.Add(new MenuButton(new Vector2(0.5f, 0), new Vector2(100, 200 + i * 50), "12345678901234567890", "")
+                Menu.menuPages["Player Select"].buttons.Add(new MenuButton(new Vector2(0.5f, 0), new Vector2(100, 200 + i * 50), "Edit Player", "")
                 .Where(w =>
                 {
                     w.Update = () =>
@@ -198,6 +208,37 @@ namespace PoroCYon.ICM
                         Menu.MoveTo("Create Player");
 
                         Main.loadPlayer[pid].name = name;
+                    };
+                }));
+            }
+            #endregion
+
+            #region edit world code
+            editWorldOffset = Menu.menuPages["World Select"].buttons.Count;
+
+            for (int i = 0; i < 5; i++)
+            {
+                int index = i;
+                Menu.menuPages["World Select"].buttons.Add(new MenuButton(new Vector2(0.5f, 0), new Vector2(100, 200 + i * 50), "Edit World", "")
+                .Where(w =>
+                {
+                    w.Update = () =>
+                    {
+                        if (index + Menu.skip < Main.numLoadPlayers)
+                        {
+                            w.displayText = "Edit " + Main.loadWorld[index + Menu.skip];
+
+                            w.scale = Math.Min(1f, (w.size.X - 20) / Main.fontMouseText.MeasureString(w.displayText).X);
+                        }
+                    };
+                    w.Click = () =>
+                    {
+                        int wid = index + Menu.skip;
+
+                        EditWorldPage.selectedWorld = Main.loadWorld[wid];
+                        EditWorldPage.selectedWorldPath = Main.loadWorldPath[wid];
+
+                        Menu.MoveTo("ICM:Edit World"); // editing is done there
                     };
                 }));
             }
