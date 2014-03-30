@@ -238,6 +238,8 @@ namespace PoroCYon.ICM
                         EditWorldPage.selectedWorld = Main.loadWorld[wid];
                         EditWorldPage.selectedWorldPath = Main.loadWorldPath[wid];
 
+                        ((EditWorldPage)Menu.menuPages["ICM:Edit World"]).LoadData();
+
                         Menu.MoveTo("ICM:Edit World"); // editing is done there
                     };
                 }));
