@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using PoroCYon.XnaExtensions;
 using TAPI;
 using PoroCYon.MCT.Input;
-using PoroCYon.ICM.Menus;
 
 namespace PoroCYon.ICM
 {
@@ -119,7 +116,7 @@ namespace PoroCYon.ICM
                     player.tileRangeX = 50;
                     player.tileRangeY = 30;
 
-                    if (!Constants.KeyboardInputFocused())
+                    if (!API.KeyboardInputFocused())
                     {
                         if (GInput.Keyboard.IsKeyDown(Keys.V) && CD[0] > 15)
                         {
