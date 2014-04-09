@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Runtime;
 using System.Threading;
@@ -10,9 +8,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
 using TAPI;
-using PoroCYon.MCT;
-using PoroCYon.MCT.UI;
-using PoroCYon.MCT.UI.Interface;
 using PoroCYon.MCT.UI.Interface.Controls;
 using PoroCYon.ICM.Controls;
 
@@ -347,7 +342,7 @@ namespace PoroCYon.ICM.Menus
                         Main.screenHeight - 440f + Main.inventoryBackTexture.Height * row)
                 });
                 CategoryButtons[index].Position += Main.inventoryBackTexture.Size() / 2f
-                    - ((Texture2D)CategoryButtons[index].Picture).Size() / 2f;
+                    - ((Texture2D)CategoryButtons[index].Picture.Item).Size() / 2f;
             }
         }
 

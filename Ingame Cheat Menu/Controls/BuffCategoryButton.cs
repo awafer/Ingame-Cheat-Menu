@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.XnaExtensions;
 using PoroCYon.XnaExtensions.Graphics;
 using TAPI;
-using PoroCYon.MCT;
 using PoroCYon.MCT.UI;
-using PoroCYon.MCT.UI.Interface;
 using PoroCYon.MCT.UI.Interface.Controls;
 using PoroCYon.ICM.Menus;
 
@@ -82,7 +79,7 @@ namespace PoroCYon.ICM.Controls
 
             if (id > 0)
             {
-                Picture = Main.buffTexture[id];
+                Picture.Item = Main.buffTexture[id];
                 Colour = Color.Lerp(new Color(255, 255, 255, 0), new Color(0, 0, 0, 0), (BuffUI.Category & Category) != 0 ? 0f : 0.5f);
             }
             else
@@ -115,7 +112,7 @@ namespace PoroCYon.ICM.Controls
 
             if (id > 0)
             {
-                Picture = Main.buffTexture[id];
+                Picture.Item = Main.buffTexture[id];
                 Colour = Color.Lerp(new Color(255, 255, 255, 0), new Color(0, 0, 0, 0), (BuffUI.Category & Category) != 0 ? 0f : 0.5f);
             }
             else

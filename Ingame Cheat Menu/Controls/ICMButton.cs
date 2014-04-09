@@ -3,15 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.XnaExtensions;
 using TAPI;
-using PoroCYon.MCT;
-using PoroCYon.MCT.UI;
-using PoroCYon.MCT.UI.Interface;
-using PoroCYon.MCT.UI.Interface.Controls;
 using PoroCYon.MCT.UI.Interface.Controls.Primitives;
-using PoroCYon.MCT.Input;
-using PoroCYon.ICM.Menus;
 
 namespace PoroCYon.ICM.Controls
 {
@@ -64,7 +57,7 @@ namespace PoroCYon.ICM.Controls
             if (HasBackground)
             {
                 Rectangle bg =  new Rectangle((int)Position.X - 8, (int)Position.Y - 8, 40, 40);
-                Drawing.DrawBlueBox(sb, bg.X, bg.Y, bg.Width, bg.Height, IsHovered || MainUI.UIType == ChangeTo ? 0.85f : 0.75f);
+                Drawing.DrawBox(sb, bg.X, bg.Y, bg.Width, bg.Height, IsHovered || MainUI.UIType == ChangeTo ? 0.85f : 0.75f);
             }
 
             base.Draw(sb);

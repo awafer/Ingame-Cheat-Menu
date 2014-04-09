@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.XnaExtensions;
 using PoroCYon.XnaExtensions.Graphics;
 using TAPI;
-using PoroCYon.MCT;
 using PoroCYon.MCT.UI;
-using PoroCYon.MCT.UI.Interface;
 using PoroCYon.MCT.UI.Interface.Controls;
 using PoroCYon.ICM.Menus;
 
@@ -98,7 +95,7 @@ namespace PoroCYon.ICM.Controls
                     id = 4; // iron broadsword
                     break;
                 case Categories.Other:
-                    Picture = Main.confuseTexture; // question mark
+                    Picture.Item = Main.confuseTexture; // question mark
                     break;
                 case Categories.Paint:
                     id = 1073; // red paint
@@ -133,7 +130,7 @@ namespace PoroCYon.ICM.Controls
 
             if (id > 0)
             {
-                Picture = Defs.items[Defs.itemNames[id]].GetTexture();
+                Picture.Item = Defs.items[Defs.itemNames[id]].GetTexture();
                 Colour = Color.Lerp(Defs.items[Defs.itemNames[id]].GetTextureColor(), new Color(0, 0, 0, 0), (ItemUI.Category & Category) != 0 ? 0f : 0.5f);
             }
             else
@@ -166,7 +163,7 @@ namespace PoroCYon.ICM.Controls
 
             if (id > 0)
             {
-                Picture = Defs.items[Defs.itemNames[id]].GetTexture();
+                Picture.Item = Defs.items[Defs.itemNames[id]].GetTexture();
                 Colour = Color.Lerp(Defs.items[Defs.itemNames[id]].GetTextureColor(), new Color(0, 0, 0, 0), (ItemUI.Category & Category) != 0 ? 0f : 0.5f);
             }
             else
