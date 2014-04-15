@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Ionic.Zip;
 using LitJson;
 using PoroCYon.XnaExtensions;
+using Terraria;
 using TAPI;
 using PoroCYon.MCT.UI.MenuItems;
 

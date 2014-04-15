@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.XnaExtensions;
+using Terraria;
 using TAPI;
-using PoroCYon.MCT;
-using PoroCYon.MCT.UI;
-using PoroCYon.MCT.UI.Interface;
-using PoroCYon.MCT.UI.Interface.Controls;
 using PoroCYon.MCT.UI.Interface.Controls.Primitives;
 using PoroCYon.ICM.Menus;
 

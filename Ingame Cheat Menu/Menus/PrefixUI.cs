@@ -6,9 +6,8 @@ using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.XnaExtensions;
+using Terraria;
 using TAPI;
-using PoroCYon.MCT;
-using PoroCYon.MCT.UI;
 using PoroCYon.MCT.UI.Interface;
 using PoroCYon.MCT.UI.Interface.Controls;
 using PoroCYon.ICM.Controls;
@@ -235,7 +234,7 @@ namespace PoroCYon.ICM.Menus
             if (p.Equals(Prefix.None))
                 return false;
 
-            return ExcludeSpecialChars(p.DisplayName()).ToLower().Contains(search);
+            return ExcludeSpecialChars(p.displayName).ToLower().Contains(search);
         }
 
         /// <summary>
@@ -254,7 +253,7 @@ namespace PoroCYon.ICM.Menus
             //if (FilterOptions[2].IsChecked)
             //    return ret ^ IsSearchResult(p);
 
-            return !p.Equals(Prefix.None) && !String.IsNullOrEmpty(p.name) && !String.IsNullOrEmpty(p.DisplayName()) && IsSearchResult(p);
+            return !p.Equals(Prefix.None) && !String.IsNullOrEmpty(p.name) && !String.IsNullOrEmpty(p.displayName) && IsSearchResult(p);
         }
     }
 }

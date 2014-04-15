@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.XnaExtensions;
+using Terraria;
 using TAPI;
-using PoroCYon.MCT.UI;
 using PoroCYon.MCT.UI.Interface;
-using PoroCYon.MCT.UI.Interface.Controls;
 using PoroCYon.ICM.Menus;
 
 namespace PoroCYon.ICM.Controls
@@ -50,7 +46,7 @@ namespace PoroCYon.ICM.Controls
         {
             base.Update();
 
-            Text = Prefix.DisplayName();
+            Text = Prefix.displayName;
 
             if (PrefixUI.AvoidWrong.IsChecked && !Prefix.CanApplyToItem(PrefixUI.ItemToSet))
             {
