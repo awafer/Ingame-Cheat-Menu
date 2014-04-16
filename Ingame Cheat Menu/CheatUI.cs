@@ -260,6 +260,7 @@ namespace PoroCYon.ICM
             {
                 Position = new Vector2(160f, Main.screenHeight - 145f),
                 Size = new Vector2(Main.inventoryBackTexture.Width * 5f, 16f),
+                MouseScrollStep = 0.5f,
 
                 OnValueChanged = (sb, ov, nv) =>
                 {
