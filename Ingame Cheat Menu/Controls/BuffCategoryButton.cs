@@ -100,8 +100,6 @@ namespace PoroCYon.ICM.Controls
                 BuffUI.Category |= Category;
 
             BuffUI.Interface.Position = 0;
-
-            BuffUI.Interface.ResetObjectList();
         }
 
         /// <summary>

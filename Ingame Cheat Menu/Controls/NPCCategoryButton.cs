@@ -98,8 +98,6 @@ namespace PoroCYon.ICM.Controls
                 NPCUI.Category |= Category;
 
             NPCUI.Interface.Position = 0;
-
-            NPCUI.Interface.ResetObjectList();
         }
 
         /// <summary>

@@ -131,6 +131,8 @@ namespace PoroCYon.ICM
         /// </summary>
         public const int FILTER_OPTIONS_LENGTH = 3;
 
+        int oldCount;
+
         /// <summary>
         /// The 3 filter options RadioButtons
         /// </summary>
@@ -144,6 +146,10 @@ namespace PoroCYon.ICM
         /// The button used to increase Position
         /// </summary>
         public ImageButton RightButton;
+        /// <summary>
+        /// The ScrollBar which represents the Position
+        /// </summary>
+        public ScrollBar ScrollBar;
 
         /// <summary>
         /// The thread where all objects are reset with the new filters
@@ -223,23 +229,47 @@ namespace PoroCYon.ICM
             AddControl(LeftButton = new ImageButton(LeftArrow)
             {
                 HasBackground = true,
-                KeepFiring = true,
+                KeepFiring    = true,
 
-                Position = new Vector2(130f, Main.screenHeight - 208),
+                Position = new Vector2(130f, Main.screenHeight - 145f),
 
-                OnClicked = (b) => Position = Math.Max(Position - 4, 0)
+                OnClicked = (b) =>
+                {
+                    Position = Math.Max(Position - 4, 0);
+
+                    ScrollBar.Value = Position / 4f;
+                }
             });
             AddControl(RightButton = new ImageButton(RightArrow)
             {
                 HasBackground = true,
-                KeepFiring = true,
+                KeepFiring    = true,
 
-                Position = new Vector2(430f, Main.screenHeight - 208),
+                Position = new Vector2(430f, Main.screenHeight - 150f),
 
                 OnClicked = (b) =>
                 {
-                    if (objects.Count > 20)
+                    if (objects.Count - Position > 20)
                         Position = Math.Min(Position + 4, objects.Count - 1);
+
+                    ScrollBar.Value = Position / 4f;
+                }
+            });
+
+            AddControl(ScrollBar = new ScrollBar(0f, objects.Count / 4f - 5f)
+            {
+                Position = new Vector2(160f, Main.screenHeight - 145f),
+                Size = new Vector2(Main.inventoryBackTexture.Width * 5f, 16f),
+
+                OnValueChanged = (sb, ov, nv) =>
+                {
+                    if (ov == nv)
+                        return;
+
+                    Position = (int)(nv * 4f);
+                    ResetContainers();
+
+                    Main.PlaySound(12);
                 }
             });
 
@@ -266,7 +296,7 @@ namespace PoroCYon.ICM
                 Tooltip = "The filter searches for items which have none of the selected remarks."
             });
 
-            LeftButton.OnClicked += (b) => ResetContainers();
+            LeftButton.OnClicked  += (b) => ResetContainers();
             RightButton.OnClicked += (b) => ResetContainers();
         }
 
@@ -275,11 +305,19 @@ namespace PoroCYon.ICM
         /// </summary>
         public override void Update()
         {
+            if (oldCount != objects.Count)
+            {
+                ScrollBar.MaxValue = objects.Count / 4f - 5f;
+
+                oldCount = objects.Count;
+            }
+
             string oldText = SearchBox.Text;
 
             base.Update();
 
-            if (oldText != SearchBox.Text && ((oldText.Length < SearchBox.Text.Length && !ChangedSearchText) || ChangedSearchText)) // wait until 'Search T...' is deleted
+            if (oldText != SearchBox.Text &&
+                ((oldText.Length < SearchBox.Text.Length && !ChangedSearchText) || ChangedSearchText)) // wait until 'Search {T}...' is deleted
             {
                 ChangedSearchText = true;
                 SearchTextChanged();
