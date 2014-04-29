@@ -308,7 +308,11 @@ namespace PoroCYon.ICM
         {
             if (oldCount != objects.Count)
             {
-                ScrollBar.MaxValue = objects.Count / 4f - 5f;
+                float max = objects.Count / 4f - 5f;
+
+                if (max < ScrollBar.Value)
+                    ScrollBar.Value = max;
+                ScrollBar.MaxValue = max;
 
                 oldCount = objects.Count;
             }

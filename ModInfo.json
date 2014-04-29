@@ -1,15 +1,14 @@
 {
     "displayName": "Ingame Cheat Menu",
     "author": "PoroCYon",  
-    "version": "1.0.1.0",
+    "version": "1.0.1.1",
     "info": "A cheat menu. Isn't it obvious?",
 
     "internalName": "ICM",
 
-    "dllReferences":
-    [
+    "dllReferences": [
 		/* I have no idea why it doesn't find the WPF assemblies */
-		/* If you have problems compiling this mod and says it can't find those assemblies, change the 'C:\\WINDOWS' to your Windows directory. */
+		/* If you have problems compiling this mod and says it can't find those assemblies, change the 'C:\\WINDOWS' to your Windows directory (%windir%). */
         "C:\\WINDOWS\\Microsoft.NET\\assembly\\GAC_32\\PresentationCore\\v4.0_4.0.0.0__31bf3856ad364e35\\PresentationCore.dll",
         "C:\\WINDOWS\\Microsoft.NET\\assembly\\GAC_MSIL\\PresentationFramework\\v4.0_4.0.0.0__31bf3856ad364e35\\PresentationFramework.dll",
         "C:\\WINDOWS\\Microsoft.NET\\assembly\\GAC_MSIL\\WindowsBase\\v4.0_4.0.0.0__31bf3856ad364e35\\WindowsBase.dll",
