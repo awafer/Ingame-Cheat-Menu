@@ -357,9 +357,7 @@ namespace PoroCYon.ICM.Menus
             {
                 objects.Clear();
 
-                foreach (Item i in Defs.items.Values)
-                    if (IncludeInList(i))
-                        objects.Add(CopyItem(i));
+                objects.AddRange(from Item i in Defs.items.Values where IncludeInList(i) select CopyItem(i));
 
                 ResetContainers();
             };
@@ -370,7 +368,7 @@ namespace PoroCYon.ICM.Menus
             if (thisThread)
                 start();
             else
-                new Thread(start).Start();
+                (ResetThread = new Thread(start)).Start();
         }
         /// <summary>
         /// Resets the ItemContainer content

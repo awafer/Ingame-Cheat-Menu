@@ -148,9 +148,7 @@ namespace PoroCYon.ICM.Menus
             {
                 objects.Clear();
 
-                foreach (Prefix p in Defs.prefixes.Values)
-                    if (IncludeInList(p))
-                        objects.Add(p);
+                objects.AddRange(from Prefix p in Defs.prefixes.Values where IncludeInList(p) select p);
 
                 ResetContainers();
             };

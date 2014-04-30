@@ -252,9 +252,7 @@ namespace PoroCYon.ICM.Menus
             {
                 objects.Clear();
 
-                foreach (int i in Defs.buffNames.Keys)
-                    if (IncludeInList(new Buff(i)))
-                        objects.Add(new Buff(i));
+                objects.AddRange(from int i in Defs.buffNames.Keys where IncludeInList(new Buff(i)) select new Buff(i));
 
                 ResetContainers();
             };

@@ -310,7 +310,7 @@ namespace PoroCYon.ICM
             {
                 float max = objects.Count / 4f - 5f;
 
-                if (max <= ScrollBar.MinValue || max <= 20f)
+                if (max <= ScrollBar.MinValue || max <= 5f)
                     ScrollBar.Enabled = false;
                 else
                 {

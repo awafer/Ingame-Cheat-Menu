@@ -176,9 +176,7 @@ namespace PoroCYon.ICM.Menus
             {
                 objects.Clear();
 
-                foreach (NPC n in Defs.npcs.Values)
-                    if (IncludeInList(n))
-                        objects.Add(CopyNPC(n));
+                objects.AddRange(from NPC n in Defs.npcs.Values where IncludeInList(n) select CopyNPC(n));
 
                 ResetContainers();
             };
@@ -189,7 +187,7 @@ namespace PoroCYon.ICM.Menus
             if (thisThread)
                 start();
             else
-                new Thread(start).Start();
+                (ResetThread = new Thread(start)).Start();
         }
         /// <summary>
         /// Resets the NPCContainers content
