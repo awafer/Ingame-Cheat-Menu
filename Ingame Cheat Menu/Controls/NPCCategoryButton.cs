@@ -12,7 +12,7 @@ using PoroCYon.ICM.Menus;
 
 namespace PoroCYon.ICM.Controls
 {
-    using Categories = PoroCYon.ICM.Menus.NPCUI.Categories;
+    using Categories = NPCUI.Categories;
 
     /// <summary>
     /// A button used to toggle an NPC category filter on or off

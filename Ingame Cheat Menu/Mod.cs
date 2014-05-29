@@ -10,7 +10,6 @@ using TAPI;
 using PoroCYon.MCT;
 using PoroCYon.MCT.UI;
 using PoroCYon.ICM.Menus;
-using PoroCYon.ICM.Menus.Sub;
 using PoroCYon.ICM.Pages;
 
 namespace PoroCYon.ICM
@@ -107,8 +106,8 @@ namespace PoroCYon.ICM
             MctUI.AddCustomUI(PlayerUI.Interface = new PlayerUI());
             MctUI.AddCustomUI(WorldUI.Interface = new WorldUI());
 
-            MctUI.AddCustomUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
-            MctUI.AddCustomUI(EditItemUI.Interface = new EditItemUI());
+            //MctUI.AddCustomUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
+            //MctUI.AddCustomUI(EditItemUI.Interface = new EditItemUI());
 
 
             // a bit less easy...

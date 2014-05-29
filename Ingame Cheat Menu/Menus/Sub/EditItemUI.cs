@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.XnaExtensions;
-using TAPI;
-using PoroCYon.MCT;
-using PoroCYon.MCT.UI;
-using PoroCYon.MCT.UI.Interface;
-using PoroCYon.MCT.UI.Interface.Controls;
 
 namespace PoroCYon.ICM.Menus.Sub
 {
     /// <summary>
     /// The ICM Edit Item menu
     /// </summary>
+    [Obsolete("This code is not used.")]
     public sealed class EditItemUI : CheatUI
     {
         /// <summary>

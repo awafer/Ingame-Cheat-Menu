@@ -12,7 +12,7 @@ using PoroCYon.ICM.Menus;
 
 namespace PoroCYon.ICM.Controls
 {
-    using Categories = PoroCYon.ICM.Menus.BuffUI.Categories;
+    using Categories = BuffUI.Categories;
 
     /// <summary>
     /// A button used to toggle a Buff category filter on or off

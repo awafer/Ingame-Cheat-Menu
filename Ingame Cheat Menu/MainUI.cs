@@ -4,9 +4,7 @@ using System.Linq;
 using System.Runtime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.XnaExtensions.Graphics;
 using Terraria;
-using TAPI;
 using PoroCYon.MCT.UI;
 using PoroCYon.MCT.UI.Interface;
 using PoroCYon.MCT.Input;
@@ -24,10 +22,12 @@ namespace PoroCYon.ICM
         /// <summary>
         /// Editing global NPC variables
         /// </summary>
+        [Obsolete("This code is not used.")]
         EditGlobalNPC = -2,
         /// <summary>
         /// Editing an Item instance
         /// </summary>
+        [Obsolete("This code is not used.")]
         EditItem = -1,
 
         /// <summary>
@@ -107,10 +107,10 @@ namespace PoroCYon.ICM
                     case InterfaceType.World:
                         return WorldUI.Interface;
 
-                    case InterfaceType.EditGlobalNPC:
-                        return EditGlobalNPCUI.Interface;
-                    case InterfaceType.EditItem:
-                        return EditItemUI.Interface;
+                    //case InterfaceType.EditGlobalNPC:
+                    //    return EditGlobalNPCUI.Interface;
+                    //case InterfaceType.EditItem:
+                    //    return EditItemUI.Interface;
                 }
 
                 throw new ArgumentOutOfRangeException("UIType");
