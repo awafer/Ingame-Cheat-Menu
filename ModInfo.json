@@ -5,9 +5,9 @@
     "info": "A cheat menu. Isn't it obvious?",
 
     "internalName": "ICM",
-	
-	"MSBuild": true,
-	"msBuildFile": "Ingame Cheat Menu\\Ingame Cheat Menu.csproj",
+    
+    "MSBuild": true,
+    "msBuildFile": "Ingame Cheat Menu\\Ingame Cheat Menu.csproj",
 
     "includePDB": true
 }

@@ -60,56 +60,29 @@ namespace PoroCYon.ICM.Menus
             {
                 Position = new Vector2(200f, Main.screenHeight - 350f),
 
-                OnUpdate = (c) =>
-                {
-                    ((Checkable)c).IsChecked = Main.hardMode;
-                },
+                OnUpdate = c => ((Checkable)c).IsChecked = Main.hardMode,
 
-                OnChecked = (ca) =>
-                {
-                    Main.hardMode = true;
-                },
-                OnUnchecked = (ca) =>
-                {
-                    Main.hardMode = false;
-                }
+                OnChecked = ca => Main.hardMode = true,
+                OnUnchecked = ca => Main.hardMode = false
             });
 
             AddControl(new CheckBox(Main.bloodMoon, "Blood moon")
             {
                 Position = new Vector2(320f, Main.screenHeight - 350f),
 
-                OnUpdate = (c) =>
-                {
-                    ((Checkable)c).IsChecked = Main.bloodMoon;
-                },
+                OnUpdate = c => ((Checkable)c).IsChecked = Main.bloodMoon,
 
-                OnChecked = (ca) =>
-                {
-                    World.StartBloodMoon();
-                },
-                OnUnchecked = (ca) =>
-                {
-                    World.StopBloodMoon();
-                }
+                OnChecked = ca => World.StartBloodMoon(),
+                OnUnchecked = ca => World.StopBloodMoon()
             });
             AddControl(new CheckBox(Main.eclipse, "Eclipse")
             {
                 Position = new Vector2(320f, Main.screenHeight - 300f),
 
-                OnUpdate = (c) =>
-                {
-                    ((Checkable)c).IsChecked = Main.eclipse;
-                },
+                OnUpdate = c => ((Checkable)c).IsChecked = Main.eclipse,
 
-                OnChecked = (ca) =>
-                {
-                    World.StartEclipse();
-                },
-                OnUnchecked = (ca) =>
-                {
-                    World.StopEclipse();
-                }
+                OnChecked = ca => World.StartEclipse(),
+                OnUnchecked = ca => World.StopEclipse()
             });
 
             AddControl(new CheckBox(Main.xMas, "Christmas")
@@ -143,54 +116,30 @@ namespace PoroCYon.ICM.Menus
             {
                 Position = new Vector2(620f, Main.screenHeight - 350f),
 
-                OnUpdate = (c) =>
-                {
-                    ((Checkable)c).IsChecked = Main.pumpkinMoon;
-                },
+                OnUpdate = c => ((Checkable)c).IsChecked = Main.pumpkinMoon,
 
-                OnChecked = (ca) =>
-                {
-                    World.StartPumpkinMoon();
-                },
-                OnUnchecked = (ca) =>
-                {
-                    World.StopPumpkinMoon();
-                }
+                OnChecked = ca => World.StartPumpkinMoon(),
+                OnUnchecked = ca => World.StopPumpkinMoon()
             });
             AddControl(new CheckBox(Main.snowMoon, "Frost moon")
             {
                 Position = new Vector2(620f, Main.screenHeight - 300f),
 
-                OnUpdate = (c) =>
-                {
-                    ((Checkable)c).IsChecked = Main.snowMoon;
-                },
+                OnUpdate = c => ((Checkable)c).IsChecked = Main.snowMoon,
 
-                OnChecked = (ca) =>
-                {
-                    World.StartFrostMoon();
-                },
-                OnUnchecked = (ca) =>
-                {
-                    World.StopFrostMoon();
-                }
+                OnChecked = ca => World.StartFrostMoon(),
+                OnUnchecked = ca => World.StopFrostMoon()
             });
 
             AddControl(new TextButton("Day")
             {
                 Position = new Vector2(200f, Main.screenHeight - 250f),
 
-                OnUpdate = (c) =>
-                {
-                    ((TextButton)c).Text = Main.dayTime ? "Day" : "Night";
-                },
-                OnClicked = (b) =>
-                {
-                    ((TextButton)b).Text = (Main.dayTime = !Main.dayTime) ? "Day" : "Night";
-                }
+                OnUpdate = c => ((TextButton)c).Text = Main.dayTime ? "Day" : "Night",
+                OnClicked = b => ((TextButton)b).Text = (Main.dayTime = !Main.dayTime) ? "Day" : "Night"
             });
 
-            AddControl(new PlusMinusButton((float)Main.time, 100f, "Time")
+            AddControl(new PlusMinusButton((float)Main.time, 10f, "Time")
             {
                 Position = new Vector2(270f, Main.screenHeight - 250f),
 
@@ -206,31 +155,31 @@ namespace PoroCYon.ICM.Menus
                 OnValueChanged = (pmb, o, n) =>
                 {
                     Main.time = n;
+
+                    if (Main.time < 0d)
+                    {
+                        Main.dayTime = !Main.dayTime;
+                        Main.time = Main.dayLength + Main.time; // time is negative here
+                    }
                 }
             });
             AddControl(new PlusMinusButton(Main.moonPhase, "Moon phase")
             {
                 Position = new Vector2(460f, Main.screenHeight - 250f),
 
-                OnUpdate = (c) =>
-                {
-                    ((PlusMinusButton)c).Value = Main.moonPhase;
-                },
-                OnValueChanged = (pmb, o, n) =>
-                {
-                    Main.moonPhase = (int)n;
-                }
+                OnUpdate = c => ((PlusMinusButton)c).Value = Main.moonPhase,
+                OnValueChanged = (pmb, o, n) => Main.moonPhase = Main.moonPhase + (int)n % 7
             });
-            AddControl(new PlusMinusButton(Main.dayRate, "Time speed")
+            AddControl(new PlusMinusButton(Main.dayRate, 1f, "Time speed")
             {
                 Position = new Vector2(650f, Main.screenHeight - 250f),
 
-                OnUpdate = (c) =>
-                {
-                    ((PlusMinusButton)c).Value = Main.dayRate;
-                },
+                OnUpdate = c => ((PlusMinusButton)c).Value = Main.dayRate,
                 OnValueChanged = (pmb, o, n) =>
                 {
+                    if (n < 0f)
+                        n = 0f;
+
                     Main.dayRate = (int)n;
                 }
             });
@@ -241,10 +190,7 @@ namespace PoroCYon.ICM.Menus
             {
                 Position = new Vector2(200f, Main.screenHeight - 200f),
 
-                OnChecked = (ca) =>
-                {
-                    World.StopInvasions();
-                },
+                OnChecked = ca => World.StopInvasions(),
                 OnUpdate = (c) =>
                 {
                     if (World.CurrentInvasion == InvasionType.None)
@@ -255,10 +201,7 @@ namespace PoroCYon.ICM.Menus
             {
                 Position = new Vector2(340f, Main.screenHeight - 200f),
 
-                OnChecked = (ca) =>
-                {
-                    World.StartInvasion(InvasionType.GoblinArmy);
-                },
+                OnChecked = ca => World.StartInvasion(InvasionType.GoblinArmy),
                 OnUpdate = (c) =>
                 {
                     if (World.CurrentInvasion == InvasionType.GoblinArmy)
@@ -269,10 +212,7 @@ namespace PoroCYon.ICM.Menus
             {
                 Position = new Vector2(480f, Main.screenHeight - 200f),
 
-                OnChecked = (ca) =>
-                {
-                    World.StartInvasion(InvasionType.FrostLegion);
-                },
+                OnChecked = ca => World.StartInvasion(InvasionType.FrostLegion),
                 OnUpdate = (c) =>
                 {
                     if (World.CurrentInvasion == InvasionType.FrostLegion)
@@ -283,10 +223,7 @@ namespace PoroCYon.ICM.Menus
             {
                 Position = new Vector2(620f, Main.screenHeight - 200f),
 
-                OnChecked = (ca) =>
-                {
-                    World.StartInvasion(InvasionType.Pirates);
-                },
+                OnChecked = ca => World.StartInvasion(InvasionType.Pirates),
                 OnUpdate = (c) =>
                 {
                     if (World.CurrentInvasion == InvasionType.Pirates)
