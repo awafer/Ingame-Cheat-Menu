@@ -334,6 +334,8 @@ namespace PoroCYon.ICM.Pages
                             worldJson["progress"]["altarCounter"] = 0;
 
                         mbpm.displayText = "Altars smashed: " + (int)worldJson["progress"]["altarCounter"];
+
+                        Main.PlaySound(12);
                     };
 
                     mbpm.ClickHold = () =>
@@ -388,6 +390,8 @@ namespace PoroCYon.ICM.Pages
                             worldJson["progress"]["shadowOrb"]["counter"] = 0;
 
                         mbpm.displayText = "Shadow orbs smashed: " + (int)worldJson["progress"]["shadowOrb"]["counter"];
+
+                        Main.PlaySound(12);
                     };
 
                     mbpm.ClickHold = () =>
@@ -446,6 +450,8 @@ namespace PoroCYon.ICM.Pages
                     worldJson["hardmodeOres"][0] = 107;
                     oreButtons[0].displayText = "Cobalt";
                 }
+
+                Main.PlaySound(12);
             }).Where(mb =>
             {
                 if ((int)worldJson["hardmodeOres"][0] == 221)
@@ -465,6 +471,8 @@ namespace PoroCYon.ICM.Pages
                     worldJson["hardmodeOres"][1] = 108;
                     oreButtons[1].displayText = "Mithril";
                 }
+
+                Main.PlaySound(12);
             }).Where(mb =>
             {
                 if ((int)worldJson["hardmodeOres"][1] == 222)
@@ -484,6 +492,8 @@ namespace PoroCYon.ICM.Pages
                     worldJson["hardmodeOres"][2] = 111;
                     oreButtons[2].displayText = "Adamantite";
                 }
+
+                Main.PlaySound(12);
             }).Where(mb =>
             {
                 if ((int)worldJson["hardmodeOres"][2] == 223)

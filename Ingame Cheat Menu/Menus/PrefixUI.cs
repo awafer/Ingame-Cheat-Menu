@@ -147,7 +147,7 @@ namespace PoroCYon.ICM.Menus
             {
                 objects.Clear();
 
-                objects.AddRange(from Prefix p in Defs.prefixes.Values where IncludeInList(p) select p);
+                objects.AddRange(from Prefix p in Defs.prefixes.Values where IncludeInList(p) select p.Clone());
 
                 ResetContainers();
             };
@@ -166,7 +166,7 @@ namespace PoroCYon.ICM.Menus
         public override void ResetContainers()
         {
             for (int i = Position; i < Position + PREFIX_LIST_LENGTH; i++)
-                PrefixContainers[i - Position].Prefix = i >= objects.Count ? Prefix.None.Clone() : objects[i];
+                PrefixContainers[i - Position].Prefix = i >= objects.Count ? Prefix.None : objects[i];
         }
 
         /// <summary>
@@ -250,7 +250,21 @@ namespace PoroCYon.ICM.Menus
             //if (FilterOptions[2].IsChecked)
             //    return ret ^ IsSearchResult(p);
 
-            return !p.Equals(Prefix.None) && !String.IsNullOrEmpty(p.name) && !String.IsNullOrEmpty(p.displayName) && IsSearchResult(p);
+            string disp = p.displayName;
+            if (String.IsNullOrEmpty(disp))
+            {
+                string[] split = p.name.Split(':');
+
+                if (split.Length <= 1)
+                    return false;
+
+                disp = split[1];
+
+                for (int i = 2; i < split.Length; i++)
+                    disp += ":" + split[i];
+            }
+
+            return !p.Equals(Prefix.None) && !String.IsNullOrEmpty(disp) && IsSearchResult(p);
         }
     }
 }

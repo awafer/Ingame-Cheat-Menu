@@ -45,7 +45,21 @@ namespace PoroCYon.ICM.Controls
         {
             base.Update();
 
-            Text = Prefix.displayName;
+            string disp = Prefix.displayName;
+            if (String.IsNullOrEmpty(disp))
+            {
+                string[] split = Prefix.name.Split(':');
+
+                if (split.Length <= 1)
+                    throw new YoureAHackerException("An invalid prefix name is filtered in PrefixUI.IncludeInList(Prefix)");
+
+                disp = split[1];
+
+                for (int i = 2; i < split.Length; i++)
+                    disp += ":" + split[i];
+            }
+
+            Text = disp;
 
             if (PrefixUI.AvoidWrong.IsChecked && !Prefix.CanApplyToItem(PrefixUI.ItemToSet))
             {

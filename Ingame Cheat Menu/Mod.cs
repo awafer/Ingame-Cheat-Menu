@@ -45,6 +45,7 @@ namespace PoroCYon.ICM
         /// </summary>
         public override void OnLoad()
         {
+            Mct.EnsureMct("Ingame Cheat Menu");
             Mct.Init();
             base.OnLoad();
 
