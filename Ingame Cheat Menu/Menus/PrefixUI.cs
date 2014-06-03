@@ -166,7 +166,10 @@ namespace PoroCYon.ICM.Menus
         public override void ResetContainers()
         {
             for (int i = Position; i < Position + PREFIX_LIST_LENGTH; i++)
+            {
                 PrefixContainers[i - Position].Prefix = i >= objects.Count ? Prefix.None : objects[i];
+                PrefixContainers[i - Position].CanFocus = i < objects.Count;
+            }
         }
 
         /// <summary>

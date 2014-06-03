@@ -195,7 +195,10 @@ namespace PoroCYon.ICM.Menus
         public override void ResetContainers()
         {
             for (int i = Position; i < Position + LIST_LENGTH; i++)
+            {
                 NPCContainers[i - Position].NPC = i >= objects.Count ? new NPC() : objects[i];
+                NPCContainers[i - Position].CanFocus = i < objects.Count;
+            }
         }
 
         /// <summary>

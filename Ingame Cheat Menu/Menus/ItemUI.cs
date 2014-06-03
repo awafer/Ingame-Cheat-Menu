@@ -384,6 +384,7 @@ namespace PoroCYon.ICM.Menus
                     ItemContainers[i - Position].Item = CopyItem(objects[i]);
                     ItemContainers[i - Position].Item.stack = ItemContainers[i - Position].Item.maxStack;
                 }
+                ItemContainers[i - Position].CanFocus = i < objects.Count;
             }
         }
 

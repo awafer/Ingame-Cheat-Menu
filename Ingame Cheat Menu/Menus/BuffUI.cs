@@ -271,7 +271,10 @@ namespace PoroCYon.ICM.Menus
         public override void ResetContainers()
         {
             for (int i = Position; i < Position + 20; i++)
+            {
                 BuffContainers[i - Position].Buff = i >= objects.Count ? new Buff() : CopyBuff(objects[i]);
+                BuffContainers[i - Position].CanFocus = i < objects.Count;
+            }
         }
 
         /// <summary>

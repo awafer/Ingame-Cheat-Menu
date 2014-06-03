@@ -61,6 +61,8 @@ namespace PoroCYon.ICM.Controls
 
             Text = disp;
 
+            CanFocus = !PrefixUI.AvoidWrong.IsChecked || Prefix.CanApplyToItem(PrefixUI.ItemToSet);
+
             if (PrefixUI.AvoidWrong.IsChecked && !Prefix.CanApplyToItem(PrefixUI.ItemToSet))
             {
                 Tooltip = "This prefix cannot be set to that Item.\n";
