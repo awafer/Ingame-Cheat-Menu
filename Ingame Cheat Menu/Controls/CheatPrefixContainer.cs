@@ -45,25 +45,30 @@ namespace PoroCYon.ICM.Controls
         {
             base.Update();
 
+            bool validPfix = true;
+
             string disp = Prefix.displayName;
             if (String.IsNullOrEmpty(disp))
             {
                 string[] split = Prefix.name.Split(':');
 
                 if (split.Length <= 1)
-                    throw new YoureAHackerException("An invalid prefix name is filtered in PrefixUI.IncludeInList(Prefix)");
+                    validPfix = false;
+                else
+                {
+                    disp = split[1];
 
-                disp = split[1];
-
-                for (int i = 2; i < split.Length; i++)
-                    disp += ":" + split[i];
+                    for (int i = 2; i < split.Length; i++)
+                        disp += ":" + split[i];
+                }
             }
 
-            Text = disp;
+            if (validPfix)
+                Text = disp;
 
-            CanFocus = !PrefixUI.AvoidWrong.IsChecked || Prefix.CanApplyToItem(PrefixUI.ItemToSet);
+            CanFocus = validPfix && (!PrefixUI.AvoidWrong.IsChecked || Prefix.CanApplyToItem(PrefixUI.ItemToSet));
 
-            if (PrefixUI.AvoidWrong.IsChecked && !Prefix.CanApplyToItem(PrefixUI.ItemToSet))
+            if (!validPfix || (PrefixUI.AvoidWrong.IsChecked && !Prefix.CanApplyToItem(PrefixUI.ItemToSet)))
             {
                 Tooltip = "This prefix cannot be set to that Item.\n";
                 Colour = Color.Red;
@@ -72,11 +77,13 @@ namespace PoroCYon.ICM.Controls
             {
                 Colour = Color.White;
 
-                Tooltip = "";
+                Tooltip = String.Empty;
                 foreach (Tuple<string, bool> t in Prefix.TooltipText(PrefixUI.ItemToSet))
                     Tooltip += t.Item1 + "\n";
             }
-            Tooltip += Prefix.type;
+
+            if (validPfix)
+                Tooltip += Prefix.type;
         }
 
         /// <summary>
