@@ -47,24 +47,7 @@ namespace PoroCYon.ICM.Controls
 
             bool validPfix = true;
 
-            string disp = Prefix.displayName;
-            if (String.IsNullOrEmpty(disp))
-            {
-                string[] split = Prefix.name.Split(':');
-
-                if (split.Length <= 1)
-                    validPfix = false;
-                else
-                {
-                    disp = split[1];
-
-                    for (int i = 2; i < split.Length; i++)
-                        disp += ":" + split[i];
-                }
-            }
-
-            if (validPfix)
-                Text = disp;
+            validPfix = !String.IsNullOrEmpty(Text = PrefixUI.GetNameToDisplay(Prefix));
 
             CanFocus = validPfix && (!PrefixUI.AvoidWrong.IsChecked || Prefix.CanApplyToItem(PrefixUI.ItemToSet));
 
@@ -83,7 +66,7 @@ namespace PoroCYon.ICM.Controls
             }
 
             if (validPfix)
-                Tooltip += Prefix.type;
+                Tooltip += "Type: " + Prefix.type;
         }
 
         /// <summary>

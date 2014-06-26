@@ -103,7 +103,7 @@ namespace PoroCYon.ICM
             MctUI.AddCustomUI(ItemUI.Interface = new ItemUI());
             MctUI.AddCustomUI(BuffUI.Interface = new BuffUI());
             MctUI.AddCustomUI(PrefixUI.Interface = new PrefixUI());
-            MctUI.AddCustomUI(NPCUI.Interface = new NPCUI());
+            MctUI.AddCustomUI(NpcUI.Interface = new NpcUI());
             MctUI.AddCustomUI(PlayerUI.Interface = new PlayerUI());
             MctUI.AddCustomUI(WorldUI.Interface = new WorldUI());
 

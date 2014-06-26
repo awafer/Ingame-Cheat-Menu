@@ -101,7 +101,7 @@ namespace PoroCYon.ICM
                     case InterfaceType.Prefix:
                         return PrefixUI.Interface;
                     case InterfaceType.NPC:
-                        return NPCUI.Interface;
+                        return NpcUI.Interface;
                     case InterfaceType.Player:
                         return PlayerUI.Interface;
                     case InterfaceType.World:

@@ -84,7 +84,7 @@
     <Compile Include="Controls\ICMButton.cs" />
     <Compile Include="MainUI.cs" />
     <Compile Include="Menus\ItemUI.cs" />
-    <Compile Include="Menus\NPCUI.cs" />
+    <Compile Include="Menus\NpcUI.cs" />
     <Compile Include="Menus\PlayerUI.cs" />
     <Compile Include="Menus\PrefixUI.cs" />
     <Compile Include="ModUI.cs" />

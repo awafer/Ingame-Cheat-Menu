@@ -372,6 +372,8 @@ namespace PoroCYon.ICM
         public virtual void SearchTextChanged()
         {
             ResetObjectList();
+
+            Position = 0;
         }
     }
 }

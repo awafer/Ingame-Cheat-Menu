@@ -488,11 +488,11 @@ namespace PoroCYon.ICM.Menus
                 ret &= i.hammer > 0;
 
             if ((cat & Categories.Ammunition) != 0)
-                ret &= i.ammo > 0 && !i.notAmmo;
+                ret &= i.ammo > 0;
             if ((cat & Categories.Material) != 0)
-                ret &= i.material && !i.notMaterial;
+                ret &= i.material;
             if ((cat & Categories.Potion) != 0)
-                ret &= i.healLife > 0 || i.healMana > 0;
+                ret &= i.healLife > 0 || i.healMana > 0 || i.buffType > 0 && i.buffTime > 0;
 
             if ((cat & Categories.Buff) != 0)
                 ret &= i.buffType > 0;

@@ -90,9 +90,6 @@ namespace PoroCYon.ICM.Menus
         {
             base.Init();
 
-            LeftButton.Position.X += 20f;
-            RightButton.Position.X += 60f;
-
             AddControl(ToSet = new SimpleItemContainer()
             {
                 InventoryBackTextureNum = 5,
@@ -104,6 +101,12 @@ namespace PoroCYon.ICM.Menus
                 Tooltip = "With safe prefix setting, the game determinates\nwether the selected prefix can be applied to an Item or not.\nIf possible, it sets the prefix. Otherwise, the prefix is removed.",
 
                 Position = new Vector2(550f, 650f)
+            });
+            AddControl(new TextBlock("Found prefixes: " + objects.Count)
+            {
+                Position = new Vector2(170f, Main.screenHeight - 460f),
+
+                OnUpdate = (c) => ((TextBlock)c).Text = "Found prefixes: " + objects.Count
             });
 
             for (int i = 0; i < FILTER_OPTIONS_LENGTH; i++)
@@ -167,7 +170,7 @@ namespace PoroCYon.ICM.Menus
         {
             for (int i = Position; i < Position + PREFIX_LIST_LENGTH; i++)
             {
-                PrefixContainers[i - Position].Prefix = i >= objects.Count ? Prefix.None : objects[i];
+                PrefixContainers[i - Position].Prefix = i >= objects.Count ? Prefix.None : objects[i].Clone();
                 PrefixContainers[i - Position].CanFocus = i < objects.Count;
             }
         }
@@ -234,7 +237,27 @@ namespace PoroCYon.ICM.Menus
             if (p.Equals(Prefix.None))
                 return false;
 
-            return ExcludeSpecialChars(p.displayName).ToLower().Contains(search);
+            return ExcludeSpecialChars(GetNameToDisplay(p)).ToLower().Contains(search);
+        }
+
+        /// <summary>
+        /// Gets the displayed name of the Prefix, even if p.displayName is empty.
+        /// </summary>
+        /// <param name="p">The Prefix to get the display name from.</param>
+        /// <returns>The displayed name of the Prefix</returns>
+        public static string GetNameToDisplay(Prefix p)
+        {
+            if (String.IsNullOrEmpty(p.displayName))
+            {
+                string[] split = p.name.Split(':');
+
+                if (split.Length <= 1)
+                    return String.Empty;
+
+                return split[1];
+            }
+
+            return p.displayName;
         }
 
         /// <summary>
@@ -253,21 +276,7 @@ namespace PoroCYon.ICM.Menus
             //if (FilterOptions[2].IsChecked)
             //    return ret ^ IsSearchResult(p);
 
-            string disp = p.displayName;
-            if (String.IsNullOrEmpty(disp))
-            {
-                string[] split = p.name.Split(':');
-
-                if (split.Length <= 1)
-                    return false;
-
-                disp = split[1];
-
-                for (int i = 2; i < split.Length; i++)
-                    disp += ":" + split[i];
-            }
-
-            return !p.Equals(Prefix.None) && !String.IsNullOrEmpty(disp) && IsSearchResult(p);
+            return !p.Equals(Prefix.None) && !String.IsNullOrEmpty(GetNameToDisplay(p)) && IsSearchResult(p); // && ret;
         }
     }
 }

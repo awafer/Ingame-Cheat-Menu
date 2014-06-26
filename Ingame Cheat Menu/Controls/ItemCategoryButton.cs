@@ -151,6 +151,8 @@ namespace PoroCYon.ICM.Controls
                 ItemUI.Category |= Category;
 
             ItemUI.Interface.Position = 0;
+
+            ItemUI.Interface.ResetObjectList();
         }
 
         /// <summary>

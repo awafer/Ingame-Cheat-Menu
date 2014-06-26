@@ -17,7 +17,7 @@ namespace PoroCYon.ICM.Menus
     /// <summary>
     /// The ICM NPC cheat menu
     /// </summary>
-    public sealed class NPCUI : CheatUI<NPC>
+    public sealed class NpcUI : CheatUI<NPC>
     {
         /// <summary>
         /// All NPC categories. Enumeration is marked as Flags.
@@ -89,18 +89,18 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// The NPCUI singleton instance
         /// </summary>
-        public static NPCUI Interface;
+        public static NpcUI Interface;
 
         /// <summary>
         /// Creates a new instance of the NPCUI class
         /// </summary>
-        public NPCUI()
+        public NpcUI()
             : base(InterfaceType.NPC)
         {
 
         }
 
-        static NPCUI()
+        static NpcUI()
         {
             NPCContainers = new CheatNPCContainer[LIST_LENGTH];
             CategoryButtons = new NPCCategoryButton[CATEGORY_LIST_LENGTH];

@@ -12,7 +12,7 @@ using PoroCYon.ICM.Menus;
 
 namespace PoroCYon.ICM.Controls
 {
-    using Categories = NPCUI.Categories;
+    using Categories = NpcUI.Categories;
 
     /// <summary>
     /// A button used to toggle an NPC category filter on or off
@@ -92,12 +92,14 @@ namespace PoroCYon.ICM.Controls
         {
             base.Click();
 
-            if ((NPCUI.Category & Category) != 0)
-                NPCUI.Category ^= Category;
+            if ((NpcUI.Category & Category) != 0)
+                NpcUI.Category ^= Category;
             else
-                NPCUI.Category |= Category;
+                NpcUI.Category |= Category;
 
-            NPCUI.Interface.Position = 0;
+            NpcUI.Interface.Position = 0;
+
+            NpcUI.Interface.ResetObjectList();
         }
 
         /// <summary>
@@ -109,9 +111,9 @@ namespace PoroCYon.ICM.Controls
 
             if (id > 0)
                 Colour = Color.Lerp(Defs.npcs[Defs.npcNames[id]].GetAlpha(Color.White),
-                    new Color(0, 0, 0, 0), (NPCUI.Category & Category) != 0 ? 0f : 0.5f);
+                    new Color(0, 0, 0, 0), (NpcUI.Category & Category) != 0 ? 0f : 0.5f);
             else
-                Colour = (NPCUI.Category & Category) == 0 ? new Color(127, 127, 127, 0) : new Color(255, 255, 255, 0);
+                Colour = (NpcUI.Category & Category) == 0 ? new Color(127, 127, 127, 0) : new Color(255, 255, 255, 0);
         }
 
         /// <summary>
