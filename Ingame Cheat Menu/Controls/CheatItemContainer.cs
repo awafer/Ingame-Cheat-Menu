@@ -116,11 +116,9 @@ namespace PoroCYon.ICM.Controls
 
             if (Main.mouseItem.IsBlank())
             {
-                ItemUI.CopyItem(Item, ref Main.mouseItem);
+                Main.mouseItem = (Item)Item.Clone();
                 Main.mouseItem.stack = Main.mouseItem.maxStack;
             }
-            else
-                ItemUI.CopyItem(Main.mouseItem, ref Item);
 
             Main.PlaySound(7);
         }
