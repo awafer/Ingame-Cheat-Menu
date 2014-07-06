@@ -166,7 +166,7 @@ namespace PoroCYon.ICM.Menus
                 Position = new Vector2(460f, Main.screenHeight - 250f),
 
                 OnUpdate = c => ((PlusMinusButton)c).Value = Main.moonPhase,
-                OnValueChanged = (pmb, o, n) => Main.moonPhase = Main.moonPhase + (int)n % 7
+                OnValueChanged = (pmb, o, n) => Main.moonPhase = (int)n % 8
             });
             AddControl(new PlusMinusButton(Main.dayRate, 1f, "Time speed")
             {
