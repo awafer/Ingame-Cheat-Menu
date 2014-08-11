@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime;
 using Microsoft.Xna.Framework;
-using PoroCYon.XnaExtensions;
+using PoroCYon.Extensions;
 using TAPI;
 using PoroCYon.MCT.UI;
 using PoroCYon.MCT.UI.MenuItems;

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.XnaExtensions;
+using PoroCYon.Extensions;
 using Terraria;
 using TAPI;
 using PoroCYon.MCT;

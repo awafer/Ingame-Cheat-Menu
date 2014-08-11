@@ -6,7 +6,7 @@ using System.Runtime;
 using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.XnaExtensions;
+using PoroCYon.Extensions;
 using Terraria;
 using TAPI;
 using PoroCYon.MCT.UI.Interface.Controls;
@@ -347,28 +347,27 @@ namespace PoroCYon.ICM.Menus
             }
         }
 
+        void _Reset()
+        {
+            objects.Clear();
+
+            objects.AddRange(from Item i in Defs.items.Values where IncludeInList(i) select CopyItem(i));
+
+            ResetContainers();
+        }
         /// <summary>
         /// Clears the Item list and fills it, with the current filters
         /// </summary>
         /// <param name="thisThread">Wether to load it on the current thread or on a new one</param>
         public override void ResetObjectList(bool thisThread = false)
         {
-            ThreadStart start = () =>
-            {
-                objects.Clear();
-
-                objects.AddRange(from Item i in Defs.items.Values where IncludeInList(i) select CopyItem(i));
-
-                ResetContainers();
-            };
-
             if (ResetThread != null && ResetThread.ThreadState == ThreadState.Running)
                 ResetThread.Abort();
 
             if (thisThread)
-                start();
+                _Reset();
             else
-                (ResetThread = new Thread(start)).Start();
+                (ResetThread = new Thread(_Reset)).Start();
         }
         /// <summary>
         /// Resets the ItemContainer content
@@ -450,7 +449,7 @@ namespace PoroCYon.ICM.Menus
         /// <returns>true if the Item is in the category, false otherwise.</returns>
         public static bool IsInCategoryAND(Item i, Categories cat)
         {
-            if (i.type == 0)
+            if (i.IsBlank())
                 return false;
             if (cat == Categories.None)
                 return true;
@@ -521,7 +520,7 @@ namespace PoroCYon.ICM.Menus
         /// <returns>true if the Item is in the category, false otherwise.</returns>
         public static bool IsInCategoryOR(Item i, Categories cat)
         {
-            if (i.type == 0 || cat == Categories.None)
+            if (i.IsBlank() || cat == Categories.None)
                 return false;
             if (cat == Categories.All)
                 return true;
@@ -591,7 +590,7 @@ namespace PoroCYon.ICM.Menus
         /// <returns>true if the Item is in the category, false otherwise.</returns>
         public static bool IsInCategoryXOR(Item i, Categories cat)
         {
-            if (i.type == 0 || cat == Categories.All)
+            if (i.IsBlank() || cat == Categories.All)
                 return false;
             if (cat == Categories.None)
                 return true;
@@ -662,7 +661,7 @@ namespace PoroCYon.ICM.Menus
         public static bool IsOther(Item i)
         {
             return !i.melee && !i.ranged && !i.magic && i.headSlot < 0 && i.bodySlot < 0 && i.legSlot < 0 && !i.vanity && !i.accessory &&
-                    i.pick <= 0 && i.hammer <= 0 && i.axe <= 0 && (i.ammo <= 0 || i.notAmmo) && (!i.material || i.notMaterial)
+                    i.pick <= 0 && i.hammer <= 0 && i.axe <= 0 && i.ammo <= 0 && !i.material
                     && !(i.healLife > 0 || i.healMana > 0) && i.buffType <= 0 && i.createTile <= 0 && i.createWall <= 0 && i.paint < 0 && i.dye <= 0
                     && !Main.vanityPet[i.buffType] && !Main.lightPet[i.buffType] && !i.summon;
         }

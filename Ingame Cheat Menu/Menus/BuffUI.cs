@@ -5,7 +5,7 @@ using System.Runtime;
 using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.XnaExtensions;
+using PoroCYon.Extensions;
 using Terraria;
 using TAPI;
 using PoroCYon.MCT.Content;

@@ -18,6 +18,8 @@ namespace PoroCYon.ICM
         static int[] CD = new int[2];
         static Vector2 oVel = Vector2.Zero; // overriddenVelocity
 
+        static bool oldInv;
+
         public MPlayer(ModBase @base, Player p)
             : base(@base, p)
         {
@@ -30,12 +32,16 @@ namespace PoroCYon.ICM
 
             if (player == Main.localPlayer)
             {
-                if (!Main.playerInventory)
-                    MainUI.UIType = InterfaceType.None;
+                if (!Main.playerInventory && oldInv)
+                    MainUI.ChangeToUI(InterfaceType.None);
+
+                oldInv = Main.playerInventory;
+
                 for (int i = 0; i < CD.Length; i++)
                     if (CD[i] <= 15)
                         CD[i]++;
 
+                #region invincibility
                 if (Invincibility)
                 {
                     player.immuneAlpha = 0;
@@ -77,11 +83,15 @@ namespace PoroCYon.ICM
 
                     player.breath = player.breathMax - 1;
                 }
+                #endregion
+                #region noclip
                 if (Noclip)
                 {
                     player.fallStart = (int)(player.position.Y / 16f);
                     player.gravControl = false;
                 }
+                #endregion
+                #region both
                 if (Invincibility && Noclip)
                 {
                     Lighting.AddLight((int)player.position.X, (int)player.position.Y, 1.2f, 1.2f, 1.2f);
@@ -176,6 +186,7 @@ namespace PoroCYon.ICM
                         }
                     }
                 }
+                #endregion
             }
         }
 
@@ -185,6 +196,7 @@ namespace PoroCYon.ICM
 
             if (player == Main.localPlayer)
             {
+                #region invincibility
                 if (Invincibility)
                 {
                     player.suffocating = false;
@@ -225,6 +237,8 @@ namespace PoroCYon.ICM
                     player.gravDir = 1f;
                     player.immuneTime = 60;
                 }
+                #endregion
+                #region noclip
                 if (Noclip)
                 {
                     player.fallStart = (int)(player.position.Y / 16f);
@@ -250,6 +264,8 @@ namespace PoroCYon.ICM
                         player.position += oVel / 50f;
                     oVel *= 0.75f;
                 }
+                #endregion
+                #region both
                 if (Invincibility && Noclip)
                 {
                     Lighting.AddLight((int)player.position.X, (int)player.position.Y, 1.2f, 1.2f, 1.2f);
@@ -259,6 +275,7 @@ namespace PoroCYon.ICM
                     player.blockRange = 40;
                     player.pickSpeed = 0.000001f;
                 }
+                #endregion
             }
         }
     }

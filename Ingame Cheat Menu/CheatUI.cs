@@ -296,8 +296,8 @@ namespace PoroCYon.ICM
                 Tooltip = "The filter searches for items which have none of the selected remarks."
             });
 
-            LeftButton.OnClicked  += (b) => ResetContainers();
-            RightButton.OnClicked += (b) => ResetContainers();
+             LeftButton.OnClicked += b => ResetContainers();
+            RightButton.OnClicked += b => ResetContainers();
         }
 
         /// <summary>
@@ -354,17 +354,11 @@ namespace PoroCYon.ICM
         /// <summary>
         /// Creates the object container list
         /// </summary>
-        protected virtual void CreateContainers()
-        {
-
-        }
+        protected virtual void CreateContainers() { }
         /// <summary>
         /// Disposes the object container list
         /// </summary>
-        protected virtual void RemoveContainers()
-        {
-
-        }
+        protected virtual void RemoveContainers() { }
 
         /// <summary>
         /// Called when the text of the search text box is changed
