@@ -702,6 +702,9 @@ namespace PoroCYon.ICM.Menus
         /// <returns>true if the Item should be included, false otherwise.</returns>
         public bool IncludeInList(Item i)
         {
+            if (i == null || i.IsBlank() || i.name.StartsWith("g:") /* item craft groups are actually items under the hood */ || i.name == "TAPI:Unloaded Item" /* also an item instance */)
+                return false;
+
             bool ret = IsInCategory(i);
 
             if (FilterOptions[0].IsChecked)

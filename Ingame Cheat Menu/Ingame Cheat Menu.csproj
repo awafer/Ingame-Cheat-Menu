@@ -119,7 +119,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mct compile "$(ProjectName)"</PostBuildEvent>
+    <PostBuildEvent>mct compile "$(ProjectName)"
+rem this somehow bugs...
+copy "%25tapimodoutdir%25\Sources.tapi" "%25tapimodoutdir%25\Ingame Cheat Menu.tapi" /y
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

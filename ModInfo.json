@@ -1,7 +1,7 @@
 {
     "displayName": "Ingame Cheat Menu",
     "author": "PoroCYon",  
-    "version": "1.0.1.3",
+    "version": "1.0.1.4",
     "info": "A cheat menu. Isn't it obvious?",
 
     "internalName": "ICM",
@@ -9,5 +9,7 @@
     "MSBuild": true,
     "msBuildFile": "Ingame Cheat Menu\\Ingame Cheat Menu.csproj",
 
-    "includePDB": true
+    "includePDB": true,
+
+    "outputName": "Ingame Cheat Menu"
 }
