@@ -38,9 +38,9 @@ namespace PoroCYon.ICM.Controls
             else
                 ItemUI.Category |= Category;
 
-            ItemUI.Interface.Position = 0;
+            ItemUI.Instance.Position = 0;
 
-            ItemUI.Interface.ResetObjectList();
+            ItemUI.Instance.ResetObjectList();
         }
 
         /// <summary>

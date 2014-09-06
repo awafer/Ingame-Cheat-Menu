@@ -126,7 +126,7 @@ namespace PoroCYon.ICM.Controls
                 Item = Main.mouseItem;
                 Main.mouseItem = toMouse;
 
-                PrefixUI.Interface.Position = 0;
+                PrefixUI.Instance.Position = 0;
             }
             else if (Main.mouseItem.IsBlank())
                 Main.mouseItem = (Item)Item.Clone();

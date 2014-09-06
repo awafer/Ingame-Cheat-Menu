@@ -61,7 +61,11 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// The PrefixUI singleton instance
         /// </summary>
-        public static PrefixUI Interface;
+        public static PrefixUI Instance
+        {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// The Item instance which is put in ToSet

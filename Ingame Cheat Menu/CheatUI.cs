@@ -6,9 +6,11 @@ using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using TAPI;
 using PoroCYon.MCT.UI;
 using PoroCYon.MCT.UI.Interface;
 using PoroCYon.MCT.UI.Interface.Controls;
+using PoroCYon.ICM.Controls;
 
 namespace PoroCYon.ICM
 {
@@ -61,7 +63,7 @@ namespace PoroCYon.ICM
         /// Creates a new instace of the CheatUI class
         /// </summary>
         /// <param name="type">The type of the cheat menu</param>
-        public CheatUI(InterfaceType type)
+        protected CheatUI(InterfaceType type)
             : base()
         {
             Type = type;
@@ -95,9 +97,9 @@ namespace PoroCYon.ICM
             base.Init();
 
             if (LeftArrow == null)
-                LeftArrow = Mod.ModInstance.textures["Ingame Cheat Menu/Sprites/Left.png"];
+                LeftArrow = Mod.Instance.textures["Ingame Cheat Menu/Sprites/Left.png"];
             if (RightArrow == null)
-                RightArrow = Mod.ModInstance.textures["Ingame Cheat Menu/Sprites/Right.png"];
+                RightArrow = Mod.Instance.textures["Ingame Cheat Menu/Sprites/Right.png"];
         }
 
         /// <summary>
@@ -119,6 +121,7 @@ namespace PoroCYon.ICM
     /// <summary>
     /// The base class of all cheat menus, provides searching, filter options and an object list
     /// </summary>
+    /// <typeparam name="T">The object list element type.</typeparam>
     public abstract class CheatUI<T> : CheatUI
     {
         /// <summary>
@@ -188,7 +191,7 @@ namespace PoroCYon.ICM
         /// Creates a new instace of the CheatUI class
         /// </summary>
         /// <param name="type">The type of the cheat menu</param>
-        public CheatUI(InterfaceType type)
+        protected CheatUI(InterfaceType type)
             : base(type)
         {
             Type = type;
@@ -280,17 +283,17 @@ namespace PoroCYon.ICM
                 Position = new Vector2(170f, Main.screenHeight - 415f)
             });
 
-            AddControl(FilterOptions[0] = new RadioButton("ICM:FilterType", true, "AND filtering")
+            AddControl(FilterOptions[0] = new RadioButton("ICM:FilterType-" + GetType().FullName, true, "AND filtering")
             {
                 Position = new Vector2(20f, Main.screenHeight - 470f),
                 Tooltip = "The filter searches for items that have all of the selected remarks."
             });
-            AddControl(FilterOptions[1] = new RadioButton("ICM:FilterType", false, "OR filtering")
+            AddControl(FilterOptions[1] = new RadioButton("ICM:FilterType-" + GetType().FullName, false, "OR filtering")
             {
                 Position = new Vector2(20f, Main.screenHeight - 420f),
                 Tooltip = "The filter searches for items which have one or more of the selected remarks."
             });
-            AddControl(FilterOptions[2] = new RadioButton("ICM:FilterType", false, "XOR filtering")
+            AddControl(FilterOptions[2] = new RadioButton("ICM:FilterType-" + GetType().FullName, false, "XOR filtering")
             {
                 Position = new Vector2(20f, Main.screenHeight - 370f),
                 Tooltip = "The filter searches for items which have none of the selected remarks."
@@ -368,6 +371,47 @@ namespace PoroCYon.ICM
             ResetObjectList();
 
             Position = 0;
+        }
+    }
+    /// <summary>
+    /// The base class of all cheat menus, provides searching, filter options, an object list and mod filtering options.
+    /// </summary>
+    /// <typeparam name="TCodableEntity">The object list element type.</typeparam>
+    public abstract class CheatEntityUI<TCodableEntity> : CheatUI<TCodableEntity>
+        where TCodableEntity : CodableEntity
+    {
+        int currentMFilter = -1;
+
+        /// <summary>
+        /// Gets all mod filters.
+        /// </summary>
+        public ModFilter<TCodableEntity>[] ModFilters;
+        /// <summary>
+        /// Gets the current mod filter.
+        /// </summary>
+        public ModFilter<TCodableEntity> CurrentModFilter
+        {
+            get
+            {
+                if (currentMFilter == -1)
+                    return null;
+
+                return ModFilters[currentMFilter];
+            }
+            set
+            {
+                currentMFilter = value == null ? -1 : Array.IndexOf(ModFilters, value);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new instance of the CheatEntityUI class.
+        /// </summary>
+        /// <param name="type">The interface type of the CheatUI.</param>
+        protected CheatEntityUI(InterfaceType type)
+            : base(type)
+        {
+
         }
     }
 }

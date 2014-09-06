@@ -111,7 +111,11 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// The BuffUI singleton instance
         /// </summary>
-        public static BuffUI Interface;
+        public static BuffUI Instance
+        {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// Creates a new instance of the BuffUI class
@@ -124,7 +128,7 @@ namespace PoroCYon.ICM.Menus
 
         static BuffUI()
         {
-            BuffContainers = new CheatBuffContainer[LIST_LENGTH];
+            BuffContainers  = new CheatBuffContainer[LIST_LENGTH];
             CategoryButtons = new BuffCategoryButton[CATEGORY_LIST_LENGTH];
         }
 

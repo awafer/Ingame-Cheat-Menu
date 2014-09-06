@@ -17,7 +17,7 @@ namespace PoroCYon.ICM.Menus
     /// <summary>
     /// The ICM NPC cheat menu
     /// </summary>
-    public sealed class NpcUI : CheatUI<NPC>
+    public sealed class NpcUI : CheatEntityUI<NPC>
     {
         /// <summary>
         /// All NPC categories. Enumeration is marked as Flags.
@@ -89,7 +89,11 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// The NPCUI singleton instance
         /// </summary>
-        public static NpcUI Interface;
+        public static NpcUI Instance
+        {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// Creates a new instance of the NPCUI class
@@ -102,7 +106,7 @@ namespace PoroCYon.ICM.Menus
 
         static NpcUI()
         {
-            NPCContainers = new CheatNPCContainer[LIST_LENGTH];
+            NPCContainers   = new CheatNPCContainer[LIST_LENGTH];
             CategoryButtons = new NPCCategoryButton[CATEGORY_LIST_LENGTH];
         }
 
@@ -162,7 +166,31 @@ namespace PoroCYon.ICM.Menus
                     Position = new Vector2(480f + Main.inventoryBackTexture.Width * col,
                         Main.screenHeight - 440f + Main.inventoryBackTexture.Height * row)
                 });
-                CategoryButtons[index].Position += Main.inventoryBackTexture.Size() / 2f - CategoryButtons[index].Hitbox.Size() / 2f;
+                CategoryButtons[index].Position += Main.inventoryBackTexture.Size() / 2f
+                    - CategoryButtons[index].oneFrame.Size() * CategoryButtons[index].scale / 2f;
+                //CategoryButtons[index].Position += Main.inventoryBackTexture.Size() / 2f - CategoryButtons[index].Hitbox.Size() / 2f;
+            }
+
+            ModFilters = new ModFilter<NPC>[Mods.modBases.Count];
+
+            col = 0; row = 0;
+            for (int i = 0; i < Mods.modBases.Count; i++, col++)
+            {
+                if (!Defs.npcs.Any(kvp => kvp.Value.modBase == Mods.modBases[i]))
+                    continue;
+
+                if (col >= 2)
+                {
+                    row++;
+                    col = 0;
+                }
+
+                AddControl(ModFilters[i] = new NpcFilter(Mods.modBases[i])
+                {
+                    Position = new Vector2(640f + Main.inventoryBackTexture.Width * col,
+                        Main.screenHeight - 440f + Main.inventoryBackTexture.Height * row)
+                });
+                ModFilters[i].Position += Main.inventoryBackTexture.Size() / 2f - ModFilters[i].Hitbox.Size() / 2f;
             }
         }
 
@@ -370,14 +398,14 @@ namespace PoroCYon.ICM.Menus
         /// <returns>true if the NPC should be included, false otherwise.</returns>
         public bool IncludeInList(NPC n)
         {
-            bool ret = IsInCategory(n);
+            bool ret = IsInCategory(n) && (CurrentModFilter == null ? true : n.modBase == CurrentModFilter.ModBase);
 
             if (FilterOptions[0].IsChecked)
                 return ret && IsSearchResult(n);
             if (FilterOptions[1].IsChecked)
                 return ret || IsSearchResult(n);
             if (FilterOptions[2].IsChecked)
-                return ret ^ IsSearchResult(n);
+                return ret ^  IsSearchResult(n);
 
             return false;
         }

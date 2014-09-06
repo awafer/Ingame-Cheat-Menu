@@ -15,7 +15,11 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// The PlayerUI singleton instance
         /// </summary>
-        public static PlayerUI Interface;
+        public static PlayerUI Instance
+        {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// Gets or sets wether Invincibility is turned on or off

@@ -21,7 +21,11 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// The WorldUI singleton instance
         /// </summary>
-        public static WorldUI Interface;
+        public static WorldUI Instance
+        {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// Creates a new instance of the WorldUI class

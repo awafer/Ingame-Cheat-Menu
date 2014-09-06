@@ -7,6 +7,7 @@ using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.Extensions;
+using PoroCYon.Extensions.Xna.Geometry;
 using Terraria;
 using TAPI;
 using PoroCYon.MCT.UI.Interface.Controls;
@@ -17,7 +18,7 @@ namespace PoroCYon.ICM.Menus
     /// <summary>
     /// The ICM Item cheat UI
     /// </summary>
-    public sealed class ItemUI : CheatUI<Item>
+    public sealed class ItemUI : CheatEntityUI<Item>
     {
         /// <summary>
         /// All Item categories. Enumeration is marked as Flags.
@@ -217,7 +218,7 @@ namespace PoroCYon.ICM.Menus
                 {
                     if (++current >= Defs.items.Count)
                         return false;
-                } while (!ItemUI.Interface.IncludeInList(((IEnumerator<Item>)this).Current));
+                } while (!ItemUI.Instance.IncludeInList(((IEnumerator<Item>)this).Current));
 
                 return true;
             }
@@ -267,7 +268,11 @@ namespace PoroCYon.ICM.Menus
         /// <summary>
         /// The ItemUI singleton instance
         /// </summary>
-        public static ItemUI Interface;
+        public static ItemUI Instance
+        {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// Creates a new instance of the ItemUI class
@@ -280,7 +285,7 @@ namespace PoroCYon.ICM.Menus
 
         static ItemUI()
         {
-            ItemContainers = new CheatItemContainer[LIST_LENGTH];
+            ItemContainers  = new CheatItemContainer[LIST_LENGTH];
             CategoryButtons = new ItemCategoryButton[CATEGORY_LIST_LENGTH];
         }
 
@@ -344,6 +349,30 @@ namespace PoroCYon.ICM.Menus
                 });
                 CategoryButtons[index].Position += Main.inventoryBackTexture.Size() / 2f
                     - ((Texture2D)CategoryButtons[index].Picture.Item).Size() / 2f;
+            }
+
+            ModFilters = new ModFilter<Item>[Mods.modBases.Count];
+
+            col = 0; row = 0;
+            for (int i = 0; i < Mods.modBases.Count; i++, col++)
+            {
+                if (!Defs.items.Any(kvp => kvp.Value.modBase == Mods.modBases[i]))
+                    continue;
+
+                if (col >= 2)
+                {
+                    row++;
+                    col = 0;
+                }
+
+                AddControl(ModFilters[i] = new ItemFilter(Mods.modBases[i])
+                {
+                    Position = new Vector2(640f + Main.inventoryBackTexture.Width * col,
+                        Main.screenHeight - 440f + Main.inventoryBackTexture.Height * row)
+                });
+                ModFilters[i].Position += Main.inventoryBackTexture.Size() / 2f
+                    - ((Texture2D)ModFilters[i].Picture.Item).Size() / 2f;
+                //ModFilters[i].Position += Main.inventoryBackTexture.Size() / 2f - ModFilters[i].Hitbox.Size() / 2f;
             }
         }
 
@@ -705,7 +734,7 @@ namespace PoroCYon.ICM.Menus
             if (i == null || i.IsBlank() || i.name.StartsWith("g:") /* item craft groups are actually items under the hood */ || i.name == "TAPI:Unloaded Item" /* also an item instance */)
                 return false;
 
-            bool ret = IsInCategory(i);
+            bool ret = IsInCategory(i) && (CurrentModFilter == null ? true : i.modBase == CurrentModFilter.ModBase);
 
             if (FilterOptions[0].IsChecked)
                 return ret && IsSearchResult(i);

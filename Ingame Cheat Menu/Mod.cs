@@ -29,7 +29,11 @@ namespace PoroCYon.ICM
         /// <summary>
         /// The Mod singleton instance
         /// </summary>
-        public static Mod ModInstance;
+        public static Mod Instance
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Creates a new instance of the Mod class. Called through reflection.
@@ -37,7 +41,7 @@ namespace PoroCYon.ICM
         public Mod()
             : base()
         {
-            ModInstance = this;
+            Instance = this;
         }
 
         /// <summary>
@@ -100,12 +104,12 @@ namespace PoroCYon.ICM
 
             MctUI.AddCustomUI(MainUI.Interface = new MainUI());
 
-            MctUI.AddCustomUI(ItemUI.Interface = new ItemUI());
-            MctUI.AddCustomUI(BuffUI.Interface = new BuffUI());
-            MctUI.AddCustomUI(PrefixUI.Interface = new PrefixUI());
-            MctUI.AddCustomUI(NpcUI.Interface = new NpcUI());
-            MctUI.AddCustomUI(PlayerUI.Interface = new PlayerUI());
-            MctUI.AddCustomUI(WorldUI.Interface = new WorldUI());
+            MctUI.AddCustomUI(ItemUI.Instance = new ItemUI());
+            MctUI.AddCustomUI(BuffUI.Instance = new BuffUI());
+            MctUI.AddCustomUI(PrefixUI.Instance = new PrefixUI());
+            MctUI.AddCustomUI(NpcUI.Instance = new NpcUI());
+            MctUI.AddCustomUI(PlayerUI.Instance = new PlayerUI());
+            MctUI.AddCustomUI(WorldUI.Instance = new WorldUI());
 
             //MctUI.AddCustomUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
             //MctUI.AddCustomUI(EditItemUI.Interface = new EditItemUI());
@@ -258,7 +262,7 @@ namespace PoroCYon.ICM
             //WriteSettings(fs);
             //fs.Close();
 
-            ModInstance = null;
+            Instance = null;
         }
 
         /// <summary>

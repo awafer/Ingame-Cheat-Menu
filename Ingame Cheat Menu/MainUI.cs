@@ -95,17 +95,17 @@ namespace PoroCYon.ICM
                         return null;
 
                     case InterfaceType.Item:
-                        return ItemUI.Interface;
+                        return ItemUI.Instance;
                     case InterfaceType.Buff:
-                        return BuffUI.Interface;
+                        return BuffUI.Instance;
                     case InterfaceType.Prefix:
-                        return PrefixUI.Interface;
+                        return PrefixUI.Instance;
                     case InterfaceType.NPC:
-                        return NpcUI.Interface;
+                        return NpcUI.Instance;
                     case InterfaceType.Player:
-                        return PlayerUI.Interface;
+                        return PlayerUI.Instance;
                     case InterfaceType.World:
-                        return WorldUI.Interface;
+                        return WorldUI.Instance;
 
                     //case InterfaceType.EditGlobalNPC:
                     //    return EditGlobalNPCUI.Interface;

@@ -18,12 +18,32 @@ namespace PoroCYon.ICM.Controls
     /// </summary>
     public sealed class NPCCategoryButton : CategoryButton<Categories>
     {
-        Rectangle oneFrame
+        internal Rectangle oneFrame
         {
             get
             {
                 Main.LoadNPC(GetID());
                 return new Rectangle(0, 0, GetImage().Width, GetImage().Height / Main.npcFrameCount[GetID()]);
+            }
+        }
+        internal float scale
+        {
+            get
+            {
+                return GetID() == 4 ? 0.25f : 1f;
+            }
+        }
+
+        /// <summary>
+        /// Gets the hitbox of the Control.
+        /// </summary>
+        public override Rectangle Hitbox
+        {
+            get
+            {
+                Vector2 pos = Position - (Main.inventoryBackTexture.Size() / 2f - oneFrame.Size() * scale / 2f);
+
+                return new Rectangle((int)pos.X, (int)pos.Y, 52, 52);
             }
         }
 
@@ -66,9 +86,9 @@ namespace PoroCYon.ICM.Controls
             else
                 NpcUI.Category |= Category;
 
-            NpcUI.Interface.Position = 0;
+            NpcUI.Instance.Position = 0;
 
-            NpcUI.Interface.ResetObjectList();
+            NpcUI.Instance.ResetObjectList();
         }
 
         /// <summary>
@@ -81,8 +101,8 @@ namespace PoroCYon.ICM.Controls
 
             //base.Draw(sb);
 
-            sb.Draw(GetImage(), Position + Hitbox.Size() / 2f - (oneFrame.Size() * (Category == Categories.Boss ? 0.25f : 1f)) / 2f,
-                oneFrame, Colour, Rotation, Origin, Scale * (Category == Categories.Boss ? 0.25f : 1f), SpriteEffects, LayerDepth);
+            sb.Draw(GetImage(), Position + Hitbox.Size() / 2f - (oneFrame.Size() * scale) / 2f,
+                oneFrame, Colour, Rotation, Origin, Scale * scale, SpriteEffects, LayerDepth);
         }
 
         /// <summary>

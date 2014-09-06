@@ -87,6 +87,7 @@
     <Compile Include="Controls\CheatXContainer\CheatPrefixContainer.cs" />
     <Compile Include="Controls\CategoryButtons\ItemCategoryButton.cs" />
     <Compile Include="Controls\CategoryButtons\NPCCategoryButton.cs" />
+    <Compile Include="Controls\ModFilter.cs" />
     <Compile Include="Controls\SimpleItemContainer.cs" />
     <Compile Include="Menus\BuffUI.cs" />
     <Compile Include="CheatUI.cs" />
