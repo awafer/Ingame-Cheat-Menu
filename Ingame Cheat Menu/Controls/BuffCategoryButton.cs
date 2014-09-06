@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.Extensions.Xna.Graphics;
 using Terraria;
-using TAPI;
-using PoroCYon.MCT.UI;
-using PoroCYon.MCT.UI.Interface.Controls;
 using PoroCYon.ICM.Menus;
 
 namespace PoroCYon.ICM.Controls
@@ -15,80 +10,22 @@ namespace PoroCYon.ICM.Controls
     using Categories = BuffUI.Categories;
 
     /// <summary>
-    /// A button used to toggle a Buff category filter on or off
+    /// A Button used to toggle a Buff category filter on or off.
     /// </summary>
-    public sealed class BuffCategoryButton : ImageButton
+    public sealed class BuffCategoryButton : CategoryButton<Categories>
     {
-        int id = 0;
-
-        /// <summary>
-        /// The category of the BuffCategoryButton
-        /// </summary>
-        public Categories Category;
-
-        /// <summary>
-        /// The hitbox of the Control
-        /// </summary>
-        public override Rectangle Hitbox
-        {
-            get
-            {
-                Vector2 pos = Position - (Main.inventoryBackTexture.Size() / 2f - PicAsTexture.Size() / 2f);
-
-                return new Rectangle((int)pos.X, (int)pos.Y, 52, 52);
-            }
-        }
-
-        /// <summary>
-        /// Creates a new instance of the BuffCategoryButton class
-        /// </summary>
-        public BuffCategoryButton()
-            : this(Categories.All)
-        {
-
-        }
-
         /// <summary>
         /// Creates a new instance of the BuffCategoryButton class
         /// </summary>
         /// <param name="cat">The category of the BuffCategoryButton</param>
         public BuffCategoryButton(Categories cat)
-            : base(MctUI.WhitePixel)
+            : base(cat)
         {
-            HasBackground = true;
 
-            switch (Category = cat)
-            {
-                case Categories.Buff:
-                    id = 1; // obsidian skin
-                    break;
-                case Categories.Debuff:
-                    id = 24; // on fire!
-                    break;
-                case Categories.LightPet:
-                    id = 27; // fairy
-                    break;
-                case Categories.VanityPet:
-                    id = 40; // bunny
-                    break;
-                case Categories.WeaponBuff:
-                    id = 74; // weapon imbue: fire
-                    break;
-            }
-
-            Tooltip = cat.ToString();
-
-            if (id > 0)
-            {
-                Picture.Item = Main.buffTexture[id];
-                Colour = Color.Lerp(new Color(255, 255, 255, 0), new Color(0, 0, 0, 0), (BuffUI.Category & Category) != 0 ? 0f : 0.5f);
-            }
-            else
-                Colour = (BuffUI.Category & Category) == 0 ? new Color(127, 127, 127, 0) : new Color(255, 255, 255, 0);
         }
 
         /// <summary>
-        /// Clicks the Button
+        /// Clicks the Button.
         /// </summary>
         protected override void Click()
         {
@@ -105,30 +42,34 @@ namespace PoroCYon.ICM.Controls
         }
 
         /// <summary>
-        /// Updates the Control
+        /// Gets the image to display.
         /// </summary>
-        public override void Update()
+        /// <returns>The image to display. null to display nothing.</returns>
+        protected override Texture2D GetImage()
         {
-            base.Update();
-
-            if (id > 0)
+            switch (Category)
             {
-                Picture.Item = Main.buffTexture[id];
-                Colour = Color.Lerp(new Color(255, 255, 255, 0), new Color(0, 0, 0, 0), (BuffUI.Category & Category) != 0 ? 0f : 0.5f);
+                case Categories.Buff:
+                    return Main.buffTexture[1 ]; // obsidian skin
+                case Categories.Debuff:
+                    return Main.buffTexture[24]; // on fire!
+                case Categories.LightPet:
+                    return Main.buffTexture[27]; // fairy
+                case Categories.VanityPet:
+                    return Main.buffTexture[40]; // bunny
+                case Categories.WeaponBuff:
+                    return Main.buffTexture[74]; // weapon imbue: fire
             }
-            else
-                Colour = (BuffUI.Category & Category) == 0 ? new Color(127, 127, 127, 0) : new Color(255, 255, 255, 0);
+
+            return null;
         }
-
         /// <summary>
-        /// Draws the Control
+        /// Gets whether the filter is switched on or off.
         /// </summary>
-        /// <param name="sb">The SpriteBatch used to draw the Control</param>
-        public override void Draw(SpriteBatch sb)
+        /// <returns>Whether the category filter flags has the associated filter flag.</returns>
+        protected override bool      GetIsSelected()
         {
-            DrawBackground(sb);
-
-            base.Draw(sb);
+            return (BuffUI.Category & Category) != 0;
         }
     }
 }

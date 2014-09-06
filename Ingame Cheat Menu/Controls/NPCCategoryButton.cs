@@ -7,7 +7,6 @@ using PoroCYon.Extensions.Xna.Geometry;
 using PoroCYon.Extensions.Xna.Graphics;
 using Terraria;
 using TAPI;
-using PoroCYon.MCT.UI.Interface.Controls.Primitives;
 using PoroCYon.ICM.Menus;
 
 namespace PoroCYon.ICM.Controls
@@ -15,78 +14,48 @@ namespace PoroCYon.ICM.Controls
     using Categories = NpcUI.Categories;
 
     /// <summary>
-    /// A button used to toggle an NPC category filter on or off
+    /// A Button used to toggle an NPC category filter on or off.
     /// </summary>
-    public sealed class NPCCategoryButton : Button
+    public sealed class NPCCategoryButton : CategoryButton<Categories>
     {
-        int id = 0;
-
         Rectangle oneFrame
         {
             get
             {
-                Main.LoadNPC(id);
-                return new Rectangle(0, 0, Main.npcTexture[id].Width, Main.npcTexture[id].Height / Main.npcFrameCount[id]);
+                Main.LoadNPC(GetID());
+                return new Rectangle(0, 0, GetImage().Width, GetImage().Height / Main.npcFrameCount[GetID()]);
             }
         }
 
         /// <summary>
-        /// The category of the NPCCategoryButton
+        /// Creates a new instance of the NPCCategoryButton class.
         /// </summary>
-        public Categories Category;
-
-        /// <summary>
-        /// The hitbox of the Control
-        /// </summary>
-        public override Rectangle Hitbox
-        {
-            get
-            {
-                Vector2 pos = Position - Main.inventoryBackTexture.Size() / 4f;
-
-                return new Rectangle((int)Position.X, (int)Position.Y, 52, 52);
-            }
-        }
-
-        /// <summary>
-        /// Creates a new instance of the ItemCategoryButton class
-        /// </summary>
-        public NPCCategoryButton()
-            : this(Categories.All)
-        {
-
-        }
-
-        /// <summary>
-        /// Creates a new instance of the NPCCategoryButton class
-        /// </summary>
-        /// <param name="cat">The category of the NPCCategoryButton</param>
+        /// <param name="cat">The category of the NPCCategoryButton.</param>
         public NPCCategoryButton(Categories cat)
-            : base()
+            : base(cat)
         {
-            HasBackground = true;
 
-            switch (Category = cat)
+        }
+
+        int GetID()
+        {
+            switch (Category)
             {
                 case Categories.Boss:
-                    id = 4; // eye of ctulhu
-                    break;
+                    return 4; // eye of ctulhu
                 case Categories.Friendly:
-                    id = 46; // bunny
-                    break;
+                    return 46; // bunny
                 case Categories.Hostile:
-                    id = 2; // demon eye
-                    break;
+                    return 2; // demon eye
                 case Categories.Town:
-                    id = 22; // guide
-                    break;
+                    return 22; // guide
             }
 
-            Tooltip = cat.ToString();
+            return 0;
         }
 
         /// <summary>
-        /// Clicks the Button
+        /// Clicks the Button.
         /// </summary>
         protected override void Click()
         {
@@ -103,32 +72,51 @@ namespace PoroCYon.ICM.Controls
         }
 
         /// <summary>
-        /// Updates the Control
+        /// Draws the Control.
         /// </summary>
-        public override void Update()
-        {
-            base.Update();
-
-            if (id > 0)
-                Colour = Color.Lerp(Defs.npcs[Defs.npcNames[id]].GetAlpha(Color.White),
-                    new Color(0, 0, 0, 0), (NpcUI.Category & Category) != 0 ? 0f : 0.5f);
-            else
-                Colour = (NpcUI.Category & Category) == 0 ? new Color(127, 127, 127, 0) : new Color(255, 255, 255, 0);
-        }
-
-        /// <summary>
-        /// Draws the Control
-        /// </summary>
-        /// <param name="sb">The SpriteBatch used to draw the Control</param>
+        /// <param name="sb">The SpriteBatch used to draw the Control.</param>
         public override void Draw(SpriteBatch sb)
         {
             DrawBackground(sb);
 
-            base.Draw(sb);
+            //base.Draw(sb);
 
-            Main.LoadNPC(id);
-            sb.Draw(Main.npcTexture[id], Position + Hitbox.Size() / 2f - (oneFrame.Size() * (id == 4 ? 0.25f : 1f)) / 2f,
-                oneFrame, Colour, Rotation, Origin, Scale * (id == 4 ? 0.25f : 1f), SpriteEffects, LayerDepth);
+            sb.Draw(GetImage(), Position + Hitbox.Size() / 2f - (oneFrame.Size() * (Category == Categories.Boss ? 0.25f : 1f)) / 2f,
+                oneFrame, Colour, Rotation, Origin, Scale * (Category == Categories.Boss ? 0.25f : 1f), SpriteEffects, LayerDepth);
+        }
+
+        /// <summary>
+        /// Gets the image to display.
+        /// </summary>
+        /// <returns>The image to display. null to display nothing.</returns>
+        protected override Texture2D GetImage()
+        {
+            if (GetID() != 0)
+            {
+                Main.LoadNPC(GetID());
+                return Main.npcTexture[GetID()];
+            }
+
+            return null;
+        }
+        /// <summary>
+        /// Gets whether the filter is switched on or off.
+        /// </summary>
+        /// <returns>Whether the category filter flags has the associated filter flag.</returns>
+        protected override bool      GetIsSelected()
+        {
+            return (NpcUI.Category & Category) != 0;
+        }
+        /// <summary>
+        /// Gets the colour of the image.
+        /// </summary>
+        /// <returns>The colour of the image.</returns>
+        protected override Color     GetImageColour()
+        {
+            if (GetID() != 0)
+                return Defs.npcs[Defs.npcNames[GetID()]].GetAlpha(Color.White);
+
+            return base.GetImageColour();
         }
     }
 }

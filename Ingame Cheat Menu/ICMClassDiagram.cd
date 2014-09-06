@@ -48,9 +48,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Controls.ItemCategoryButton" Collapsed="true">
-    <Position X="7.75" Y="7.75" Width="1.5" />
+    <Position X="13.75" Y="9" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAACgA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAQAAAAAAAAAQAAAAAAAgA=</HashCode>
       <FileName>Controls\ItemCategoryButton.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -123,7 +123,7 @@
     <TypeIdentifier />
   </Class>
   <Class Name="PoroCYon.MCT.UI.Interface.Controls.ImageButton" Collapsed="true">
-    <Position X="7.75" Y="6.75" Width="1.5" />
+    <Position X="16.5" Y="6.75" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
@@ -141,9 +141,9 @@
     <TypeIdentifier />
   </Class>
   <Class Name="PoroCYon.ICM.Controls.BuffCategoryButton" Collapsed="true">
-    <Position X="9.5" Y="7.75" Width="1.5" />
+    <Position X="15.75" Y="9" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAACgA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAQAAAAAAAgA=</HashCode>
       <FileName>Controls\BuffCategoryButton.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -155,28 +155,28 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Controls.CheatNPCContainer" Collapsed="true">
-    <Position X="13" Y="5.5" Width="1.5" />
+    <Position X="14.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAQAEAAAAAAEAgAAAAAAEACAEAACAAAAAAAAAAAABgA=</HashCode>
       <FileName>Controls\CheatNPCContainer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Controls.CheatPrefixContainer" Collapsed="true">
-    <Position X="7.75" Y="10" Width="1.5" />
+    <Position X="7.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAgA=</HashCode>
       <FileName>Controls\CheatPrefixContainer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Controls.NPCCategoryButton" Collapsed="true">
-    <Position X="11.25" Y="7.75" Width="1.5" />
+    <Position X="17.5" Y="9" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAEAgAAAAAAAAAAAAAAIAAAAAAAAAAACgA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAgAQAAAAgAAQAAAAIAAAAQAAAAAAAgA=</HashCode>
       <FileName>Controls\NPCCategoryButton.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoroCYon.ICM.Controls.SimpleItemContainer" Collapsed="true">
-    <Position X="9.5" Y="9" Width="1.5" />
+    <Position X="9.5" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAEAAAAAAEAgAAAAAAEAAEAAAAABAAAAAAAAAAAgA=</HashCode>
       <FileName>Controls\SimpleItemContainer.cs</FileName>
@@ -228,9 +228,30 @@
     <TypeIdentifier />
   </Class>
   <Class Name="PoroCYon.MCT.UI.Interface.Controls.TextButton" Collapsed="true">
-    <Position X="7.75" Y="9" Width="1.5" />
+    <Position X="7.75" Y="6.75" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PoroCYon.ICM.Controls.CategoryButton&lt;TEnum&gt;" Collapsed="true">
+    <Position X="16.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAEAgAQAAAAAAAQAAAAAAAAAQAAAAAACAA=</HashCode>
+      <FileName>Controls\CategoryButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PoroCYon.ICM.Pages.EditWorldPage" Collapsed="true">
+    <Position X="9.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAAAAAQQAAAAAAQAAAAAAAAEAAAAAAADAAAAAAA=</HashCode>
+      <FileName>Pages\EditWorldPage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PoroCYon.ICM.Pages.SettingsPage" Collapsed="true">
+    <Position X="11" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAEAgAAAAAAgAACAAAAIAAAAAAAABAAAABCAAAACAA=</HashCode>
+      <FileName>Pages\SettingsPage.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Enum Name="PoroCYon.ICM.InterfaceType" Collapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />

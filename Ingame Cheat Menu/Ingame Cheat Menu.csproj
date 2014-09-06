@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Buff.cs" />
     <Compile Include="Controls\BuffCategoryButton.cs" />
+    <Compile Include="Controls\CategoryButton.cs" />
     <Compile Include="Controls\CheatBuffContainer.cs" />
     <Compile Include="Controls\CheatItemContainer.cs" />
     <Compile Include="Controls\CheatNPCContainer.cs" />
