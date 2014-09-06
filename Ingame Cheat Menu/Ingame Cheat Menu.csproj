@@ -79,14 +79,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buff.cs" />
-    <Compile Include="Controls\BuffCategoryButton.cs" />
-    <Compile Include="Controls\CategoryButton.cs" />
-    <Compile Include="Controls\CheatBuffContainer.cs" />
-    <Compile Include="Controls\CheatItemContainer.cs" />
-    <Compile Include="Controls\CheatNPCContainer.cs" />
-    <Compile Include="Controls\CheatPrefixContainer.cs" />
-    <Compile Include="Controls\ItemCategoryButton.cs" />
-    <Compile Include="Controls\NPCCategoryButton.cs" />
+    <Compile Include="Controls\CategoryButtons\BuffCategoryButton.cs" />
+    <Compile Include="Controls\CategoryButtons\CategoryButton.cs" />
+    <Compile Include="Controls\CheatXContainer\CheatBuffContainer.cs" />
+    <Compile Include="Controls\CheatXContainer\CheatItemContainer.cs" />
+    <Compile Include="Controls\CheatXContainer\CheatNPCContainer.cs" />
+    <Compile Include="Controls\CheatXContainer\CheatPrefixContainer.cs" />
+    <Compile Include="Controls\CategoryButtons\ItemCategoryButton.cs" />
+    <Compile Include="Controls\CategoryButtons\NPCCategoryButton.cs" />
     <Compile Include="Controls\SimpleItemContainer.cs" />
     <Compile Include="Menus\BuffUI.cs" />
     <Compile Include="CheatUI.cs" />
