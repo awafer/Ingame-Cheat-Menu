@@ -74,7 +74,7 @@ namespace PoroCYon.ICM
         {
             get
             {
-                return Defs.buffNames[ID];
+                return BuffDef.name[ID];
             }
         }
         /// <summary>
@@ -98,16 +98,16 @@ namespace PoroCYon.ICM
             }
         }
 
-        /// <summary>
-        /// The modded class of the buff
-        /// </summary>
-        public ModBuff SubClass
-        {
-            get
-            {
-                return Defs.buffs[ID];
-            }
-        }
+        ///// <summary>
+        ///// The modded class of the buff
+        ///// </summary>
+        //public ModBuff SubClass
+        //{
+        //    get
+        //    {
+        //        return BuffDef.[ID];
+        //    }
+        //}
 
         /// <summary>
         /// The icon texture of the buff
@@ -140,7 +140,7 @@ namespace PoroCYon.ICM
         /// </summary>
         /// <param name="name">The full name of the Buff</param>
         public Buff(string name)
-            : this(Defs.buffType[name])
+            : this(BuffDef.type[name])
         {
 
         }

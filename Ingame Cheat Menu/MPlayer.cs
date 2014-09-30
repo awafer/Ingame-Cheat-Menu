@@ -20,15 +20,15 @@ namespace PoroCYon.ICM
 
         static bool oldInv;
 
-        public MPlayer(ModBase @base, Player p)
-            : base(@base, p)
+        public MPlayer()
+            : base()
         {
 
         }
 
-        public override void OnUpdate()
+        public override void MidUpdate()
         {
-            base.OnUpdate();
+            base.MidUpdate();
 
             if (player == Main.localPlayer)
             {

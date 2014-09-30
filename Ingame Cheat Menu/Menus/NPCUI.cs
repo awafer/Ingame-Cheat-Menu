@@ -168,15 +168,14 @@ namespace PoroCYon.ICM.Menus
                 });
                 CategoryButtons[index].Position += Main.inventoryBackTexture.Size() / 2f
                     - CategoryButtons[index].oneFrame.Size() * CategoryButtons[index].scale / 2f;
-                //CategoryButtons[index].Position += Main.inventoryBackTexture.Size() / 2f - CategoryButtons[index].Hitbox.Size() / 2f;
             }
 
-            ModFilters = new ModFilter<NPC>[Mods.modBases.Count];
+            ModFilters = new ModFilter<NPC>[Mods.mods.Count];
 
             col = 0; row = 0;
-            for (int i = 0; i < Mods.modBases.Count; i++, col++)
-            {
-                if (!Defs.npcs.Any(kvp => kvp.Value.modBase == Mods.modBases[i]))
+            for (int i = 0; i < Mods.mods.Count; i++, col++)
+			{
+				if (!NPCDef.byType.Any(kvp => kvp.Value.modEntities.Any(mn => mn.modBase == Mods.mods[i].modBase)))
                     continue;
 
                 if (col >= 2)
@@ -185,7 +184,7 @@ namespace PoroCYon.ICM.Menus
                     col = 0;
                 }
 
-                AddControl(ModFilters[i] = new NpcFilter(Mods.modBases[i])
+                AddControl(ModFilters[i] = new NpcFilter(Mods.mods[i].modBase)
                 {
                     Position = new Vector2(640f + Main.inventoryBackTexture.Width * col,
                         Main.screenHeight - 440f + Main.inventoryBackTexture.Height * row)
@@ -204,7 +203,7 @@ namespace PoroCYon.ICM.Menus
             {
                 objects.Clear();
 
-                objects.AddRange(from NPC n in Defs.npcs.Values where IncludeInList(n) select CopyNPC(n));
+                objects.AddRange(from NPC n in NPCDef.byType.Values where IncludeInList(n) select CopyNPC(n));
 
                 ResetContainers();
             };
@@ -398,7 +397,7 @@ namespace PoroCYon.ICM.Menus
         /// <returns>true if the NPC should be included, false otherwise.</returns>
         public bool IncludeInList(NPC n)
         {
-            bool ret = IsInCategory(n) && (CurrentModFilter == null ? true : n.modBase == CurrentModFilter.ModBase);
+            bool ret = IsInCategory(n) && (CurrentModFilter == null ? true : CurrentModFilter.Filter(n));
 
             if (FilterOptions[0].IsChecked)
                 return ret && IsSearchResult(n);

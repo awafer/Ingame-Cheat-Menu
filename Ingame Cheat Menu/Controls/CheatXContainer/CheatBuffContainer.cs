@@ -113,6 +113,15 @@ namespace PoroCYon.ICM.Controls
                 Tooltip = Buff.DisplayName + "\n" + Buff.Tooltip;
         }
 
+		int AnyBuff(int type)
+		{
+			for (int i = 0; i < Main.localPlayer.buffType.Length; i++)
+				if (Main.localPlayer.buffType[i] == type && Main.localPlayer.buffTime[i] > 0)
+					return i;
+
+			return -1;
+		}
+
         /// <summary>
         /// Clicks the Button
         /// </summary>
@@ -124,7 +133,7 @@ namespace PoroCYon.ICM.Controls
                 return;
 
             int bid = -1;
-            if ((bid = Main.localPlayer.AnyBuff(Buff.ID)) > -1) // has buff
+            if ((bid = AnyBuff(Buff.ID)) > -1) // has buff
                 Main.localPlayer.DelBuff(bid);
             else
                 Main.localPlayer.AddBuff(Buff.ID, BuffUI.ToTicks(BuffUI.BuffTime));
@@ -138,7 +147,7 @@ namespace PoroCYon.ICM.Controls
             base.Update();
 
             InventoryBackTextureNum =
-                Main.localPlayer.AnyBuff(Buff.ID) > -1 && Buff.ID > 0
+                AnyBuff(Buff.ID) > -1 && Buff.ID > 0
                     ? (Buff.Type & BuffType.Debuff) != 0
                         ? 2
                         : 3
