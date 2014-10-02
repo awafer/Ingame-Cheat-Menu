@@ -311,13 +311,15 @@ namespace PoroCYon.ICM.Menus
                 _Reset();
             else
                 (ResetThread = new Thread(_Reset)).Start();
-        }
+		}
         /// <summary>
         /// Resets the ItemContainer content
         /// </summary>
         public override void ResetContainers()
-        {
-            for (int i = Position; i < Position + 20; i++)
+		{
+			ReallocatingObjectList = true;
+
+			for (int i = Position; i < Position + 20; i++)
             {
                 if (i >= objects.Count)
                     ItemContainers[i - Position].Item = new Item();
@@ -328,7 +330,9 @@ namespace PoroCYon.ICM.Menus
                 }
                 ItemContainers[i - Position].CanFocus = i < objects.Count;
             }
-        }
+
+			ReallocatingObjectList = false;
+		}
 
         /// <summary>
         /// Creates the object container list

@@ -251,8 +251,8 @@ namespace PoroCYon.ICM.Menus
         /// </summary>
         /// <param name="thisThread">Wether to load it on the current thread or on a new one</param>
         public override void ResetObjectList(bool thisThread = false)
-        {
-            ThreadStart start = () =>
+		{
+			ThreadStart start = () =>
             {
                 objects.Clear();
 
@@ -268,23 +268,27 @@ namespace PoroCYon.ICM.Menus
                 start();
             else
                 (ResetThread = new Thread(start)).Start();
-        }
+		}
         /// <summary>
         /// Resets the BuffContainer content
         /// </summary>
         public override void ResetContainers()
-        {
-            for (int i = Position; i < Position + 20; i++)
+		{
+			ReallocatingObjectList = true;
+
+			for (int i = Position; i < Position + 20; i++)
             {
                 BuffContainers[i - Position].Buff = i >= objects.Count ? new Buff() : CopyBuff(objects[i]);
                 BuffContainers[i - Position].CanFocus = i < objects.Count;
-            }
-        }
+			}
 
-        /// <summary>
-        /// Creates the object container list
-        /// </summary>
-        protected override void CreateContainers()
+			ReallocatingObjectList = false;
+		}
+
+		/// <summary>
+		/// Creates the object container list
+		/// </summary>
+		protected override void CreateContainers()
         {
             if (BuffContainers == null)
                 BuffContainers = new CheatBuffContainer[LIST_LENGTH];

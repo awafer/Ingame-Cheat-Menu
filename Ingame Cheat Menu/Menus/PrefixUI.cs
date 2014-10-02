@@ -149,8 +149,8 @@ namespace PoroCYon.ICM.Menus
         /// </summary>
         /// <param name="thisThread">Wether to load it on the current thread or on a new one</param>
         public override void ResetObjectList(bool thisThread = false)
-        {
-            ThreadStart start = () =>
+		{
+			ThreadStart start = () =>
             {
                 objects.Clear();
 
@@ -166,18 +166,22 @@ namespace PoroCYon.ICM.Menus
                 start();
             else
                 (ResetThread = new Thread(start)).Start();
-        }
+		}
         /// <summary>
         /// Resets the BuffContainer content
         /// </summary>
         public override void ResetContainers()
-        {
-            for (int i = Position; i < Position + PREFIX_LIST_LENGTH; i++)
+		{
+			ReallocatingObjectList = true;
+
+			for (int i = Position; i < Position + PREFIX_LIST_LENGTH; i++)
             {
                 PrefixContainers[i - Position].Prefix = i >= objects.Count ? Prefix.None : objects[i].Clone();
                 PrefixContainers[i - Position].CanFocus = i < objects.Count;
-            }
-        }
+			}
+
+			ReallocatingObjectList = false;
+		}
 
         /// <summary>
         /// Creates the object container list

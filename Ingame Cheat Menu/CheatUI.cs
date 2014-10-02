@@ -163,6 +163,12 @@ namespace PoroCYon.ICM
         /// </summary>
         protected bool ChangedSearchText = false;
 
+		bool preventSO = false;
+		/// <summary>
+		/// Gets or sets whether the object list is being reallocated (on a different <see cref="Thread" />).
+		/// </summary>
+		protected static bool ReallocatingObjectList;
+
         /// <summary>
         /// The position of the cheat object list
         /// </summary>
@@ -266,8 +272,19 @@ namespace PoroCYon.ICM
 
                 OnValueChanged = (sb, ov, nv) =>
                 {
-                    if (ov == nv)
+                    if (preventSO || ov == nv)
                         return;
+
+					if (ReallocatingObjectList)
+					{
+						preventSO = true;
+
+						sb.Value = ov;
+
+						preventSO = false;
+
+						return;
+					}
 
                     Position = (int)(nv * 4f);
                     ResetContainers();

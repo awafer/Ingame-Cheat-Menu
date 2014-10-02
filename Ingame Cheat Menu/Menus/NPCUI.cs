@@ -198,8 +198,8 @@ namespace PoroCYon.ICM.Menus
         /// </summary>
         /// <param name="thisThread">Wether to load it on the current thread or on a new one</param>
         public override void ResetObjectList(bool thisThread = false)
-        {
-            ThreadStart start = () =>
+		{
+			ThreadStart start = () =>
             {
                 objects.Clear();
 
@@ -215,18 +215,22 @@ namespace PoroCYon.ICM.Menus
                 start();
             else
                 (ResetThread = new Thread(start)).Start();
-        }
+		}
         /// <summary>
         /// Resets the NPCContainers content
         /// </summary>
         public override void ResetContainers()
-        {
-            for (int i = Position; i < Position + LIST_LENGTH; i++)
+		{
+			ReallocatingObjectList = true;
+
+			for (int i = Position; i < Position + LIST_LENGTH; i++)
             {
                 NPCContainers[i - Position].NPC = i >= objects.Count ? new NPC() : objects[i];
                 NPCContainers[i - Position].CanFocus = i < objects.Count;
             }
-        }
+
+			ReallocatingObjectList = false;
+		}
 
         /// <summary>
         /// Creates the object container list
