@@ -6,6 +6,7 @@ using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.Extensions;
+using PoroCYon.Extensions.Collections;
 using Terraria;
 using TAPI;
 using PoroCYon.MCT.Content;
@@ -256,7 +257,7 @@ namespace PoroCYon.ICM.Menus
             {
                 objects.Clear();
 
-                objects.AddRange(from int i in BuffDef.name.Values where IncludeInList(new Buff(i)) select new Buff(i));
+				objects.AddRange(BuffDef.name.Keys.CastAll(i => new Buff(i)).Where(b => IncludeInList(b)));
 
                 ResetContainers();
             };
