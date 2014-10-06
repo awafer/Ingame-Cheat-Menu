@@ -107,10 +107,29 @@ namespace PoroCYon.ICM.Controls
             Item = i;
         }
 
-        /// <summary>
-        /// Clicks the Button
-        /// </summary>
-        protected override void Click()
+		static Color ComposeColour(Item item, Color? tint = null)
+		{
+			Color c;
+
+			c = item.color == default(Color) ? item.GetAlpha(tint ?? Color.White) : item.GetAlpha(item.GetColor(tint ?? Color.White));
+
+			//c.A = 255;
+
+			return c;
+		}
+		static void DrawItem(Item item, SpriteBatch sb, Vector2 position, float rotation,
+			Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth, Color? tint = null)
+		{
+			sb.Draw(item.GetTexture(), position, item.GetAlpha(tint ?? Color.White));
+
+			if (item.color != default(Color))
+				sb.Draw(item.GetTexture(), position, null, ComposeColour(item, tint), rotation, origin, scale, effects, layerDepth);
+		}
+
+		/// <summary>
+		/// Clicks the Button
+		/// </summary>
+		protected override void Click()
         {
             base.Click();
 
@@ -133,9 +152,10 @@ namespace PoroCYon.ICM.Controls
 
             sb.Draw(bgTex, Position, null, MainUI.WithAlpha(Color.White, 150), Rotation, Origin, Scale, SpriteEffects, LayerDepth);
 
-            if (!Item.IsBlank())
-                sb.Draw(Item.GetTexture(), Position + (bgTex.Size() / 2f - Item.GetTexture().Size() / 2f), null, Item.GetTextureColor(),
-                    Rotation, Origin, Scale, SpriteEffects, LayerDepth);
+			if (!Item.IsBlank())
+				DrawItem(Item, sb, Position + (bgTex.Size() / 2f - Item.GetTexture().Size() / 2f), Rotation, Origin, Scale, SpriteEffects, LayerDepth);
+                //sb.Draw(Item.GetTexture(), Position + (bgTex.Size() / 2f - Item.GetTexture().Size() / 2f), null, Item.GetTextureColor(),
+                //    Rotation, Origin, Scale, SpriteEffects, LayerDepth);
 
             if (IsHovered)
                 CheatUI.TooltipToDisplay = Item;

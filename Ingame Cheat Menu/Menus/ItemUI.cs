@@ -204,10 +204,10 @@ namespace PoroCYon.ICM.Menus
             CategoryButtons = new ItemCategoryButton[CATEGORY_LIST_LENGTH];
         }
 
-        /// <summary>
-        /// Initializes the CustomUI
-        /// </summary>
-        public override void Init()
+		/// <summary>
+		/// Initializes the CustomUI
+		/// </summary>
+		public override void Init()
         {
             Category = Categories.None;
 
