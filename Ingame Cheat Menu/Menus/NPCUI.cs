@@ -5,7 +5,6 @@ using System.Runtime;
 using System.Threading;
 using Microsoft.Xna.Framework;
 using PoroCYon.Extensions;
-using PoroCYon.Extensions.Xna.Geometry;
 using Terraria;
 using TAPI;
 using PoroCYon.MCT.Input;

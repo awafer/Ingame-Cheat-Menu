@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PoroCYon.Extensions;
-using PoroCYon.Extensions.Xna.Geometry;
 using Terraria;
 using TAPI;
 using PoroCYon.MCT.UI.Interface.Controls.Primitives;
