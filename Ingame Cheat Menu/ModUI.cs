@@ -16,8 +16,8 @@ namespace PoroCYon.ICM
         /// Creates a new instance of the ModUI class
         /// </summary>
         /// <param name="base">The ModBase of the ModInterface</param>
-        public ModUI(ModBase @base)
-            : base(@base)
+        public ModUI()
+            : base()
         {
 
         }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PoroCYon.Extensions.Xna.Geometry;
 using PoroCYon.Extensions.Xna.Graphics;
 using Terraria;
 using TAPI;
@@ -134,7 +133,7 @@ namespace PoroCYon.ICM.Controls
         protected override Color     GetImageColour()
         {
             if (GetID() != 0)
-                return Defs.npcs[Defs.npcNames[GetID()]].GetAlpha(Color.White);
+                return NPCDef.byType[GetID()].GetAlpha(Color.White);
 
             return base.GetImageColour();
         }

@@ -8,8 +8,8 @@ namespace PoroCYon.ICM
 {
     sealed class MWorld : ModWorld
     {
-        public MWorld(ModBase @base)
-            : base(@base)
+        public MWorld()
+            : base()
         {
 
         }

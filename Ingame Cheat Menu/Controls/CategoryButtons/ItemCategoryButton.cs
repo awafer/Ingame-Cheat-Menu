@@ -116,49 +116,49 @@ namespace PoroCYon.ICM.Controls
             switch (Category)
             {
                 case Categories.Accessory:
-                    return Defs.items[Defs.itemNames[49  ]].GetTextureColor(); // band of regeneration
+                    return ItemDef.byType[49  ].GetTextureColor(); // band of regeneration
                 case Categories.Ammunition:
-                    return Defs.items[Defs.itemNames[40  ]].GetTextureColor(); // wooden arrow
+                    return ItemDef.byType[40  ].GetTextureColor(); // wooden arrow
                 case Categories.Axe:
-                    return Defs.items[Defs.itemNames[10  ]].GetTextureColor(); // iron axe
+                    return ItemDef.byType[10  ].GetTextureColor(); // iron axe
                 case Categories.Buff:
-                    return Defs.items[Defs.itemNames[298 ]].GetTextureColor(); // shine potion
+                    return ItemDef.byType[298 ].GetTextureColor(); // shine potion
                 case Categories.Potion:
-                    return Defs.items[Defs.itemNames[28  ]].GetTextureColor(); // leser healing potion
+                    return ItemDef.byType[28  ].GetTextureColor(); // leser healing potion
                 case Categories.Dye:
-                    return Defs.items[Defs.itemNames[1007]].GetTextureColor(); // red dye
+                    return ItemDef.byType[1007].GetTextureColor(); // red dye
                 case Categories.Hammer:
-                    return Defs.items[Defs.itemNames[7   ]].GetTextureColor(); // iron hammer
+                    return ItemDef.byType[7   ].GetTextureColor(); // iron hammer
                 case Categories.Helmet:
-                    return Defs.items[Defs.itemNames[727 ]].GetTextureColor(); // wood helmet
+                    return ItemDef.byType[727 ].GetTextureColor(); // wood helmet
                 case Categories.Leggings:
-                    return Defs.items[Defs.itemNames[729 ]].GetTextureColor(); // wood greaves
+                    return ItemDef.byType[729 ].GetTextureColor(); // wood greaves
                 case Categories.Magic:
-                    return Defs.items[Defs.itemNames[165 ]].GetTextureColor(); // water bolt
+                    return ItemDef.byType[165 ].GetTextureColor(); // water bolt
                 case Categories.Material:
-                    return Defs.items[Defs.itemNames[22  ]].GetTextureColor(); // iron bar
+                    return ItemDef.byType[22  ].GetTextureColor(); // iron bar
                 case Categories.Melee:
-                    return Defs.items[Defs.itemNames[4   ]].GetTextureColor(); // iron broadsword
+                    return ItemDef.byType[4   ].GetTextureColor(); // iron broadsword
                 case Categories.Other:
                     return base.GetImageColour(); // question mark
                 case Categories.Paint:
-                    return Defs.items[Defs.itemNames[1073]].GetTextureColor(); // red paint
+                    return ItemDef.byType[1073].GetTextureColor(); // red paint
                 case Categories.Pet:
-                    return Defs.items[Defs.itemNames[603 ]].GetTextureColor(); // carrot
+                    return ItemDef.byType[603 ].GetTextureColor(); // carrot
                 case Categories.Pickaxe:
-                    return Defs.items[Defs.itemNames[1   ]].GetTextureColor(); // iron pickaxe
+                    return ItemDef.byType[1   ].GetTextureColor(); // iron pickaxe
                 case Categories.Ranged:
-                    return Defs.items[Defs.itemNames[39  ]].GetTextureColor(); // wooden bow
+                    return ItemDef.byType[39  ].GetTextureColor(); // wooden bow
                 case Categories.Summon:
-                    return Defs.items[Defs.itemNames[1157]].GetTextureColor(); // pygmy staff
+                    return ItemDef.byType[1157].GetTextureColor(); // pygmy staff
                 case Categories.Tile:
-                    return Defs.items[Defs.itemNames[2   ]].GetTextureColor(); // dirt block
+                    return ItemDef.byType[2   ].GetTextureColor(); // dirt block
                 case Categories.Torso:
-                    return Defs.items[Defs.itemNames[728 ]].GetTextureColor(); // wood breastplate
+                    return ItemDef.byType[728 ].GetTextureColor(); // wood breastplate
                 case Categories.Vanity:
-                    return Defs.items[Defs.itemNames[239 ]].GetTextureColor(); // top hat
+                    return ItemDef.byType[239 ].GetTextureColor(); // top hat
                 case Categories.Wall:
-                    return Defs.items[Defs.itemNames[26  ]].GetTextureColor(); // stone wall
+                    return ItemDef.byType[26  ].GetTextureColor(); // stone wall
             }
 
             return base.GetImageColour();

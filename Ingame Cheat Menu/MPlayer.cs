@@ -20,15 +20,15 @@ namespace PoroCYon.ICM
 
         static bool oldInv;
 
-        public MPlayer(ModBase @base, Player p)
-            : base(@base, p)
+        public MPlayer()
+            : base()
         {
 
         }
 
-        public override void OnUpdate()
+        public override void MidUpdate()
         {
-            base.OnUpdate();
+            base.MidUpdate();
 
             if (player == Main.localPlayer)
             {
@@ -50,26 +50,24 @@ namespace PoroCYon.ICM
                     player.gravDir = 1f;
                     player.immuneTime = 60;
 
-                    player.suffocating = false;
                     player.slippy = false;
                     player.slippy2 = false;
                     player.powerrun = false;
-                    player.poisoned = false;
-                    player.venom = false;
-                    player.onFire = false;
-                    player.burned = false;
-                    player.suffocating = false;
-                    player.onFire2 = false;
+                    player.poisoned = 0;
+                    player.venom = 0;
+                    player.onFire = 0;
+                    player.suffocating = 0;
+                    player.onFire2 = 0;
                     player.ichor = false;
                     player.blackout = false;
-                    player.burned = false;
-                    player.onFrostBurn = false;
+                    player.burned = 0;
+                    player.frostBurn = false;
                     player.blind = false;
                     player.blackout = false;
                     player.noItems = false;
                     player.immune = true;
                     player.lavaImmune = true;
-                    player.noKnockback = true;
+                    player.knockbackResist = 0f;
 
                     for (int i = 0; i < 10; i++)
                         if ((player.buffType[i] == 30 || player.buffType[i] == 22 || player.buffType[i] == 36 || player.buffType[i] == 31
@@ -199,26 +197,25 @@ namespace PoroCYon.ICM
                 #region invincibility
                 if (Invincibility)
                 {
-                    player.suffocating = false;
+                    player.suffocating = 0;
                     player.slippy = false;
                     player.slippy2 = false;
                     player.powerrun = false;
-                    player.poisoned = false;
-                    player.venom = false;
-                    player.onFire = false;
-                    player.burned = false;
-                    player.suffocating = false;
-                    player.onFire2 = false;
+                    player.poisoned = 0;
+                    player.venom = 0;
+                    player.onFire = 0;
+                    player.burned = 0;
+                    player.onFire2 = 0;
                     player.ichor = false;
                     player.blackout = false;
-                    player.burned = false;
-                    player.onFrostBurn = false;
+                    player.frostBurn = false;
                     player.blind = false;
                     player.blackout = false;
                     player.noItems = false;
                     player.immune = true;
                     player.lavaImmune = true;
-                    player.noKnockback = true;
+                    player.knockbackResist = 0f;
+
                     for (int i = 0; i < 10; i++)
                         if ((player.buffType[i] == 30 || player.buffType[i] == 22 || player.buffType[i] == 36 || player.buffType[i] == 31
                             || player.buffType[i] == 35 || player.buffType[i] == 32 || player.buffType[i] == 44 || player.buffType[i] == 46

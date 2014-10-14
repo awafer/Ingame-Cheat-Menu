@@ -150,91 +150,6 @@ namespace PoroCYon.ICM.Menus
         }
 
         /// <summary>
-        /// An IEnumerable which provides an iterator over all available Items.
-        /// foreach (Item i in new ItemEnumerable()) { ... }
-        /// </summary>
-        [Obsolete("This class is no longer used, but works perfectly fine.\n"
-            + "You could also use '(from i in Defs.items.Values where ItemUI.IncludeInList(i) select ItemUI.CopyItem(i))'")]
-        public sealed class ItemEnumerable : IEnumerable<Item>
-        {
-            /// <summary>
-            /// Gets the generic enumerator of this IEnumerable instance
-            /// </summary>
-            /// <returns>The generic enumerator of this IEnumerable instance</returns>
-            IEnumerator<Item> IEnumerable<Item>.GetEnumerator()
-            {
-                return new ItemEnumerator();
-            }
-            /// <summary>
-            /// Gets the enumerator of this IEnumerable instance
-            /// </summary>
-            /// <returns>The enumerator of this IEnumerable instance</returns>
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return new ItemEnumerator();
-            }
-        }
-
-        sealed class ItemEnumerator : IEnumerator<Item>
-        {
-            int offset = 0, current = -1;
-
-            internal int ID
-            {
-                get
-                {
-                    return offset + current;
-                }
-            }
-
-            internal ItemEnumerator(int startID = 0)
-            {
-                offset = startID;
-                current = -1;
-            }
-
-            Item IEnumerator<Item>.Current
-            {
-                get
-                {
-                    Item ret = new Item();
-                    ret.netDefaults(ID);
-                    return ret;
-                }
-            }
-            object IEnumerator.Current
-            {
-                get
-                {
-                    Item ret = new Item();
-                    ret.netDefaults(ID);
-                    return ret;
-                }
-            }
-
-            public bool MoveNext()
-            {
-                do
-                {
-                    if (++current >= Defs.items.Count)
-                        return false;
-                } while (!ItemUI.Instance.IncludeInList(((IEnumerator<Item>)this).Current));
-
-                return true;
-            }
-
-            public void Reset()
-            {
-                current = -1;
-            }
-
-            public void Dispose()
-            {
-                // nothing to dispose...
-            }
-        }
-
-        /// <summary>
         /// The amount of categories
         /// </summary>
         public const int CATEGORY_LIST_LENGTH = 22;
@@ -289,10 +204,10 @@ namespace PoroCYon.ICM.Menus
             CategoryButtons = new ItemCategoryButton[CATEGORY_LIST_LENGTH];
         }
 
-        /// <summary>
-        /// Initializes the CustomUI
-        /// </summary>
-        public override void Init()
+		/// <summary>
+		/// Initializes the CustomUI
+		/// </summary>
+		public override void Init()
         {
             Category = Categories.None;
 
@@ -351,12 +266,12 @@ namespace PoroCYon.ICM.Menus
                     - ((Texture2D)CategoryButtons[index].Picture.Item).Size() / 2f;
             }
 
-            ModFilters = new ModFilter<Item>[Mods.modBases.Count];
+            ModFilters = new ModFilter<Item>[Mods.mods.Count];
 
             col = 0; row = 0;
-            for (int i = 0; i < Mods.modBases.Count; i++, col++)
+            for (int i = 0; i < Mods.mods.Count; i++, col++)
             {
-                if (!Defs.items.Any(kvp => kvp.Value.modBase == Mods.modBases[i]))
+                if (!ItemDef.byType.Any(kvp => kvp.Value.modEntities.Any(mi => mi.modBase == Mods.mods[i].modBase)))
                     continue;
 
                 if (col >= 2)
@@ -365,14 +280,13 @@ namespace PoroCYon.ICM.Menus
                     col = 0;
                 }
 
-                AddControl(ModFilters[i] = new ItemFilter(Mods.modBases[i])
+                AddControl(ModFilters[i] = new ItemFilter(Mods.mods[i].modBase)
                 {
                     Position = new Vector2(640f + Main.inventoryBackTexture.Width * col,
                         Main.screenHeight - 440f + Main.inventoryBackTexture.Height * row)
                 });
                 ModFilters[i].Position += Main.inventoryBackTexture.Size() / 2f
                     - ((Texture2D)ModFilters[i].Picture.Item).Size() / 2f;
-                //ModFilters[i].Position += Main.inventoryBackTexture.Size() / 2f - ModFilters[i].Hitbox.Size() / 2f;
             }
         }
 
@@ -380,7 +294,7 @@ namespace PoroCYon.ICM.Menus
         {
             objects.Clear();
 
-            objects.AddRange(from Item i in Defs.items.Values where IncludeInList(i) select CopyItem(i));
+            objects.AddRange(from i in ItemDef.byType.Values where IncludeInList(i) select CopyItem(i));
 
             ResetContainers();
         }
@@ -397,13 +311,15 @@ namespace PoroCYon.ICM.Menus
                 _Reset();
             else
                 (ResetThread = new Thread(_Reset)).Start();
-        }
+		}
         /// <summary>
         /// Resets the ItemContainer content
         /// </summary>
         public override void ResetContainers()
-        {
-            for (int i = Position; i < Position + 20; i++)
+		{
+			ReallocatingObjectList = true;
+
+			for (int i = Position; i < Position + 20; i++)
             {
                 if (i >= objects.Count)
                     ItemContainers[i - Position].Item = new Item();
@@ -414,7 +330,9 @@ namespace PoroCYon.ICM.Menus
                 }
                 ItemContainers[i - Position].CanFocus = i < objects.Count;
             }
-        }
+
+			ReallocatingObjectList = false;
+		}
 
         /// <summary>
         /// Creates the object container list
@@ -734,7 +652,7 @@ namespace PoroCYon.ICM.Menus
             if (i == null || i.IsBlank() || i.name.StartsWith("g:") /* item craft groups are actually items under the hood */ || i.name == "TAPI:Unloaded Item" /* also an item instance */)
                 return false;
 
-            bool ret = IsInCategory(i) && (CurrentModFilter == null ? true : i.modBase == CurrentModFilter.ModBase);
+            bool ret = IsInCategory(i) && (CurrentModFilter == null ? true : CurrentModFilter.Filter(i));
 
             if (FilterOptions[0].IsChecked)
                 return ret && IsSearchResult(i);

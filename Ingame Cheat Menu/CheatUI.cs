@@ -96,10 +96,10 @@ namespace PoroCYon.ICM
         {
             base.Init();
 
-            if (LeftArrow == null)
-                LeftArrow = Mod.Instance.textures["Ingame Cheat Menu/Sprites/Left.png"];
+            if (LeftArrow  == null)
+                LeftArrow  = Mod.Instance.textures["Ingame Cheat Menu/Sprites/Left" ];
             if (RightArrow == null)
-                RightArrow = Mod.Instance.textures["Ingame Cheat Menu/Sprites/Right.png"];
+                RightArrow = Mod.Instance.textures["Ingame Cheat Menu/Sprites/Right"];
         }
 
         /// <summary>
@@ -162,6 +162,12 @@ namespace PoroCYon.ICM
         /// Wether the user changed the search text or not
         /// </summary>
         protected bool ChangedSearchText = false;
+
+		bool preventSO = false;
+		/// <summary>
+		/// Gets or sets whether the object list is being reallocated (on a different <see cref="Thread" />).
+		/// </summary>
+		protected static bool ReallocatingObjectList;
 
         /// <summary>
         /// The position of the cheat object list
@@ -266,8 +272,19 @@ namespace PoroCYon.ICM
 
                 OnValueChanged = (sb, ov, nv) =>
                 {
-                    if (ov == nv)
+                    if (preventSO || ov == nv)
                         return;
+
+					if (ReallocatingObjectList)
+					{
+						preventSO = true;
+
+						sb.Value = ov;
+
+						preventSO = false;
+
+						return;
+					}
 
                     Position = (int)(nv * 4f);
                     ResetContainers();
