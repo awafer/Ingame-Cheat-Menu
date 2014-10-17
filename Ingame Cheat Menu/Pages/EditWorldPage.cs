@@ -117,7 +117,7 @@ namespace PoroCYon.ICM.Pages
             lid++; lid++;
             rid++; rid++;
 
-            buttons.Add(new CheckBox((bool)worldJson["progress"]["bosses"]["Eye of Cthulhu"], "Defeated Eye of Ctulhu")
+            buttons.Add(new CheckBox((bool)worldJson["progress"]["bosses"]["Eye of Cthulhu"], "Defeated Eye of Cthulhu")
                 .Where(cb =>
                 {
                     cb.OnChecked += delegate
@@ -131,7 +131,7 @@ namespace PoroCYon.ICM.Pages
 
                     cb.SetAutomaticPosition(aLeft, lid++);
                 }));
-            buttons.Add(new CheckBox((bool)worldJson["progress"]["bosses"]["Eater of Worlds"], "Defeated Eater of Worlds")
+            buttons.Add(new CheckBox((bool)worldJson["progress"]["bosses"]["Corrupt Boss"], "Defeated Eater of Worlds/Brain of Cthulhu")
                 .Where(cb =>
                 {
                     cb.OnChecked += delegate
@@ -321,19 +321,19 @@ namespace PoroCYon.ICM.Pages
             buttons.Add(new MenuButtonPlusMinus(0, "Altars smashed", "", "", () => { })
                 .Where(mbpm =>
                 {
-                    mbpm.displayText = "Altars smashed: " + (int)worldJson["progress"]["altarCounter"];
+                    mbpm.displayText = "Altars smashed: " + (int)worldJson["progress"]["altarCount"];
 
                     mbpm.Click = () =>
                     {
                         if (mbpm.currentSelected == 1)
-                            worldJson["progress"]["altarCounter"] = (int)worldJson["progress"]["altarCounter"] - 1;
+                            worldJson["progress"]["altarCount"] = (int)worldJson["progress"]["altarCount"] - 1;
                         else if (mbpm.currentSelected >= 1)
-                            worldJson["progress"]["altarCounter"] = (int)worldJson["progress"]["altarCounter"] + 1;
+                            worldJson["progress"]["altarCount"] = (int)worldJson["progress"]["altarCount"] + 1;
 
-                        if ((int)worldJson["progress"]["altarCounter"] < 0)
-                            worldJson["progress"]["altarCounter"] = 0;
+                        if ((int)worldJson["progress"]["altarCount"] < 0)
+                            worldJson["progress"]["altarCount"] = 0;
 
-                        mbpm.displayText = "Altars smashed: " + (int)worldJson["progress"]["altarCounter"];
+                        mbpm.displayText = "Altars smashed: " + (int)worldJson["progress"]["altarCount"];
 
                         Main.PlaySound(12);
                     };

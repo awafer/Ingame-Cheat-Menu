@@ -4,7 +4,7 @@
     "version": "1.0.0.0",
     "info": "A cheat menu. Isn't it obvious?",
 
-    "internalName": "ICM",
+    "internalName": "PoroCYon.ICM",
     
     "MSBuild": true,
     "msBuildFile": "Ingame Cheat Menu\\Ingame Cheat Menu.csproj",

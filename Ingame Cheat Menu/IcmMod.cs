@@ -17,7 +17,7 @@ namespace PoroCYon.ICM
     /// <summary>
     /// The mod entry point
     /// </summary>
-    public sealed class Mod : ModBase
+    public sealed class IcmMod : ModBase
     {
         static int editPlayerOffset, editWorldOffset;
 
@@ -29,7 +29,7 @@ namespace PoroCYon.ICM
         /// <summary>
         /// The Mod singleton instance
         /// </summary>
-        public static Mod Instance
+        public static IcmMod Instance
         {
             get;
             private set;
@@ -38,7 +38,7 @@ namespace PoroCYon.ICM
         /// <summary>
         /// Creates a new instance of the Mod class. Called through reflection.
         /// </summary>
-        public Mod()
+        public IcmMod()
             : base()
         {
             Instance = this;
@@ -51,6 +51,7 @@ namespace PoroCYon.ICM
         {
             Mct.EnsureMct("Ingame Cheat Menu");
             Mct.Init();
+
             base.OnLoad();
 
             //FileStream fs = null;
@@ -176,26 +177,43 @@ namespace PoroCYon.ICM
 
                         string path = Main.PlayerPath + "\\" + Main.loadPlayer[pid].name + ".plr";
 
-                        if (File.Exists(path))
-                            File.Delete(path);
-                        if (File.Exists(path))
-                            File.Delete(path);
-                        if (File.Exists(path))
-                            File.Delete(path);
-
                         MenuPage create = Menu.menuPages["Create Player"];
 
                         // sometimes, hacking is NOT easy
 
-                        Action entry = () => { };
-                        Action entryCleanup = () => { };
+                        if (File.Exists(path))
+                        {
+                            File.WriteAllBytes(path + ".ipb", File.ReadAllBytes(path)); // ICM Player Backup
+                            File.Delete(path);
+                        }
+                        if (File.Exists(path + ".bak"))
+                        {
+                            File.WriteAllBytes(path + ".bak.ipb", File.ReadAllBytes(path + ".bak"));
+                            File.Delete(path + ".bak");
+                        }
 
-                        entryCleanup += () =>
+                        Action
+                            entry        = null,
+                            entryCleanup = null;
+
+                        entryCleanup = () =>
                         {
                             Main.numLoadPlayers = oldLoadPlayers;
                             Menu.menuPages["Player Select"].OnEntry -= entryCleanup;
+
+                            if (!File.Exists(path) && File.Exists(path + ".ipb"))
+                            {
+                                File.WriteAllBytes(path, File.ReadAllBytes(path + ".ipb"));
+                                File.Delete(path + ".ipb");
+                            }
+
+                            if (!File.Exists(path + ".bak") && File.Exists(path + ".bak.ipb"))
+                            {
+                                File.WriteAllBytes(path, File.ReadAllBytes(path + ".bak.ipb"));
+                                File.Delete(path + ".bak.ipb");
+                            }
                         };
-                        entry += () =>
+                        entry        = () =>
                         {
                             if (create.buttons[17].displayText == "Save Player")
                                 create.buttons[17].displayText = "Create Player";
@@ -237,7 +255,7 @@ namespace PoroCYon.ICM
                     {
                         int wid = index + Menu.skip;
 
-                        EditWorldPage.selectedWorld = Main.loadWorld[wid];
+                        EditWorldPage.selectedWorld     = Main.loadWorld    [wid];
                         EditWorldPage.selectedWorldPath = Main.loadWorldPath[wid];
 
                         ((EditWorldPage)Menu.menuPages["ICM:Edit World"]).LoadData();

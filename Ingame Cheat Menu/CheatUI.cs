@@ -97,9 +97,9 @@ namespace PoroCYon.ICM
             base.Init();
 
             if (LeftArrow  == null)
-                LeftArrow  = Mod.Instance.textures["Ingame Cheat Menu/Sprites/Left" ];
+                LeftArrow  = IcmMod.Instance.textures["Ingame Cheat Menu/Sprites/Left" ];
             if (RightArrow == null)
-                RightArrow = Mod.Instance.textures["Ingame Cheat Menu/Sprites/Right"];
+                RightArrow = IcmMod.Instance.textures["Ingame Cheat Menu/Sprites/Right"];
         }
 
         /// <summary>

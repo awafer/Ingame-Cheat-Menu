@@ -89,7 +89,7 @@ namespace PoroCYon.ICM.Controls
             Texture2D tex = null;
             try
             {
-                tex = ModBase.OnModCall(Mod.Instance, "GetTexture", typeof(TCodableEntity)) as Texture2D;
+                tex = ModBase.OnModCall(IcmMod.Instance, "GetTexture", typeof(TCodableEntity)) as Texture2D;
             }
             catch { }
 
