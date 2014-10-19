@@ -101,16 +101,19 @@ namespace PoroCYon.ICM
         /// </summary>
         public override void OnAllModsLoaded()
         {
+            if (Main.dedServ)
+                return;
+
             // easy as 4 * Math.Atan(1)
 
             MctUI.AddCustomUI(MainUI.Interface = new MainUI());
 
-            MctUI.AddCustomUI(ItemUI.Instance = new ItemUI());
-            MctUI.AddCustomUI(BuffUI.Instance = new BuffUI());
+            MctUI.AddCustomUI(ItemUI  .Instance = new ItemUI  ());
+            MctUI.AddCustomUI(BuffUI  .Instance = new BuffUI  ());
             MctUI.AddCustomUI(PrefixUI.Instance = new PrefixUI());
-            MctUI.AddCustomUI(NpcUI.Instance = new NpcUI());
+            MctUI.AddCustomUI(NpcUI   .Instance = new NpcUI   ());
             MctUI.AddCustomUI(PlayerUI.Instance = new PlayerUI());
-            MctUI.AddCustomUI(WorldUI.Instance = new WorldUI());
+            MctUI.AddCustomUI(WorldUI .Instance = new WorldUI ());
 
             //MctUI.AddCustomUI(EditGlobalNPCUI.Interface = new EditGlobalNPCUI());
             //MctUI.AddCustomUI(EditItemUI.Interface = new EditItemUI());

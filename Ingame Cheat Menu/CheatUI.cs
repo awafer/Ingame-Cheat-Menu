@@ -393,7 +393,7 @@ namespace PoroCYon.ICM
     /// <summary>
     /// The base class of all cheat menus, provides searching, filter options, an object list and mod filtering options.
     /// </summary>
-    /// <typeparam name="TCodableEntity">The object list element type.</typeparam>
+    /// <typeparam name="TCodableEntity">The object list element type which is a <see cref="CodableEntity" />.</typeparam>
     public abstract class CheatEntityUI<TCodableEntity> : CheatUI<TCodableEntity>
         where TCodableEntity : CodableEntity
     {
