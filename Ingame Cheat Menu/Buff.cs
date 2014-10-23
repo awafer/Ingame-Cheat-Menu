@@ -74,7 +74,8 @@ namespace PoroCYon.ICM
         {
             get
             {
-                return BuffDef.name[ID];
+                string[] split = BuffDef.byType[ID].Split(':');
+                return split[split.Length - 1];
             }
         }
         /// <summary>
@@ -140,7 +141,7 @@ namespace PoroCYon.ICM
         /// </summary>
         /// <param name="name">The full name of the Buff</param>
         public Buff(string name)
-            : this(BuffDef.type[name])
+            : this(BuffDef.byName[name])
         {
 
         }

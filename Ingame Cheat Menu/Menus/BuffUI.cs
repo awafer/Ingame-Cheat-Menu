@@ -257,7 +257,7 @@ namespace PoroCYon.ICM.Menus
             {
                 objects.Clear();
 
-				objects.AddRange(BuffDef.name.Keys.CastAll(i => new Buff(i)).Where(b => IncludeInList(b)));
+				objects.AddRange(BuffDef.byType.Keys.CastAll(i => new Buff(i)).Where(b => IncludeInList(b)));
 
                 ResetContainers();
             };
