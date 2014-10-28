@@ -288,6 +288,23 @@ namespace PoroCYon.ICM.Menus
                 ModFilters[i].Position += Main.inventoryBackTexture.Size() / 2f
                     - ((Texture2D)ModFilters[i].Picture.Item).Size() / 2f;
             }
+
+            AddControl(new TextButton("Clear inventory")
+            {
+                Position = new Vector2(540f, Main.screenHeight - 500f),
+
+                OnClicked = b =>
+                {
+                    for (int i = 0; i < Main.localPlayer.inventory.Length; i++)
+                        Main.localPlayer.inventory[i].SetDefaults(0);
+                    for (int i = 0; i < Main.localPlayer.armor    .Length; i++)
+                        Main.localPlayer.armor    [i].SetDefaults(0);
+                    for (int i = 0; i < Main.localPlayer.dye      .Length; i++)
+                        Main.localPlayer.dye      [i].SetDefaults(0);
+
+                    Main.mouseItem.SetDefaults(0);
+                }
+            });
         }
 
         void _Reset()
@@ -621,7 +638,7 @@ namespace PoroCYon.ICM.Menus
         [TargetedPatchingOptOut(MainUI.TPOOReason)]
         public bool IsSearchResult(Item i)
         {
-            if (SearchBox.Text.IsEmpty() || !ChangedSearchText)
+            if (SearchBox.Text.IsEmpty())
                 return true;
 
             return IsSearchResult(i, SearchBox.Text);

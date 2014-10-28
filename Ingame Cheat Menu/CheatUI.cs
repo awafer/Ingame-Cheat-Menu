@@ -158,11 +158,6 @@ namespace PoroCYon.ICM
         /// </summary>
         protected Thread ResetThread = null;
 
-        /// <summary>
-        /// Wether the user changed the search text or not
-        /// </summary>
-        protected bool ChangedSearchText = false;
-
 		bool preventSO = false;
 		/// <summary>
 		/// Gets or sets whether the object list is being reallocated (on a different <see cref="Thread" />).
@@ -206,7 +201,7 @@ namespace PoroCYon.ICM
         /// <summary>
         /// When the UI is opened
         /// </summary>
-        public override void Open()
+        public override void Open ()
         {
             CreateContainers();
             ResetObjectList(true);
@@ -293,8 +288,9 @@ namespace PoroCYon.ICM
                 }
             });
 
-            AddControl(SearchBox = new TextBox("Search " + typeof(T).Name.ToLower() + "...")
+            AddControl(SearchBox = new TextBox()
             {
+                DefaultText = "Search " + typeof(T).Name + "...",
                 EnterMode = EnterMode.EnterOrShiftEnter,
 
                 Position = new Vector2(170f, Main.screenHeight - 415f)
@@ -347,12 +343,8 @@ namespace PoroCYon.ICM
 
             base.Update();
 
-            if (oldText != SearchBox.Text &&
-                ((oldText.Length < SearchBox.Text.Length && !ChangedSearchText) || ChangedSearchText)) // wait until 'Search {T}...' is deleted
-            {
-                ChangedSearchText = true;
+            if (oldText != SearchBox.Text)
                 SearchTextChanged();
-            }
         }
 
         /// <summary>

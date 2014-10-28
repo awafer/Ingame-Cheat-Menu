@@ -372,7 +372,7 @@ namespace PoroCYon.ICM.Menus
         [TargetedPatchingOptOut(MainUI.TPOOReason)]
         public bool IsSearchResult(NPC n)
         {
-            if (SearchBox.Text.IsEmpty() || !ChangedSearchText)
+            if (SearchBox.Text.IsEmpty())
                 return true;
 
             return IsSearchResult(n, SearchBox.Text);
