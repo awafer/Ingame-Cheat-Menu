@@ -4,16 +4,10 @@ using System.Linq;
 using Terraria;
 using TAPI;
 
-namespace PoroCYon.ICM
+namespace PoroCYon.ICM.ModClasses
 {
     sealed class MWorld : ModWorld
     {
-        public MWorld()
-            : base()
-        {
-
-        }
-
         public override void Save(BinBuffer bb)
         {
             Main.dayRate = 1;

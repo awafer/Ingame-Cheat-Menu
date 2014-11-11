@@ -97,9 +97,10 @@
     <Compile Include="Menus\NpcUI.cs" />
     <Compile Include="Menus\PlayerUI.cs" />
     <Compile Include="Menus\PrefixUI.cs" />
-    <Compile Include="ModUI.cs" />
-    <Compile Include="MPlayer.cs" />
-    <Compile Include="MWorld.cs" />
+    <Compile Include="ModClasses\MNPC.cs" />
+    <Compile Include="ModClasses\MUI.cs" />
+    <Compile Include="ModClasses\MPlayer.cs" />
+    <Compile Include="ModClasses\MWorld.cs" />
     <Compile Include="Pages\EditWorldPage.cs" />
     <Compile Include="Pages\SettingsPage.cs" />
     <Compile Include="Menus\Sub\EditItemUI.cs" />

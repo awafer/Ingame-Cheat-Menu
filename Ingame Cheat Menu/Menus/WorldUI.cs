@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using PoroCYon.MCT;
+using PoroCYon.MCT.Input;
 using PoroCYon.MCT.UI.Interface.Controls;
 using PoroCYon.MCT.UI.Interface.Controls.Primitives;
 
@@ -14,10 +15,6 @@ namespace PoroCYon.ICM.Menus
     /// </summary>
     public sealed class WorldUI : CheatUI
     {
-        internal static bool
-            Christmas = false,
-            Halloween = false;
-
         /// <summary>
         /// The WorldUI singleton instance
         /// </summary>
@@ -64,7 +61,7 @@ namespace PoroCYon.ICM.Menus
 
                 OnUpdate = c => ((Checkable)c).IsChecked = Main.hardMode,
 
-                OnChecked = ca => Main.hardMode = true,
+                OnChecked   = ca => Main.hardMode = true ,
                 OnUnchecked = ca => Main.hardMode = false
             });
 
@@ -74,8 +71,8 @@ namespace PoroCYon.ICM.Menus
 
                 OnUpdate = c => ((Checkable)c).IsChecked = Main.bloodMoon,
 
-                OnChecked = ca => World.StartBloodMoon(),
-                OnUnchecked = ca => World.StopBloodMoon()
+                OnChecked   = ca => World.StartBloodMoon(),
+                OnUnchecked = ca => World. StopBloodMoon()
             });
             AddControl(new CheckBox(Main.eclipse, "Eclipse")
             {
@@ -83,34 +80,52 @@ namespace PoroCYon.ICM.Menus
 
                 OnUpdate = c => ((Checkable)c).IsChecked = Main.eclipse,
 
-                OnChecked = ca => World.StartEclipse(),
-                OnUnchecked = ca => World.StopEclipse()
+                OnChecked   = ca => World.StartEclipse(),
+                OnUnchecked = ca => World. StopEclipse()
             });
 
             AddControl(new CheckBox(Main.xMas, "Christmas")
             {
+                Tooltip = "Right-click to force disable Christmas.",
+
                 Position = new Vector2(460f, Main.screenHeight - 350f),
 
-                OnUpdate = (c) =>
+                OnChecked   = ca => World.ForceChristmas = true,
+                OnUnchecked = ca => World.ForceChristmas = null,
+
+                OnUpdate = c =>
                 {
-                    bool @checked = ((Checkable)c).IsChecked;
+                    if (GInput.Mouse.JustClickedRight && GInput.Mouse.Rectangle.Intersects(c.Hitbox))
+                    {
+                        if (World.ForceChristmas == null)
+                            World.ForceChristmas = false;
+                        else
+                            World.ForceChristmas = true;
 
-                    ((Checkable)c).IsChecked = Main.xMas || @checked;
-
-                    World.ForceChristmas = @checked;
+                        ((Checkable)c).IsChecked = false;
+                    }
                 }
             });
             AddControl(new CheckBox(Main.halloween, "Halloween")
             {
+                Tooltip = "Right-click to force disable Halloween.",
+
                 Position = new Vector2(460f, Main.screenHeight - 300f),
 
-                OnUpdate = (c) =>
+                OnChecked   = ca => World.ForceHalloween = true,
+                OnUnchecked = ca => World.ForceHalloween = null,
+
+                OnUpdate = c =>
                 {
-                    bool @checked = ((Checkable)c).IsChecked;
+                    if (GInput.Mouse.JustClickedRight && GInput.Mouse.Rectangle.Intersects(c.Hitbox))
+                    {
+                        if (World.ForceHalloween == null)
+                            World.ForceHalloween = false;
+                        else
+                            World.ForceHalloween = true;
 
-                    ((Checkable)c).IsChecked = Main.halloween || @checked;
-
-                    World.ForceHalloween = @checked;
+                        ((Checkable)c).IsChecked = false;
+                    }
                 }
             });
 
@@ -120,8 +135,8 @@ namespace PoroCYon.ICM.Menus
 
                 OnUpdate = c => ((Checkable)c).IsChecked = Main.pumpkinMoon,
 
-                OnChecked = ca => World.StartPumpkinMoon(),
-                OnUnchecked = ca => World.StopPumpkinMoon()
+                OnChecked   = ca => World.StartPumpkinMoon(),
+                OnUnchecked = ca => World. StopPumpkinMoon()
             });
             AddControl(new CheckBox(Main.snowMoon, "Frost moon")
             {
@@ -129,15 +144,15 @@ namespace PoroCYon.ICM.Menus
 
                 OnUpdate = c => ((Checkable)c).IsChecked = Main.snowMoon,
 
-                OnChecked = ca => World.StartFrostMoon(),
-                OnUnchecked = ca => World.StopFrostMoon()
+                OnChecked   = ca => World.StartFrostMoon(),
+                OnUnchecked = ca => World. StopFrostMoon()
             });
 
             AddControl(new TextButton("Day")
             {
                 Position = new Vector2(200f, Main.screenHeight - 250f),
 
-                OnUpdate  = c => ((TextButton)c).Text = Main.dayTime ? "Day" : "Night",
+                OnUpdate  = c => ((TextButton)c).Text =  Main.dayTime                  ? "Day" : "Night",
                 OnClicked = b => ((TextButton)b).Text = (Main.dayTime = !Main.dayTime) ? "Day" : "Night"
             });
 
@@ -161,7 +176,7 @@ namespace PoroCYon.ICM.Menus
                     if (Main.time < 0d)
                     {
                         Main.dayTime = !Main.dayTime;
-                        Main.time = Main.dayLength + Main.time; // time is negative here
+                        Main.time    =  Main.dayLength + Main.time; // time is negative here
                     }
                 }
             });
@@ -203,7 +218,7 @@ namespace PoroCYon.ICM.Menus
                 Position = new Vector2(200f, Main.screenHeight - 200f),
 
                 OnChecked = ca => World.StopInvasions(),
-                OnUpdate = (c) =>
+                OnUpdate  = c  =>
                 {
                     if (World.CurrentInvasion == InvasionType.None)
                         ((Checkable)c).IsChecked = true;
@@ -214,7 +229,7 @@ namespace PoroCYon.ICM.Menus
                 Position = new Vector2(340f, Main.screenHeight - 200f),
 
                 OnChecked = ca => World.StartInvasion(InvasionType.GoblinArmy),
-                OnUpdate = (c) =>
+                OnUpdate  = c  =>
                 {
                     if (World.CurrentInvasion == InvasionType.GoblinArmy)
                         ((Checkable)c).IsChecked = true;
@@ -225,7 +240,7 @@ namespace PoroCYon.ICM.Menus
                 Position = new Vector2(480f, Main.screenHeight - 200f),
 
                 OnChecked = ca => World.StartInvasion(InvasionType.FrostLegion),
-                OnUpdate = (c) =>
+                OnUpdate  = c  =>
                 {
                     if (World.CurrentInvasion == InvasionType.FrostLegion)
                         ((Checkable)c).IsChecked = true;
@@ -236,7 +251,7 @@ namespace PoroCYon.ICM.Menus
                 Position = new Vector2(620f, Main.screenHeight - 200f),
 
                 OnChecked = ca => World.StartInvasion(InvasionType.Pirates),
-                OnUpdate = (c) =>
+                OnUpdate  = c  =>
                 {
                     if (World.CurrentInvasion == InvasionType.Pirates)
                         ((Checkable)c).IsChecked = true;

@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using PoroCYon.MCT.UI.Interface.Controls;
+using PoroCYon.ICM.ModClasses;
 
 namespace PoroCYon.ICM.Menus
 {

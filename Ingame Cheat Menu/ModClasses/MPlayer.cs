@@ -7,7 +7,7 @@ using Terraria;
 using TAPI;
 using PoroCYon.MCT.Input;
 
-namespace PoroCYon.ICM
+namespace PoroCYon.ICM.ModClasses
 {
     sealed class MPlayer : ModPlayer
     {
@@ -20,13 +20,7 @@ namespace PoroCYon.ICM
 
         static bool oldInv;
 
-        public MPlayer()
-            : base()
-        {
-
-        }
-
-        public override void MidUpdate()
+        public override void  MidUpdate()
         {
             base.MidUpdate();
 
@@ -92,7 +86,8 @@ namespace PoroCYon.ICM
                 #region both
                 if (Invincibility && Noclip)
                 {
-                    Lighting.AddLight((int)player.position.X, (int)player.position.Y, 1.2f, 1.2f, 1.2f);
+                    //Lighting.fullBright = true; // - see IcmMod.PreGameDraw
+                    //Lighting.AddLight((int)player.position.X, (int)player.position.Y, 1.2f, 1.2f, 1.2f);
 
                     Main.dust[Dust.NewDust(player.position, player.width, player.height, 57, player.velocity.X * 3, player.velocity.Y * 3 * player.direction, 100, new Color(), 1.5f)].noGravity = true;
 
@@ -187,7 +182,6 @@ namespace PoroCYon.ICM
                 #endregion
             }
         }
-
         public override void PostUpdate()
         {
             base.PostUpdate();

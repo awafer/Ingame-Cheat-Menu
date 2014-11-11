@@ -174,7 +174,7 @@ namespace PoroCYon.ICM.Menus
             col = 0; row = 0;
             for (int i = 0; i < Mods.mods.Count; i++, col++)
 			{
-				if (!NPCDef.byType.Any(kvp => kvp.Value.modEntities.Any(mn => mn.modBase == Mods.mods[i].modBase)))
+				if (Mods.mods[i].modBase == null || !NPCDef.byType.Any(kvp => kvp.Value.modEntities.Any(mn => mn.modBase == Mods.mods[i].modBase)))
                     continue;
 
                 if (col >= 2)

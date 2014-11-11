@@ -71,31 +71,6 @@ namespace PoroCYon.ICM
             //        fs.Close();
             //}
         }
-
-        /// <summary>
-        /// Called after the game is drawn
-        /// </summary>
-        /// <param name="sb">The SpriteBatch used to draw the Game</param>
-        public override void PostGameDraw(SpriteBatch sb)
-        {
-            base.PostGameDraw(sb);
-
-            if (Menu.currentPage == "Player Select")
-            {
-                MenuPage p = Menu.menuPages["Player Select"];
-
-                for (int i = 0; i < 5; i++)
-                    p.buttons[i + editPlayerOffset].Disable(i + Menu.skip >= Main.numLoadPlayers);
-            }
-            if (Menu.currentPage == "World Select")
-            {
-                MenuPage p = Menu.menuPages["World Select"];
-
-                for (int i = 0; i < 5; i++)
-                    p.buttons[i + editWorldOffset].Disable(i + Menu.skip >= Main.numLoadWorlds);
-            }
-        }
-
         /// <summary>
         /// Called when all mods are loaded
         /// </summary>
@@ -271,7 +246,6 @@ namespace PoroCYon.ICM
 
             base.OnAllModsLoaded();
         }
-
         /// <summary>
         /// Called when the mod is unloaded
         /// </summary>
@@ -284,6 +258,41 @@ namespace PoroCYon.ICM
             //fs.Close();
 
             Instance = null;
+        }
+
+        /// <summary>
+        /// Called before the game is drawn.
+        /// </summary>
+        /// <param name="sb">The SpriteBatch used to draw the Game</param>
+        public override void  PreGameDraw(SpriteBatch sb)
+        {
+            base.PreGameDraw(sb);
+
+            if (PlayerUI.Invincibility && PlayerUI.Noclip)
+                Lighting.fullBright = true;
+        }
+        /// <summary>
+        /// Called after the game is drawn
+        /// </summary>
+        /// <param name="sb">The SpriteBatch used to draw the Game</param>
+        public override void PostGameDraw(SpriteBatch sb)
+        {
+            base.PostGameDraw(sb);
+
+            if (Menu.currentPage == "Player Select")
+            {
+                MenuPage p = Menu.menuPages["Player Select"];
+
+                for (int i = 0; i < 5; i++)
+                    p.buttons[i + editPlayerOffset].Disable(i + Menu.skip >= Main.numLoadPlayers);
+            }
+            if (Menu.currentPage == "World Select")
+            {
+                MenuPage p = Menu.menuPages["World Select"];
+
+                for (int i = 0; i < 5; i++)
+                    p.buttons[i + editWorldOffset].Disable(i + Menu.skip >= Main.numLoadWorlds);
+            }
         }
 
         /// <summary>
