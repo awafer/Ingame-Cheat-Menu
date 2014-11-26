@@ -64,27 +64,27 @@ namespace PoroCYon.ICM.Controls
             Colour = GetIsSelected() ? new Color(255, 255, 255, 0) : new Color(127, 127, 127, 0);
         }
 
-		/// <summary>
-		/// Gets whether the CodableEntity is in the filtered entities collection or not.
-		/// </summary>
-		/// <param name="ce">The CodableEntity to check.</param>
-		/// <returns>true if the CodableEntity is in the filtered entities; false otherwise.</returns>
-		public bool Filter(TCodableEntity ce)
-		{
-			return Filtered().Contains(ce);
-		}
+        /// <summary>
+        /// Gets whether the CodableEntity is in the filtered entities collection or not.
+        /// </summary>
+        /// <param name="ce">The CodableEntity to check.</param>
+        /// <returns>true if the CodableEntity is in the filtered entities; false otherwise.</returns>
+        public bool Filter(TCodableEntity ce)
+        {
+            return Filtered().Contains(ce);
+        }
 
-		/// <summary>
-		/// Gets all filtered CodableEntities.
-		/// </summary>
-		/// <returns>All CodableEntities that belong to the ModBase.</returns>
-		public abstract IEnumerable<TCodableEntity> Filtered();
-		//public IEnumerable<TCodableEntity> Filtered()
-		//{
-		//    return from ce in GetCollection() where ce.modBase == ModBase select ce;
-		//}
+        /// <summary>
+        /// Gets all filtered CodableEntities.
+        /// </summary>
+        /// <returns>All CodableEntities that belong to the ModBase.</returns>
+        public abstract IEnumerable<TCodableEntity> Filtered();
+        //public IEnumerable<TCodableEntity> Filtered()
+        //{
+        //    return from ce in GetCollection() where ce.modBase == ModBase select ce;
+        //}
 
-		void SetTexture()
+        void SetTexture()
         {
             Texture2D tex = null;
             try
@@ -146,26 +146,26 @@ namespace PoroCYon.ICM.Controls
             ItemUI.Instance.ResetObjectList();
         }
 
-		/// <summary>
-		/// Gets all filtered CodableEntities.
-		/// </summary>
-		/// <returns>All CodableEntities that belong to the ModBase.</returns>
-		public override IEnumerable<Item> Filtered()
-		{
-			return from ce in GetCollection() where ce.modEntities.Any(mi => mi.modBase == ModBase) select ce;
-		}
+        /// <summary>
+        /// Gets all filtered CodableEntities.
+        /// </summary>
+        /// <returns>All CodableEntities that belong to the ModBase.</returns>
+        public override IEnumerable<Item> Filtered()
+        {
+            return from ce in GetCollection() where ce.modEntities.Any(mi => mi.modBase == ModBase) select ce;
+        }
 
-		/// <summary>
-		/// Gets the default image of the filter.
-		/// </summary>
-		/// <returns>The default image of the filter (when the ModBase does not provide an alternative image).</returns>
-		protected override Texture2D GetDefaultImage()
+        /// <summary>
+        /// Gets the default image of the filter.
+        /// </summary>
+        /// <returns>The default image of the filter (when the ModBase does not provide an alternative image).</returns>
+        protected override Texture2D GetDefaultImage()
         {
             if (ModBase == null) // vanilla
                 return Main.itemTexture[1];
 
-			var i = ItemDef.byType.FirstOrDefault();
-			var v = i.Key == 0 ? null : i.Value.modEntities.FirstOrDefault(mi => mi.modBase == ModBase);
+            var i = ItemDef.byType.FirstOrDefault();
+            var v = i.Key == 0 ? null : i.Value.modEntities.FirstOrDefault(mi => mi.modBase == ModBase);
             return v != null ? i.Value.GetTexture() : base.GetDefaultImage();
         }
         /// <summary>
@@ -221,22 +221,22 @@ namespace PoroCYon.ICM.Controls
             NpcUI.Instance.Position = 0;
 
             NpcUI.Instance.ResetObjectList();
-		}
+        }
 
-		/// <summary>
-		/// Gets all filtered CodableEntities.
-		/// </summary>
-		/// <returns>All CodableEntities that belong to the ModBase.</returns>
-		public override IEnumerable<NPC> Filtered()
-		{
-			return from ce in GetCollection() where ce.modEntities.Any(mn => mn.modBase == ModBase) select ce;
-		}
+        /// <summary>
+        /// Gets all filtered CodableEntities.
+        /// </summary>
+        /// <returns>All CodableEntities that belong to the ModBase.</returns>
+        public override IEnumerable<NPC> Filtered()
+        {
+            return from ce in GetCollection() where ce.modEntities.Any(mn => mn.modBase == ModBase) select ce;
+        }
 
-		/// <summary>
-		/// Gets the default image of the filter.
-		/// </summary>
-		/// <returns>The default image of the filter (when the ModBase does not provide an alternative image).</returns>
-		protected override Texture2D GetDefaultImage()
+        /// <summary>
+        /// Gets the default image of the filter.
+        /// </summary>
+        /// <returns>The default image of the filter (when the ModBase does not provide an alternative image).</returns>
+        protected override Texture2D GetDefaultImage()
         {
             if (ModBase == null) // vanilla
             {
@@ -244,14 +244,14 @@ namespace PoroCYon.ICM.Controls
                 return Main.npcTexture[1];
             }
 
-			var n = NPCDef.byType.FirstOrDefault();
-			var v = n.Key == 0 ? null : n.Value.modEntities.FirstOrDefault(mi => mi.modBase == ModBase);
-			
-			if (v != null)
-			{
-				Main.LoadNPC(n.Key);
-				return Main.npcTexture[n.Key];
-			}
+            var n = NPCDef.byType.FirstOrDefault();
+            var v = n.Key == 0 ? null : n.Value.modEntities.FirstOrDefault(mi => mi.modBase == ModBase);
+
+            if (v != null)
+            {
+                //Main.LoadNPC(n.Key);
+                return Main.npcTexture[n.Key];
+            }
 
             return base.GetDefaultImage();
         }

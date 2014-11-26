@@ -9,8 +9,10 @@ namespace PoroCYon.ICM.ModClasses
     [GlobalMod]
     sealed class MNPC : ModNPC
     {
+#pragma warning disable 649
         internal static int? SpawnRate    ;
         internal static bool DisableSpawns;
+#pragma warning restore 649
 
         public override void UpdateSpawnRate(Player p)
         {
